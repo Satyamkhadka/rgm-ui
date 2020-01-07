@@ -1,1 +1,72 @@
-<p>contract works!</p>
+<style>
+    @media print {
+       .noprint {
+          visibility: hidden;
+       }
+    }
+    </style>
+
+<div style="margin-left:1cm;margin-top:2cm; margin-bottom: 2cm; margin-right: 1cm;">
+    <h6> TEMPLETE headers</h6>
+    
+    <h6> 6 months SO Cost For PIP Contract</h6>
+    
+    <table  style="width:100%" border="1">
+        <!-- table titles -->
+        <tr>
+            <td>SN.</td>
+            <td>Item</td>
+            <td>Input of Staff per Scheme in days</td>
+            <td>Salary per Month</td>
+            <td>Amount. NRS</td>                                                
+            <td>Grand Total | Number of Scheme (1)</td>
+            <td>Remarks</td>
+        </tr>
+    
+        <!-- human resources heading-->
+        <tr>
+            <td>1</td>
+            <td colspan="6">Human Resources</td>
+        </tr>
+        
+        <!-- human resources content -->
+        <tr>
+            <td>1.1</td>
+            <td>Team Leader</td>
+            <td>12</td>
+            <td>32000</td>
+            <td>12800</td>
+            <td>12800</td>
+            <td>One month payment to be made</td>
+        </tr>
+        <tr>
+            <td>1.2</td>
+            <td>Team Leader</td>
+            <td>12</td>
+            <td>32000</td>
+            <td>12800</td>
+            <td>12800</td>
+            <td>One month payment to be made</td>
+        </tr>
+        <tr>
+            <td>1.3</td>
+            <td>Team Leader</td>
+            <td>12</td>
+            <td>32000</td>
+            <td>12800</td>
+            <td>12800</td>
+            <td>One month payment to be made</td>
+        </tr>
+
+         <!-- human resources heading-->
+         <tr>
+            <td>2</td>
+            <td colspan="6"> ETC ETC</td>
+        </tr>
+    </table>
+    <h6> TEMPLETE footers</h6>
+
+    <div class="noprint">
+     <button (click)="printPage()"> Print </button>
+    </div>
+</div>

@@ -12,4 +12,7 @@ export class ContractComponent implements OnInit {
   ngOnInit() {
   }
 
+printPage(){
+  window.print();
+}
 }
