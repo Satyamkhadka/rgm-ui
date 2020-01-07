@@ -1,0 +1,90 @@
+<div class="container-flex mt-5">
+  <div class="h1 text-center"> PIP Contract Generation</div>
+</div>
+<div class="wrapper container mt-5 mb-5">
+  <form>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <!-- select district -->
+        <label for="so">Select District</label>
+        <select id="so" class="form-control">
+          <option selected>Choose...</option>
+          <option> Jhapa</option>
+          <option> Jhapa</option>
+          <option> Jhapa</option>
+          <option> Jhapa</option>
+          <option> Jhapa</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <!-- select Municipality or VDC -->
+        <label for="muni">Select MUNICIPALITY or VDC</label>
+        <select id="muni" class="form-control">
+          <option selected>Choose...</option>
+          <option> Birtamode</option>
+          <option> Birtamode</option>
+          <option> Birtamode</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-12">
+        <!-- select SO organization -->
+        <label for="so">Select SO</label>
+        <select id="so" class="form-control">
+          <option selected>Choose...</option>
+          <option> Khanepani sansthan</option>
+          <option> Khanepani sansthan</option>
+          <option> Khanepani sansthan</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <div class="form-row">
+          <label for="so">Select Schemes</label>
+          <select id="so" class="form-control">
+            <option selected>Choose...</option>
+            <option> Nice Scheme</option>
+            <option> Another Nice Scheme</option>
+            <option> Very Good Scheme</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <div class="mt-4">
+          <span class="mr-3">
+            Number Of Scheme:
+          </span>
+          <span class="btn btn-secondary mr-2" (click)="subtractProduct()">-</span>
+          <span class="mr-2"> {{numberOfScheme }} </span>
+          <span class="btn btn-secondary" (click)="addProduct()"> + </span>
+        </div>
+        <!-- <div class="hard-shadow card border border-info category-card">
+          <h5 class="card-title text-center mx-2 mt-2 bg-light">Selected Schemes</h5>
+          <div class="card-body mb-2">
+            <div class="custom-height">
+              <div class="float-left mx-1">
+                <div class="card-title text-center">
+                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
+                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
+                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Check me out
+        </label>
+      </div>
+    </div> -->
+    <button [routerLink]="['/contract']" routerLinkActive="router-link-active"  class="btn btn-primary btn-lg">Generate Contract</button>
+  </form>
+</div>
