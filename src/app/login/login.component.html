@@ -1,15 +1,12 @@
 <div id="main" class="container-fluid d-flex mt-5">
   <div class="container-fluid d-flex mt-5">
     <div id="login" class="signin-card">
-     
       <h1 class="display1">Contract Generation  |  Login</h1>
-      <!-- <p class="subhead">Description</p> -->
-      <form role="form">
-        <div>
+      <form role="form" [formGroup]="loginForm">
           <div id="form-login-username" class="form-group">
-            <label for="username" class="float-label">Email</label>
+            <label for="username" class="float-label">User Name</label>
             <input id="username" class="form-control" name="username" type="text" size="18" alt="login"
-              formControlName="email" required />
+              formControlName="userName" required />
             <span class="form-highlight"></span>
             <span class="form-bar"></span>
           </div>
@@ -21,11 +18,10 @@
             <span class="form-bar"></span>
           </div>
           <div>
-            <button [routerLink]="['/']" routerLinkActive="router-link-active"  class="btn btn-block btn-info ripple-effect" type="submit" name="Submit" alt="sign in">Sign
+            <button class="btn btn-block btn-info ripple-effect"
+             name="Submit" alt="sign in" (click)="signIn(loginForm.value)">Sign
               in</button>
           </div>
-
-        </div>
       </form>
     </div>
   </div>
