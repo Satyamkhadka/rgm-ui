@@ -5,14 +5,15 @@ import { LoginComponent } from './login/login.component';
 import { ContractComponent } from './contract/contract.component';
 import { SuperadminComponent } from './superadmin/superadmin.component';
 import { AdminComponent } from './admin/admin.component';
+import { AuthGuard } from './auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: InputComponent },
+  { path: '', component: InputComponent  ,canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'contract', component: ContractComponent },
-  { path: 'superadmin', component: SuperadminComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'contract', component: ContractComponent ,canActivate: [AuthGuard] },
+  { path: 'superadmin', component: SuperadminComponent,canActivate: [AuthGuard]  },
+  { path: 'admin', component: AdminComponent ,canActivate: [AuthGuard] },
 
 
 

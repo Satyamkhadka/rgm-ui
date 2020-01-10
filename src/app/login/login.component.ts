@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {Md5} from 'ts-md5/dist/md5';
 import swal from 'sweetalert2';
 import * as jwt_decode from "jwt-decode";
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder:FormBuilder,
     private loginService:LoginService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
     ) {
     this.loginForm = this.formBuilder.group({
       userName:'',
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
       }
       else{
         const userData = this.getDecodedAccessToken(data['token']);
+        this.auth.sendToken(data['token']);
         if(userData===null){ swal.fire('Oops','Illegal actions','error')} else {
           if(userData['role']==='superadmin'){
             this.router.navigate(['/superadmin']);
