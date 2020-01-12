@@ -18,4 +18,7 @@ export class UserService {
   createUser(data){
     return this.httpClient.post(environment.url+'register',data);
   }
+  deleteUser(data){
+    return this.httpClient.post(environment.url+'delete/user',data);
+  }
 }

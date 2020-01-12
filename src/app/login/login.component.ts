@@ -32,11 +32,13 @@ export class LoginComponent implements OnInit {
   }
 
   signIn(formData){
+    console.log(formData)
     const md5 = new Md5();
     formData.password = md5.appendStr(formData.password).end();
     this.loginService.getSignInCredentials(formData).subscribe((data)=>{
       console.log(data);
       if(data['success'] === false){
+        this.loginForm.reset();
         swal.fire('Oops','Wrong Credentials','error');
       }
       else{

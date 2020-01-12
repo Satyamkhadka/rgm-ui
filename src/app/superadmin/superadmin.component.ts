@@ -1,7 +1,11 @@
-import swal  from 'sweetalert2';
+import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_userServices/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import {Md5} from 'ts-md5/dist/md5';
+import * as jwt_decode from "jwt-decode";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-superadmin',
   templateUrl: './superadmin.component.html',
@@ -10,46 +14,96 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class SuperadminComponent implements OnInit {
 
   users = [];
-  userForm:FormGroup;
+  userForm: FormGroup;
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
-    this.getAllUser();
     this.userForm = this.formBuilder.group({
-      userName:'',
-      password:'',
-      password2:'',
-      role:''
+      userName: '',
+      password: '',
+      password2: '',
+      role: ''
     });
-   }
+    if(this.authorized()) {
+      this.getAllUser();
+
+    } else {
+this.router.navigate(['/login']);
+    }
+    
+  }
 
   ngOnInit() {
   }
-  getAllUser(){
-this.userService.getAllUsers().subscribe(data=>{
-  this.users = data['data'];
-});
+  getAllUser() {
+    this.userService.getAllUsers().subscribe(data => {
+     if(data['success']===true){
+       this.users = data['data'];
+     } 
+    });
   }
 
-  createUser(data){
-if(data.password===data.password2){
-  delete data.password2;
-  data['active']= 'active';
-  this.userService.createUser(data).subscribe(data=>{
-    if(data['success']===true){
-      this.getAllUser();
-      swal.fire('Success',data['message'],'success');
+  createUser(data) {
+    if (data.password === data.password2) {
+      delete data.password2;
+      const md5 = new Md5();
+      data.password = md5.appendStr(data.password).end();
+      data['active'] = 'active';
+      this.userService.createUser(data).subscribe(data => {
+        if (data['success'] === true) {
+          this.getAllUser();
+          swal.fire('Success', data['message'], 'success');
+        } else {
+          swal.fire('Oops', data['message'], 'error');
+        }
+      })
     } else {
-      swal.fire('Oops',data['message'],'error');
+      swal.fire('Wait', 'Re-entered password do not match', 'warning');
     }
-  })
-} else {
-  swal.fire('Wait', 'Re-entered password do not match', 'warning');
-}
   }
 
-  deleteUser(id){
-    swal.fire('delete?','delete function is made '+id, 'info');
+  deleteUser(userId, role) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        
+
+        this.userService.deleteUser({ userId, role }).subscribe(cb => {
+          if(cb['success'] === true){
+            this.getAllUser();
+            swal.fire('Success', cb['message'], 'success');
+          } else if (cb['success']=== false){
+            swal.fire('oops', cb['message'], 'error');
+          }
+        });
+
+
+      } 
+    })
+
+
+
+    
+  }
+  authorized() {
+
+    let token = localStorage.getItem('LoggedInUser');
+      token = jwt_decode(token);
+      console.log(token)
+      if(token['role']==='superadmin'){
+        return true;
+      } else return false;
+
+     
+   
   }
 }
