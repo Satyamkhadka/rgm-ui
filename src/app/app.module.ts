@@ -12,7 +12,11 @@ import { SuperadminComponent } from './superadmin/superadmin.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { MyInterceptor } from './interceptor/token.interceptor';
+import { MyInterceptor } from './_interceptor/token.interceptor';
+import { SoComponent } from './so/so.component';
+import { SchemeComponent } from './scheme/scheme.component';
+import { LocalBodyComponent } from './local-body/local-body.component';
+import { StaffComponent } from './staff/staff.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +26,10 @@ import { MyInterceptor } from './interceptor/token.interceptor';
     ContractComponent,
     SuperadminComponent,
     AdminComponent,
+    SoComponent,
+    SchemeComponent,
+    LocalBodyComponent,
+    StaffComponent,
   ],
   imports: [
     BrowserModule,

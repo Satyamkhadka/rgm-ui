@@ -1,0 +1,202 @@
+<!-- 
+<div class="container-flex mt-5 mb-5">
+    <span class="h4">Select District</span>
+    <form class="form">
+        <div class="form-row">
+            <div class="form-group col-9">
+                <select id="inputState" class="form-control" formControlName="role">
+                    <option selected>Jhapa</option>
+                    <option>Illam</option>
+                    <option>Illam</option>
+                    <option>Illam</option>
+                    <option>Illam</option>
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <span class="btn btn-success" data-toggle="modal" data-target="#createuser">
+                    Show
+                </span>
+            </div>
+        </div>
+    </form>
+</div> -->
+
+<div class="container-flex mt-5">
+    <span class="h3"> Staff</span>
+    <span class="btn btn-success float-right" data-toggle="modal" data-target="#createuser">
+        + Add Staff +
+    </span>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>NC-SO</td>
+                <td>Somewhere khanepni sansthann</td>
+                <td>Some Where, Under same-05, SKY,550</td>
+                <td>9815004608,9862679609</td>
+                <span class="btn btn-primary btn-circle btn-circle-sm mr-2" (click)="deleteUser(user.userId,user.role)">
+                    <!-- <i class="fa fa-car">   </i> -->
+                    U
+                </span>
+                <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
+                    <!-- <i class="fa fa-car">   </i> -->
+                    X
+                </span>
+            </tr>
+            <tr *ngFor="let user of users; let i = index;">
+                <th scope="row"> {{ i+1 }} </th>
+                <td> {{user.userName}}</td>
+                <td> {{user.role}}</td>
+                <td>{{user.active}}</td>
+                <td>
+
+                    <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
+                        <!-- <i class="fa fa-car">   </i> -->
+                        X
+                    </span>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <form [formGroup]="userForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">First Name</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="First Name"
+                                formControlName="userName">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">Middle Name</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="Middle Name"
+                                formControlName="userName">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">Last Name</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="Last Name"
+                                formControlName="userName">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Gender</label>
+                            <select id="inputState" class="form-control" formControlName="role">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Date of Birth(in Nepali)</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="YYYY-MM-DD"
+                                formControlName="userName">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Date of Birth(in English)</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="YYYY-MM-DD"
+                                formControlName="userName">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mt-3">
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label for="inputEmail4">Qualification</label>
+                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Qualification"
+                                        formControlName="userName">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputEmail4">%</label>
+                                    <input type="email" class="form-control" id="inputEmail4" placeholder="%"
+                                        formControlName="userName">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="inputEmail4">Board</label>
+                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Board"
+                                        formControlName="userName">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <span class="btn btn-success">
+                                    Add to Qualification ->
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="container-flex">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th>Qual.</th>
+                                                <th>% or GPA</th>
+                                                <th>Board</th>
+                                                <th> Action</th>
+                                            </tr>
+                                        </thead>   
+                                        <tbody>
+                                            <tr>
+                                                
+                                                <td>SLC</td>
+                                                <td>77.8%</td>
+                                                <td>Bihar Board</td>
+<td> <span class="btn btn-danger btn-sm"> X </span></td>
+                                            </tr>
+                                        </tbody> 
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="createUser(userForm.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
