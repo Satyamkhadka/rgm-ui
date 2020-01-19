@@ -13,11 +13,11 @@ import { StaffComponent } from './staff/staff.component';
 
 
 const routes: Routes = [
-  { path: '', component: InputComponent  ,canActivate: [AuthGuard] },
+  { path: '', component: InputComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'contract', component: ContractComponent ,canActivate: [AuthGuard] },
-  { path: 'superadmin', component: SuperadminComponent,canActivate: [AuthGuard]  },
-  { path: 'admin', component: AdminComponent ,canActivate: [AuthGuard] },
+  { path: 'contract', component: ContractComponent},
+  { path: 'superadmin', component: SuperadminComponent },
+  { path: 'admin', component: AdminComponent},
   { path: 'so', component: SoComponent },
   { path: 'scheme', component: SchemeComponent },
   { path: 'local-body', component: LocalBodyComponent },

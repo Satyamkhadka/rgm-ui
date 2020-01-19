@@ -1,94 +1,89 @@
 <div class="container-flex mt-5 mb-5">
-  <div class="row">
-      <div class="col-6">
-        <span class="h4">Show SO by district</span>
-        <form class="form">
-            <div class="form-row">
-                <div class="form-group col-10">
-                    <select id="inputState" class="form-control" formControlName="role">
-                        <option selected>Jhapa</option>
-                        <option>Illam</option>
-                        <option>Illam</option>
-                        <option>Illam</option>
-                        <option>Illam</option>
-                    </select>
+    <div class="row">
+        <div class="col-6">
+            <span class="h4">Show SO by district</span>
+            <form class="form" [formGroup]="filterForm">
+                <div class="form-row">
+                    <div class="form-group col-9">
+
+                        <select id="topinputState" class="form-control" formControlName="district" (change)="change1($event.target.value,'filter')">
+                            <option selected value="all">All</option>
+                            <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <span class="btn btn-success" (click)="getLocalBodyByDistrict(districtForm.value)">
+                            Show
+                            <span class="spinner-border p-1" role="status" *ngIf="loading">
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        </span>
+                    </div>
                 </div>
-                <div class="form-group col-2">
-                    <span class="btn btn-success" data-toggle="modal" data-target="#createuser">
-                        Show
-                    </span>
+            </form>
+        </div>
+        <div class="col-6">
+            <span class="h4">Show SO by local-body</span>
+            <form class="form">
+                <div class="form-row">
+                    <div class="form-group col-10">
+                        <select id="inputState" class="form-control">
+                            <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">{{item['name']}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-2">
+                        <span class="btn btn-success">
+                            Show
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </form>
-      </div>
-      <div class="col-6">
-        <span class="h4">Show SO by local-body</span>
-        <form class="form">
-            <div class="form-row">
-                <div class="form-group col-10">
-                    <select id="inputState" class="form-control" formControlName="role">
-                        <option selected>Something Municipality</option>
-                        <option>Something VDC</option>
-                        <option>Anything Municipality</option>
-                        <option>This thing Municipality</option>
-                    </select>
-                </div>
-                <div class="form-group col-2">
-                    <span class="btn btn-success" data-toggle="modal" data-target="#createuser">
-                        Show
-                    </span>
-                </div>
-            </div>
-        </form>
-      </div>
-  </div>
+            </form>
+        </div>
+    </div>
 </div>
+<!-- table part -->
 <div class="container-flex">
-    <span class="btn btn-success float-right" data-toggle="modal" data-target="#createuser">
-        + Add SO +
-    </span>
+    <div class="container-flex">
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
+                    <i class="fa fa-plus"> </i> Add Local Body
+                </span>
+            </div>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone</th>
                 <th scope="col">Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>NC-SO</td>
-                <td>Somewhere khanepni sansthann</td>
-                <td>Some Where, Under same-05, SKY,550</td>
-                <td>9815004608,9862679609</td>
-                <span class="btn btn-primary btn-circle btn-circle-sm mr-2" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    U
+            <tr *ngFor="let item of allLocalBodies; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item[formControlNames.code]}}</td>
+                <td>{{item[formControlNames.name]}}</td>
+                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                    data-target="#update" (click)="edit(i)">
+                    <i class="fa fa-pencil"> </i>
+
                 </span>
-                <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    X
+                <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                    (click)="delete(item[formControlNames.selfid])">
+                    <i class="fa fa-trash"> </i>
+
                 </span>
             </tr>
-            <tr *ngFor="let user of users; let i = index;">
-                <th scope="row"> {{ i+1 }} </th>
-                <td> {{user.userName}}</td>
-                <td> {{user.role}}</td>
-                <td>{{user.active}}</td>
-                <td>
 
-                    <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
-                        <!-- <i class="fa fa-car">   </i> -->
-                        X
-                    </span>
-
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -96,10 +91,11 @@
 
 
 
+
+
 <!-- Modal -->
-<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
@@ -112,54 +108,124 @@
 
 
 
-                <form [formGroup]="userForm">
+                <form [formGroup]="soForm">
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <label for="inputEmail4">SO Name (in English)</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="SO NAME"
-                                formControlName="userName">
-                        </div>
-                        <div class="form-group col-md-5">
-                            <label for="inputEmail4">SO Name (in Nepali)</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="SO NAME"
-                                formControlName="userName">
+                            <div class="form-group col-md-5">
+                                <label for="name">SO Name (in English)</label>
+                                <input type="text" class="form-control" id="name" placeholder="SO NAME"
+                                    [formControlName]="formControlNames.name">
+                            </div>
+                            <label for="nameNP">SO Name (in Nepali)</label>
+                            <input type="text" class="form-control" id="nameNP" placeholder="SO NAME NP"
+                            [formControlName]="formControlNames.nameNP">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="inputEmail4">SO Code</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="SO CODE"
-                                formControlName="userName">
+                            <label for="code">SO Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="SO CODE"
+                                [formControlName]="formControlNames.soCode">
                         </div>
                     </div>
+
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-3">
+                            <label for="street">Street</label>
+                            <input type="text" class="form-control" id="street" placeholder="Street"
+                                [formControlName]="formControlNames.street">
+                        </div>
+
+                        <div class="form-group col-5">
                             <label for="inputEmail4">Address</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="Address"
-                                formControlName="userName">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Address"
+                                [formControlName]="formControlNames.address">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="pobox">Po box</label>
+                            <input type="text" class="form-control" id="pobox" placeholder="pobox"
+                                [formControlName]="formControlNames.poBox">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="ward">Ward</label>
+                            <input type="number" class="form-control" id="ward" placeholder="ward"
+                                [formControlName]="formControlNames.ward">
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ph1">Phone Number 1</label>
+                            <input type="text" class="form-control" id="ph1" placeholder="Phone No.1"
+                                [formControlName]="formControlNames.phone1">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputEmail4">Phone Number/s (seperate with comma/s)</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="Phone No."
-                                formControlName="userName">
+                            <label for="ph2">Phone Number 2</label>
+                            <input type="text" class="form-control" id="ph2" placeholder="Phone No.2"
+                                [formControlName]="formControlNames.phone2">
                         </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="mbl">Mobile No.</label>
+                            <input type="text" class="form-control" id="mbl" placeholder="Mobile Number"
+                                [formControlName]="formControlNames.mobile">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email"
+                                [formControlName]="formControlNames.email">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="fax">Fax</label>
+                            <input type="text" class="form-control" id="fax" placeholder="fax"
+                                [formControlName]="formControlNames.fax">
+                        </div>
+
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="inputEmail4">District</label>
-                            <select id="inputState" class="form-control" formControlName="role">
-                                <option selected>Jhapa</option>
-                                <option>Illam</option>
-                                <option>Illam</option>
-                                <option>Illam</option>
-                                <option>Illam</option>
+                            <label for="cperson">Contact Person</label>
+                            <input type="text" class="form-control" id="cperson" placeholder="Contact Person"
+                                [formControlName]="formControlNames.contactPerson">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="designaion">Designation</label>
+                            <input type="text" class="form-control" id="designaion" placeholder="Designation"
+                                [formControlName]="formControlNames.cDesignation">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="cphonee">Contact Phone</label>
+                            <input type="text" class="form-control" id="cphonee" placeholder="Contact Phone"
+                                [formControlName]="formControlNames.cPhone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cmobile">Contact Mobile</label>
+                            <input type="text" class="form-control" id="cmobile" placeholder="Contact Mobile"
+                                [formControlName]="formControlNames.cMobile">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="uinputState">District</label>
+                            <select id="uinputState" class="form-control"
+                                [formControlName]="formControlNames.districtId" required (change)="change1($event.target.value,'create')">
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputEmail4">Local Body</label>
-                            <select id="inputState" class="form-control" formControlName="role">
-                                <option selected>Something Municipality</option>
-                                <option>Something VDC</option>
-                                <option>Anything Municipality</option>
-                                <option>This thing Municipality</option>
+                            <label for="local">Local Body <span class="spinner-border p-1" role="status" *ngIf="loading">
+                                <span class="sr-only">Loading...</span>
+                            </span></label>
+                            <select id="local" class="form-control" [formControlName]="formControlNames.localBodyId">
+                                <option *ngFor="let item of createLBUnderDistrict" [value]="item['localBodyId']">{{item['name']}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -172,7 +238,33 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="createUser(userForm.value)">Create</button>
+                    (click)="createUser(soForm.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Local Body</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                    (click)="doEdit(updateLocalBodyForm.value)">Update</button>
             </div>
         </div>
     </div>

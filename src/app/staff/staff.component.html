@@ -24,7 +24,7 @@
 <div class="container-flex mt-5">
     <span class="h3"> Staff</span>
     <span class="btn btn-success float-right" data-toggle="modal" data-target="#createuser">
-        + Add Staff +
+        <i class="fa fa-plus"> </i> Add Staff +
     </span>
     <table class="table table-striped">
         <thead>
@@ -45,14 +45,14 @@
                 <td>Somewhere khanepni sansthann</td>
                 <td>Some Where, Under same-05, SKY,550</td>
                 <td>9815004608,9862679609</td>
-                <span class="btn btn-primary btn-circle btn-circle-sm mr-2" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    U
-                </span>
-                <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    X
-                </span>
+                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2">
+                    <i class="fa fa-pencil">   </i> 
+                       
+                   </span>
+                   <span class="btn btn-danger rounded-circle rounded-circle-sm" (click)="deleteUser(user.userId,user.role)">
+                        <i class="fa fa-trash">   </i> 
+                       
+                   </span>
             </tr>
             <tr *ngFor="let user of users; let i = index;">
                 <th scope="row"> {{ i+1 }} </th>
@@ -61,7 +61,7 @@
                 <td>{{user.active}}</td>
                 <td>
 
-                    <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm" (click)="deleteUser(user.userId,user.role)">
                         <!-- <i class="fa fa-car">   </i> -->
                         X
                     </span>

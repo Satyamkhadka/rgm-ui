@@ -1,71 +1,68 @@
-
 <div class="container-flex mt-5 mb-5">
     <span class="h4">Select District</span>
-    <form class="form">
+    <form class="form" [formGroup]="districtForm">
         <div class="form-row">
             <div class="form-group col-9">
-                <select id="inputState" class="form-control" formControlName="role">
-                    <option selected>Jhapa</option>
-                    <option>Illam</option>
-                    <option>Illam</option>
-                    <option>Illam</option>
-                    <option>Illam</option>
+                
+                <select id="topinputState" class="form-control" formControlName="district">
+                    <option selected value="all">All</option>
+                    <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
                 </select>
             </div>
             <div class="form-group col-3">
-                <span class="btn btn-success" data-toggle="modal" data-target="#createuser">
+                <span class="btn btn-success" (click)="getLocalBodyByDistrict(districtForm.value)">
                     Show
+                    <span class="spinner-border p-1" role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                      </span>
                 </span>
             </div>
         </div>
     </form>
 </div>
+
+<!-- table part -->
 <div class="container-flex">
-    <span class="btn btn-success float-right" data-toggle="modal" data-target="#createuser">
-        + Add Local Body +
-    </span>
+    <div class="container-flex">
+    <div class="row">
+        <div class="col-6">
+           
+        </div>
+        <div class="col-6">
+            <span class="btn btn-success float-right" data-toggle="modal" data-target="#createlocalbody">
+                <i class="fa fa-plus"> </i> Add Local Body
+            </span>
+        </div>
+    </div>        
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone</th>
                 <th scope="col">Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>NC-SO</td>
-                <td>Somewhere khanepni sansthann</td>
-                <td>Some Where, Under same-05, SKY,550</td>
-                <td>9815004608,9862679609</td>
-                <span class="btn btn-primary btn-circle btn-circle-sm mr-2" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    U
+            <tr *ngFor = "let item of allLocalBodies; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item[formControlNames.code]}}</td>
+                <td>{{item[formControlNames.name]}}</td>
+                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" 
+                data-toggle="modal" data-target="#updatelocalbody"
+                (click)="edit(i)">
+                    <i class="fa fa-pencil"> </i>
+
                 </span>
-                <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
-                    <!-- <i class="fa fa-car">   </i> -->
-                    X
+                <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                    (click)="delete(item[formControlNames.selfid])">
+                    <i class="fa fa-trash"> </i>
+
                 </span>
             </tr>
-            <tr *ngFor="let user of users; let i = index;">
-                <th scope="row"> {{ i+1 }} </th>
-                <td> {{user.userName}}</td>
-                <td> {{user.role}}</td>
-                <td>{{user.active}}</td>
-                <td>
 
-                    <span class="btn btn-danger btn-circle btn-circle-sm" (click)="deleteUser(user.userId,user.role)">
-                        <!-- <i class="fa fa-car">   </i> -->
-                        X
-                    </span>
-
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -73,13 +70,13 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- Create Modal -->
+<div class="modal fade" id="createlocalbody" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create Local Body</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -89,36 +86,42 @@
 
 
 
-                <form [formGroup]="userForm">
+                <form [formGroup]="localBodyForm">
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputEmail4">User ID</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="User ID"
-                                formControlName="userName">
+                        <div class="form-group col-md-5">
+                            <label for="nameEng">Local Body Name (in English)</label>
+                            <input type="text" class="form-control" id="nameEng" placeholder="Name Eng"
+                                [formControlName]="formControlNames.name">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputState">Role</label>
-                            <select id="inputState" class="form-control" formControlName="role">
-                                <option selected>User</option>
-                                <option>Admin</option>
+                        <div class="form-group col-md-5">
+                            <label for="nepali">Local Body Name (in Nepali)</label>
+                            <input type="text" class="form-control" id="nepali" placeholder="Name Nep"
+                                [formControlName]="formControlNames.nameNP">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="code">LocalBody Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="CODE"
+                                [formControlName]="formControlNames.code">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="inputState">District</label>
+                            <select id="inputState" class="form-control" formControlName="role"
+                                [formControlName]="formControlNames.id">
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
                             </select>
                         </div>
                     </div>
-
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputPassword4">Password</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Password"
-                                formControlName="password">
+                    <!-- <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Address</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="Address"
+                                formControlName="userName">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputPassword2">Re-enter Password</label>
-                            <input type="password" class="form-control" id="inputPassword2"
-                                placeholder="Re-enter Password" formControlName="password2">
-                        </div>
+                    </div> -->
 
-                    </div>
                 </form>
 
 
@@ -128,7 +131,65 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="createUser(userForm.value)">Create</button>
+                    (click)="create(localBodyForm.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Update  -->
+<div class="modal fade" id="updatelocalbody" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Local Body</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="updateLocalBodyForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="unameEng">Local Body Name (in English)</label>
+                            <input type="text" class="form-control" id="unameEng" placeholder="Name Eng"
+                                [formControlName]="formControlNames.name">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="unepali">Local Body Name (in Nepali)</label>
+                            <input type="text" class="form-control" id="unepali" placeholder="Name Nep"
+                                [formControlName]="formControlNames.nameNP">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="ucode">LocalBody Code</label>
+                            <input type="text" class="form-control" id="ucode" placeholder="CODE"
+                                [formControlName]="formControlNames.code">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="uinputState">District</label>
+                            <select id="uinputState" class="form-control" formControlName="role"
+                                [formControlName]="formControlNames.id" required>
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                    (click)="doEdit(updateLocalBodyForm.value)">Update</button>
             </div>
         </div>
     </div>
