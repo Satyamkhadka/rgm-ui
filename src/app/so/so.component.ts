@@ -13,10 +13,11 @@ export class SoComponent implements OnInit {
   allDistricts = [];
   allLocalBodies = [];
   allSO = [];
-  createLBUnderDistrict=[];
-  filterLBUnderDistrict=[];
-  updateLBUnderDistrict=[];
-  activeContent = "all";
+  createLBUnderDistrict = [];
+  filterLBUnderDistrict = [];
+  updateLBUnderDistrict = [];
+  activeLocalBodyFilter = "all";
+  activeDistrictFilter = 'all';
   setEdit;
   loading = false;
 
@@ -25,7 +26,7 @@ export class SoComponent implements OnInit {
   filterForm: FormGroup;
 
   formControlNames = {
-    soId:'soId',
+    soId: 'soId',
     soCode: 'soCode',
     name: 'name',
     nameNP: 'nameNP',
@@ -33,7 +34,7 @@ export class SoComponent implements OnInit {
     ward: 'ward',
     vdcId: 'vdcId',
     districtId: 'districtId',
-    localBodyId:'localBodyId',
+    localBodyId: 'localBodyId',
     address: 'address',
     poBox: 'poBox',
     phone1: 'phone1',
@@ -51,6 +52,7 @@ export class SoComponent implements OnInit {
   }
   constructor(
     private localService: LocalBodyService,
+    private soService: SoService,
     private formBuilder: FormBuilder
   ) {
     this.soForm = this.formBuilder.group({
@@ -59,7 +61,7 @@ export class SoComponent implements OnInit {
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.street]: '',
       [this.formControlNames.ward]: '',
-     // [this.formControlNames.vdcId]:'',
+      // [this.formControlNames.vdcId]:'',
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
       [this.formControlNames.address]: '',
@@ -78,9 +80,9 @@ export class SoComponent implements OnInit {
       [this.formControlNames.createdOn]: ''
 
     });
-    console.log(this.soForm.controls)
 
     this.updateSoForm = this.formBuilder.group({
+      [this.formControlNames.soId]: '',
       [this.formControlNames.soCode]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
@@ -111,7 +113,7 @@ export class SoComponent implements OnInit {
     this.getDistricts();
     //this.getLocalBodies();
     //this.getSchemes();
-    //this.populateList();
+    this.populateList();
 
   }
 
@@ -119,19 +121,18 @@ export class SoComponent implements OnInit {
   }
 
   populateList() {
-    this.allLocalBodies = [];
-    this.localService.getAllLocalBodies().subscribe(data => {
+    this.allSO = [];
+    this.soService.getAllSo().subscribe(data => {
       if (data['success'] === true) {
-        this.allLocalBodies = data['data'];
+        this.allSO = data['data'];
       }
-    })
+    });
   }
 
   getDistricts() {
     this.localService.getAllDistricts().subscribe(data => {
       if (data['success'] === true) {
         this.allDistricts = data['data'];
-        console.log(this.allDistricts)
       }
     });
   }
@@ -141,7 +142,7 @@ export class SoComponent implements OnInit {
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
-    this.localService.createLocalBody(plusData).subscribe(data => {
+    this.soService.createSo(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
@@ -153,9 +154,9 @@ export class SoComponent implements OnInit {
 
   getLocalBodyByDistrict(districtId) {
     this.loading = true;
-    this.activeContent = districtId;
+    this.activeLocalBodyFilter = districtId;
     if (districtId.district === 'all' || districtId.district === '') {
-      this.activeContent = 'all';
+      this.activeLocalBodyFilter = 'all';
       this.diffrentialLoding();
       this.loading = false;
 
@@ -191,7 +192,7 @@ export class SoComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-        this.localService.deleteLocal(id).subscribe(data => {
+        this.soService.deleteSo(id).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
             this.diffrentialLoding();
@@ -206,43 +207,45 @@ export class SoComponent implements OnInit {
   }
 
   diffrentialLoding() {
-    if (this.activeContent === 'all') {
+    if (this.activeLocalBodyFilter === 'all') {
       this.populateList();
     } else {
-      this.getLocalBodyByDistrict(this.activeContent);
+      this.getSoBy(this.activeDistrictFilter, this.activeLocalBodyFilter);
     }
   }
 
   edit(i) {
-    this.setEdit = this.allLocalBodies[i];
+    this.setEdit = this.allSO[i];
+    this.change1(this.setEdit['districtId'], 'update');
     this.updateSoForm = this.formBuilder.group({
-      [this.formControlNames.soCode]: '',
-      [this.formControlNames.name]: '',
-      [this.formControlNames.nameNP]: '',
-      [this.formControlNames.street]: '',
-      [this.formControlNames.ward]: '',
-      //[this.formControlNames.vdcId]:'',
-      [this.formControlNames.districtId]: '',
-      [this.formControlNames.address]: '',
-      [this.formControlNames.poBox]: '',
-      [this.formControlNames.phone1]: '',
-      [this.formControlNames.phone2]: '',
-      [this.formControlNames.mobile]: '',
-      [this.formControlNames.email]: '',
-      [this.formControlNames.fax]: '',
-      [this.formControlNames.contactPerson]: '',
-      [this.formControlNames.cDesignation]: '',
-      [this.formControlNames.cPhone]: '',
-      [this.formControlNames.cMobile]: '',
-      [this.formControlNames.active]: '',
-      [this.formControlNames.createdBy]: '',
-      [this.formControlNames.createdOn]: ''
+      [this.formControlNames.soId]: this.setEdit['soId'],
+      [this.formControlNames.soCode]: this.setEdit['soCode'],
+      [this.formControlNames.name]: this.setEdit['name'],
+      [this.formControlNames.nameNP]: this.setEdit['nameNP'],
+      [this.formControlNames.street]: this.setEdit['street'],
+      [this.formControlNames.ward]: this.setEdit['ward'],
+      //[this.formControlNames.vdcId]:this.setEdit['vdcId'],
+      [this.formControlNames.districtId]: this.setEdit['districtId'],
+      [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
+      [this.formControlNames.address]: this.setEdit['address'],
+      [this.formControlNames.poBox]: this.setEdit['poBox'],
+      [this.formControlNames.phone1]: this.setEdit['phone1'],
+      [this.formControlNames.phone2]: this.setEdit['phone2'],
+      [this.formControlNames.mobile]: this.setEdit['mobile'],
+      [this.formControlNames.email]: this.setEdit['email'],
+      [this.formControlNames.fax]: this.setEdit['fax'],
+      [this.formControlNames.contactPerson]: this.setEdit['contactPerson'],
+      [this.formControlNames.cDesignation]: this.setEdit['cDesignation'],
+      [this.formControlNames.cPhone]: this.setEdit['cPhone'],
+      [this.formControlNames.cMobile]: this.setEdit['cMobile'],
+      [this.formControlNames.active]: this.setEdit['active'],
+      // [this.formControlNames.createdBy]: this.setEdit['createdBy'],
+      //  [this.formControlNames.createdOn]: this.setEdit['createdOn']
     });
   }
 
   doEdit(data) {
-    console.log(data);
-    this.localService.updateLocal(data).subscribe(data => {
+    this.soService.updateSo(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
@@ -252,19 +255,47 @@ export class SoComponent implements OnInit {
       }
     })
   }
-  setLocalBodyByDistrict(id,source){
+  setLocalBodyByDistrict(id, source) {
+    console.log(id + '  ' + source)
     this.loading = true;
     this.localService.getLocalBodiesByDistrictId(id).subscribe(data => {
-      this.loading=false;
+      this.loading = false;
       if (data['success'] === true) {
-        if(source==='create'){ this.createLBUnderDistrict= data['data'] ;
-        } else if(source==='update'){this.updateLBUnderDistrict= data['data'] ;
-        } else if (source==='filter'){this.filterLBUnderDistrict= data['data'] ;}
-        console.log('set')
+        if (source === 'create') {
+          this.createLBUnderDistrict = data['data'];
+        } else if (source === 'update') {
+          console.log(data)
+          this.updateLBUnderDistrict = data['data'];
+        } else if (source === 'filter') { this.filterLBUnderDistrict = data['data']; }
       }
     })
   }
-  change1(event,source){   
-    this.setLocalBodyByDistrict(event,source)
+  change1(event, source) {
+    this.setLocalBodyByDistrict(event, source);
   }
+
+  getSoBy(by, id) {
+    if (by === 'district') {
+      if(id==='all'){ this.activeDistrictFilter = 'all';this.activeLocalBodyFilter='all'; this.populateList(); return;}
+      this.soService.getSoByDistrictId(id).subscribe(data => {
+        if (data['success']) {
+          this.allSO = data['data'];
+          this.activeDistrictFilter = 'district';
+          this.activeLocalBodyFilter = id;
+        }
+      });
+    } else if (by === 'localBody') {
+      if(id==='all'){ this.activeLocalBodyFilter='all'; this.getSoBy('district',this.activeDistrictFilter); return; }
+      this.soService.getSoByLocalBodyId(id).subscribe(data => {
+        if (data['success']) {
+          this.allSO = data['data'];
+          this.activeDistrictFilter = 'localBody';
+          this.activeLocalBodyFilter = id;
+        }
+      });
+    }
+
+    
+  }
+
 }

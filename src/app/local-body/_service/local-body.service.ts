@@ -23,7 +23,7 @@ export class LocalBodyService {
     return this.httpClient.get(environment.url+'local-bodies/districtId/'+districtId);
   }
   deleteLocal(id){
-    return this.httpClient.post(environment.url+'local-body/delete',{localbodyid:id})
+    return this.httpClient.post(environment.url+'local-body/delete',{localBodyId:id})
   }
   updateLocal(data){
     return this.httpClient.post(environment.url+'local-body/update',data);

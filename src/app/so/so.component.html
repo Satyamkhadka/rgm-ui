@@ -13,7 +13,7 @@
                         </select>
                     </div>
                     <div class="form-group col-3">
-                        <span class="btn btn-success" (click)="getLocalBodyByDistrict(districtForm.value)">
+                        <span class="btn btn-success" (click)="getSoBy('district',filterForm.value.district)">
                             Show
                             <span class="spinner-border p-1" role="status" *ngIf="loading">
                                 <span class="sr-only">Loading...</span>
@@ -25,16 +25,17 @@
         </div>
         <div class="col-6">
             <span class="h4">Show SO by local-body</span>
-            <form class="form">
+            <form class="form" [formGroup]="filterForm">
                 <div class="form-row">
                     <div class="form-group col-10">
-                        <select id="inputState" class="form-control">
+                        <select id="inputState" class="form-control" formControlName="localBody">
+                            <option selected value="all">All</option>
                             <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">{{item['name']}}
                             </option>
                         </select>
                     </div>
                     <div class="form-group col-2">
-                        <span class="btn btn-success">
+                        <span class="btn btn-success" (click)="getSoBy('localBody',filterForm.value.localBody)">
                             Show
                         </span>
                     </div>
@@ -52,7 +53,7 @@
             </div>
             <div class="col-6">
                 <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
-                    <i class="fa fa-plus"> </i> Add Local Body
+                    <i class="fa fa-plus"> </i> Add SO
                 </span>
             </div>
         </div>
@@ -63,22 +64,31 @@
                 <th scope="col">#</th>
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
+                <th scope="col">ward</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">contactPerson</th>
                 <th scope="col">Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of allLocalBodies; let i = index;">
+            <tr *ngFor="let item of allSO; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{item[formControlNames.code]}}</td>
+                <td>{{item[formControlNames.soCode]}}</td>
                 <td>{{item[formControlNames.name]}}</td>
+                <td>{{item[formControlNames.ward]}}</td>
+                <td>{{item[formControlNames.address]}}</td>
+                <td>{{item[formControlNames.phone1]+', '+item[formControlNames.phone1]}}</td>
+                <td>{{item[formControlNames.contactPerson]+', '+item[formControlNames.cPhone]}}</td>
+                
                 <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
                     data-target="#update" (click)="edit(i)">
                     <i class="fa fa-pencil"> </i>
 
                 </span>
                 <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.selfid])">
+                    (click)="delete(item[formControlNames.soId])">
                     <i class="fa fa-trash"> </i>
 
                 </span>
@@ -93,12 +103,12 @@
 
 
 
-<!-- Modal -->
+<!-- create Modal -->
 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create SO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -111,11 +121,11 @@
                 <form [formGroup]="soForm">
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <div class="form-group col-md-5">
-                                <label for="name">SO Name (in English)</label>
-                                <input type="text" class="form-control" id="name" placeholder="SO NAME"
-                                    [formControlName]="formControlNames.name">
-                            </div>
+                            <label for="name">SO Name (in English)</label>
+                            <input type="text" class="form-control" id="name" placeholder="SO NAME"
+                                [formControlName]="formControlNames.name">
+                        </div>
+                        <div class="form-group col-md-5">
                             <label for="nameNP">SO Name (in Nepali)</label>
                             <input type="text" class="form-control" id="nameNP" placeholder="SO NAME NP"
                             [formControlName]="formControlNames.nameNP">
@@ -135,8 +145,8 @@
                         </div>
 
                         <div class="form-group col-5">
-                            <label for="inputEmail4">Address</label>
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="Address"
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="Address"
                                 [formControlName]="formControlNames.address">
                         </div>
                         <div class="form-group col-2">
@@ -238,14 +248,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="createUser(soForm.value)">Create</button>
+                    (click)="create(soForm.value)">Create</button>
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Local Body</h5>
@@ -257,14 +267,135 @@
 
                 
 
+                <form [formGroup]="updateSoForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="uname">SO Name (in English)</label>
+                            <input type="text" class="form-control" id="uname" placeholder="SO NAME"
+                                [formControlName]="formControlNames.name">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="unameNP">SO Name (in Nepali)</label>
+                            <input type="text" class="form-control" id="unameNP" placeholder="SO NAME NP"
+                            [formControlName]="formControlNames.nameNP">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="ucode">SO Code</label>
+                            <input type="text" class="form-control" id="ucode" placeholder="SO CODE"
+                                [formControlName]="formControlNames.soCode">
+                        </div>
+                    </div>
 
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="ustreet">Street</label>
+                            <input type="text" class="form-control" id="ustreet" placeholder="Street"
+                                [formControlName]="formControlNames.street">
+                        </div>
+
+                        <div class="form-group col-5">
+                            <label for="uaddress">Address</label>
+                            <input type="text" class="form-control" id="uaddress" placeholder="Address"
+                                [formControlName]="formControlNames.address">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="upobox">Po box</label>
+                            <input type="text" class="form-control" id="upobox" placeholder="pobox"
+                                [formControlName]="formControlNames.poBox">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="uward">Ward</label>
+                            <input type="number" class="form-control" id="uward" placeholder="ward"
+                                [formControlName]="formControlNames.ward">
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="uph1">Phone Number 1</label>
+                            <input type="text" class="form-control" id="uph1" placeholder="Phone No.1"
+                                [formControlName]="formControlNames.phone1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="uph2">Phone Number 2</label>
+                            <input type="text" class="form-control" id="uph2" placeholder="Phone No.2"
+                                [formControlName]="formControlNames.phone2">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="umbl">Mobile No.</label>
+                            <input type="text" class="form-control" id="umbl" placeholder="Mobile Number"
+                                [formControlName]="formControlNames.mobile">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="uemail">Email</label>
+                            <input type="email" class="form-control" id="uemail" placeholder="Email"
+                                [formControlName]="formControlNames.email">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="ufax">Fax</label>
+                            <input type="text" class="form-control" id="ufax" placeholder="fax"
+                                [formControlName]="formControlNames.fax">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ucperson">Contact Person</label>
+                            <input type="text" class="form-control" id="ucperson" placeholder="Contact Person"
+                                [formControlName]="formControlNames.contactPerson">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="udesignaion">Designation</label>
+                            <input type="text" class="form-control" id="udesignaion" placeholder="Designation"
+                                [formControlName]="formControlNames.cDesignation">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ucphonee">Contact Phone</label>
+                            <input type="text" class="form-control" id="ucphonee" placeholder="Contact Phone"
+                                [formControlName]="formControlNames.cPhone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ucmobile">Contact Mobile</label>
+                            <input type="text" class="form-control" id="ucmobile" placeholder="Contact Mobile"
+                                [formControlName]="formControlNames.cMobile">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="uuinputState">District</label>
+                            <select id="uuinputState" class="form-control"
+                                [formControlName]="formControlNames.districtId" required (change)="change1($event.target.value,'update')">
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ulocal">Local Body <span class="spinner-border p-1" role="status" *ngIf="loading">
+                                <span class="sr-only">Loading...</span>
+                            </span></label>
+                            <select id="ulocal" class="form-control" [formControlName]="formControlNames.localBodyId">
+                                <option *ngFor="let item of updateLBUnderDistrict" [value]="item['localBodyId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
 
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateLocalBodyForm.value)">Update</button>
+                    (click)="doEdit(updateSoForm.value)">Update</button>
             </div>
         </div>
     </div>

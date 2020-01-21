@@ -2,41 +2,36 @@
   <div class="h1 text-center"> PIP Contract Generation</div>
 </div>
 <div class="wrapper container mt-5 mb-5">
-  <form>
+  <form class="form" [formGroup]="contractForm">
+    <div class="form-row">
+      <div class="form-group col-12">
+        <!-- select SO organization -->
+        <label for="so">Select SO</label>
+        <select id="so" class="form-control">
+          <option value='none'>Choose...</option>
+          <option *ngFor="let item of allSo" [value]="item['soId']">{{item['name']}}</option>
+        </select>
+      </div>
+    </div>
 
     <div class="form-row">
       <div class="form-group col-md-6">
         <!-- select district -->
-        <label for="so">Select District</label>
-        <select id="so" class="form-control">
-          <option selected>Choose...</option>
-          <option> Jhapa</option>
-          <option> Jhapa</option>
-          <option> Jhapa</option>
-          <option> Jhapa</option>
-          <option> Jhapa</option>
+        <label for="so">Select District <span class="spinner-border p-1" role="status" *ngIf="loading">
+          <span class="sr-only">Loading...</span>
+      </span> </label>
+        <select id="so" class="form-control" formControlName="district" (change)="selectDistrict(contractForm.value.district)">
+          <option value='none'>Choose...</option>
+          <option *ngFor="let item of allDistrict" [value]="item['districtId']">{{item['name']}} </option>
         </select>
       </div>
       <div class="form-group col-md-6">
         <!-- select Municipality or VDC -->
         <label for="muni">Select MUNICIPALITY or VDC</label>
         <select id="muni" class="form-control">
-          <option selected>Choose...</option>
-          <option> Birtamode</option>
-          <option> Birtamode</option>
-          <option> Birtamode</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-12">
-        <!-- select SO organization -->
-        <label for="so">Select SO</label>
-        <select id="so" class="form-control">
-          <option selected>Choose...</option>
-          <option> Khanepani sansthan</option>
-          <option> Khanepani sansthan</option>
-          <option> Khanepani sansthan</option>
+          <option selected value='none'>Choose...</option>
+          <option *ngFor="let item of localUnderDistrict" [value]="item['localBodyId']">{{item['name']}}</option>
+
         </select>
       </div>
     </div>
@@ -44,15 +39,14 @@
       <div class="form-group col-6">
         <div class="form-row">
           <label for="so">Select Schemes</label>
-          <select id="so" class="form-control">
-            <option selected>Choose...</option>
-            <option> Nice Scheme</option>
-            <option> Another Nice Scheme</option>
-            <option> Very Good Scheme</option>
+          <select id="so" class="form-control" formControlName="select">
+            <option selected value='none'>Choose...</option>
+          <option *ngFor="let item of allSchemes;let i = index;" [value]="i">{{item['name']}}</option>
+            
           </select>
         </div>
         <div class="form-row mt-2">
-          <button  class="btn btn-primary">Select -></button>
+          <button  class="btn btn-primary" (click)="addScheme(contractForm.value.select)">Select -></button>
         </div>
       </div>
       <div class="form-group col-6">
@@ -70,9 +64,12 @@
             <div class="custom-height">
               <div class="float-left mx-1">
                 <div class="card-title text-center">
-                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
-                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
-                  <h6 class="btn btn-success mr-2"  data-toggle="tooltip" data-placement="top" title="Click to delete"> extinguish</h6>
+                  <h6 *ngFor="let item of selectedSchemes;let i = index;"
+                  class="btn btn-success mr-2"
+                    data-toggle="tooltip" data-placement="top"
+                     title="Click to delete"
+                     (click)="removeScheme(i)"
+                     > {{item.name}}</h6>
                 </div>
               </div>
             </div>
