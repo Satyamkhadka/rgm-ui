@@ -1,0 +1,440 @@
+<!-- <div class="container-flex mt-5 mb-5">
+    <div class="row">
+        <div class="col-6">
+            <span class="h4">Show SO by district</span>
+            <form class="form" [formGroup]="filterForm">
+                <div class="form-row">
+                    <div class="form-group col-9">
+
+                        <select id="topinputState" class="form-control" formControlName="district"
+                            (change)="change1($event.target.value,'filter')">
+                            <option selected value="all">All</option>
+                            <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <span class="btn btn-success" (click)="getSoBy('district',filterForm.value.district)">
+                            Show
+                            <span class="spinner-border p-1" role="status" *ngIf="loading">
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <span class="h4">Show SO by local-body</span>
+            <form class="form" [formGroup]="filterForm">
+                <div class="form-row">
+                    <div class="form-group col-10">
+                        <select id="inputState" class="form-control" formControlName="localBody">
+                            <option selected value="all">All</option>
+                            <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">
+                                {{item['name']}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-2">
+                        <span class="btn btn-success" (click)="getSoBy('localBody',filterForm.value.localBody)">
+                            Show
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+<!-- table part -->
+<div class="container-flex mt-5">
+    <div class="container-flex">
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
+                    <i class="fa fa-plus"> </i> Add Person
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Details</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of allSO; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item[formControlNames.personCode]}}</td>
+                <td>
+                    <span *ngIf="item[formControlNames.firstName]">{{item[formControlNames.firstName]}} </span>
+                    <span *ngIf="item[formControlNames.middleName]">{{item[formControlNames.middleName]}} </span>
+                    <span *ngIf="item[formControlNames.lastName]">{{item[formControlNames.lastName]}} </span>
+                </td>
+                <td>{{item[formControlNames.phone1]+', '+item[formControlNames.phone1]}}</td>
+                <td>{{item[formControlNames.gender]+', '+item[formControlNames.mStatus]}}</td>
+                <td>{{item[formControlNames.address]}}</td>
+                <td>{{item[formControlNames.email]}}</td>
+
+
+                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                    data-target="#update" (click)="edit(i)">
+                    <i class="fa fa-pencil"> </i>
+
+                </span>
+                <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                    (click)="delete(item[formControlNames.personId])">
+                    <i class="fa fa-trash"> </i>
+
+                </span>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+<!-- create Modal -->
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create SO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <form [formGroup]="personForm">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="name">Person Code</label>
+                            <input type="text" class="form-control" id="name" placeholder="personCode"
+                                [formControlName]="formControlNames.personCode">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="First Name"
+                                [formControlName]="formControlNames.firstName">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="middleName">Middle Name</label>
+                            <input type="text" class="form-control" id="middleName" placeholder="Middle Name"
+                                [formControlName]="formControlNames.middleName">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Last Name"
+                                [formControlName]="formControlNames.lastName">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="firstName">First NameNP</label>
+                            <input type="text" class="form-control" id="firstNameNP" placeholder="First NameNP"
+                                [formControlName]="formControlNames.firstNameNP">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="middleName">Middle NameNP</label>
+                            <input type="text" class="form-control" id="middleNameNP" placeholder="Middle NameNP"
+                                [formControlName]="formControlNames.middleNameNP">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="lastName">Last NameNP</label>
+                            <input type="text" class="form-control" id="lastNameNP" placeholder="Last NameNP"
+                                [formControlName]="formControlNames.lastNameNP">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="lsi">LSI</label>
+                            <input type="text" class="form-control" id="lsi" placeholder="LSI"
+                                [formControlName]="formControlNames.lsi">
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="form-control" [formControlName]="formControlNames.gender">
+                                <option value='Male'>Male</option>
+                                <option value='Female'>Female</option>
+                                <option value='Others'>Others</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="martialStatus">Maritial status</label>
+                            <select id="martialStatus" class="form-control"
+                                [formControlName]="formControlNames.mStatus">
+                                <option value='Single'>Single</option>
+                                <option value='Married'>Married</option>
+                                <option value='Divorced'>Divorced</option>
+                                <option value='Others'>Others</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="citizenshipNo">Citizenship No</label>
+                            <input type="text" class="form-control" id="citizenshipNo" placeholder="Citizenship Number"
+                                [formControlName]="formControlNames.citizenshipNo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="district">District</label>
+                            <select id="district" class="form-control" [formControlName]="formControlNames.districtId"
+                                required (change)="change1($event.target.value,'create')">
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="local">Local Body <span class="spinner-border p-1" role="status"
+                                    *ngIf="loading">
+                                    <span class="sr-only">Loading...</span>
+                                </span></label>
+                            <select id="local" class="form-control" [formControlName]="formControlNames.localBodyId">
+                                <option *ngFor="let item of createLBUnderDistrict" [value]="item['localBodyId']">
+                                    {{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="uward">Ward</label>
+                            <input type="number" class="form-control" id="uward" placeholder="ward"
+                                [formControlName]="formControlNames.ward">
+                        </div>
+                        <div class="form-group col-10">
+                            <label for="uaddress">Address</label>
+                            <input type="text" class="form-control" id="uaddress" placeholder="Address"
+                                [formControlName]="formControlNames.address">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ph1">Phone Number 1</label>
+                            <input type="text" class="form-control" id="ph1" placeholder="Phone No.1"
+                                [formControlName]="formControlNames.phone1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ph2">Phone Number 2</label>
+                            <input type="text" class="form-control" id="ph2" placeholder="Phone No.2"
+                                [formControlName]="formControlNames.phone2">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="mbl">Mobile No.</label>
+                            <input type="text" class="form-control" id="mbl" placeholder="Mobile Number"
+                                [formControlName]="formControlNames.mobile">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email"
+                                [formControlName]="formControlNames.email">
+                        </div>
+
+                    </div>
+
+                </form>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="create(personForm.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Local Body</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <form [formGroup]="updatePersonForm">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="ufirstName">First Name</label>
+                            <input type="text" class="form-control" id="ufirstName" placeholder="First Name"
+                                [formControlName]="formControlNames.firstName">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="umiddleName">Middle Name</label>
+                            <input type="text" class="form-control" id="umiddleName" placeholder="Middle Name"
+                                [formControlName]="formControlNames.middleName">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="ulastName">Last Name</label>
+                            <input type="text" class="form-control" id="ulastName" placeholder="Last Name"
+                                [formControlName]="formControlNames.lastName">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="ufirstName">First NameNP</label>
+                            <input type="text" class="form-control" id="ufirstNameNP" placeholder="First NameNP"
+                                [formControlName]="formControlNames.firstNameNP">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="umiddleName">Middle NameNP</label>
+                            <input type="text" class="form-control" id="umiddleNameNP" placeholder="Middle NameNP"
+                                [formControlName]="formControlNames.middleNameNP">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="ulastName">Last NameNP</label>
+                            <input type="text" class="form-control" id="ulastNameNP" placeholder="Last NameNP"
+                                [formControlName]="formControlNames.lastNameNP">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="ulsi">LSI</label>
+                            <input type="text" class="form-control" id="ulsi" placeholder="LSI"
+                                [formControlName]="formControlNames.lsi">
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label for="ugender">Gender</label>
+                            <select id="ugender" class="form-control" [formControlName]="formControlNames.gender">
+                                <option value='Male'>Male</option>
+                                <option value='Female'>Female</option>
+                                <option value='Others'>Others</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="umartialStatus">Maritial status</label>
+                            <select id="umartialStatus" class="form-control"
+                                [formControlName]="formControlNames.mStatus">
+                                <option value='Single'>Single</option>
+                                <option value='Married'>Married</option>
+                                <option value='Divorced'>Divorced</option>
+                                <option value='Others'>Others</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="ucitizenshipNo">Citizenship No</label>
+                            <input type="text" class="form-control" id="ucitizenshipNo" placeholder="Citizenship Number"
+                                [formControlName]="formControlNames.citizenshipNo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="udistrict">District</label>
+                            <select id="udistrict" class="form-control" [formControlName]="formControlNames.districtId"
+                                required (change)="change1($event.target.value,'create')">
+                                <option value='' selected>Select District</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="ulocal">Local Body <span class="spinner-border p-1" role="status"
+                                    *ngIf="loading">
+                                    <span class="sr-only">Loading...</span>
+                                </span></label>
+                            <select id="ulocal" class="form-control" [formControlName]="formControlNames.localBodyId">
+                                <option *ngFor="let item of createLBUnderDistrict" [value]="item['localBodyId']">
+                                    {{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="uuward">Ward</label>
+                            <input type="number" class="form-control" id="uuward" placeholder="ward"
+                                [formControlName]="formControlNames.ward">
+                        </div>
+                        <div class="form-group col-10">
+                            <label for="uuaddress">Address</label>
+                            <input type="text" class="form-control" id="uuaddress" placeholder="Address"
+                                [formControlName]="formControlNames.address">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="uph1">Phone Number 1</label>
+                            <input type="text" class="form-control" id="uph1" placeholder="Phone No.1"
+                                [formControlName]="formControlNames.phone1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="uph2">Phone Number 2</label>
+                            <input type="text" class="form-control" id="uph2" placeholder="Phone No.2"
+                                [formControlName]="formControlNames.phone2">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="umbl">Mobile No.</label>
+                            <input type="text" class="form-control" id="umbl" placeholder="Mobile Number"
+                                [formControlName]="formControlNames.mobile">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="uemail">Email</label>
+                            <input type="email" class="form-control" id="uemail" placeholder="Email"
+                                [formControlName]="formControlNames.email">
+                        </div>
+
+                    </div>
+
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                    (click)="doEdit(updatePersonForm.value)">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,15 @@
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { StaffService } from './_service/staff.service';
+import { PersonService } from './_service/person.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
 @Component({
-  selector: 'app-staff',
-  templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.css']
+  selector: 'app-person',
+  templateUrl: './person.component.html',
+  styleUrls: ['./person.component.css']
 })
-export class StaffComponent implements OnInit {
+export class PersonComponent implements OnInit {
 
   allDistricts = [];
   allLocalBodies = [];
@@ -22,38 +22,86 @@ export class StaffComponent implements OnInit {
   setEdit;
   loading = false;
 
-  staffForm: FormGroup;
-  updateStaffForm: FormGroup;
+  personForm: FormGroup;
+  updatePersonForm: FormGroup;
   filterForm: FormGroup;
 
   formControlNames = {
-    staffId: 'staffId',
-    staffCode: 'staffCode',
-    name: 'name',
-    nameNP: 'nameNP',
-    monthlyPay:'monthlyPay',
+    personId: 'personId',
+    personCode: 'personCode',
+    firstName: 'firstName',
+    middleName: 'middleName',
+    lastName: 'lastName',
+    firstNameNP: 'firstNameNP',
+    middleNameNP: 'middleNameNP',
+    lastNameNP: 'lastNameNP',
+    lsi:'lsi',
+    gender:'gender',
+    mStatus:'mStatus',
+    citizenshipNo:'citizenshipNo',
+    districtId: 'districtId',
+    localBodyId: 'localBodyId',
+    ward: 'ward',
+    address: 'address',
+    phone1: 'phone1',
+    phone2: 'phone2',
+    mobile: 'mobile',
+    email: 'email',
+    web:'web',
     active: 'active',
     createdBy: 'createdBy',
     createdOn: 'createdOn'
   }
   constructor(
     private localService: LocalBodyService,
-    private staffService: StaffService,
+    private personService: PersonService,
     private formBuilder: FormBuilder
   ) {
-    this.staffForm = this.formBuilder.group({
-      [this.formControlNames.staffCode]: '',
-      [this.formControlNames.name]: '',
-      [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
+    this.personForm = this.formBuilder.group({
+      [this.formControlNames.personCode]: '',
+      [this.formControlNames.firstName]: '',
+      [this.formControlNames.middleName]: '',
+      [this.formControlNames.lastName]: '',
+      [this.formControlNames.firstNameNP]: '',
+      [this.formControlNames.middleNameNP]: '',
+      [this.formControlNames.lastNameNP]: '', 
+      [this.formControlNames.lsi]: '',
+      [this.formControlNames.gender]: 'Male',
+      [this.formControlNames.mStatus]: 'Single',
+      [this.formControlNames.citizenshipNo]: '',
+      [this.formControlNames.districtId]: '',
+      [this.formControlNames.localBodyId]: '',
+      [this.formControlNames.ward]: '',
+      [this.formControlNames.address]: '',
+      [this.formControlNames.phone1]: '',
+      [this.formControlNames.phone2]: '',
+      [this.formControlNames.mobile]: '',
+      [this.formControlNames.email]: '',
+      [this.formControlNames.web]: '',
     });
 
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: '',
-      [this.formControlNames.staffCode]: '',
-      [this.formControlNames.name]: '',
-      [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
+    this.updatePersonForm = this.formBuilder.group({
+      [this.formControlNames.personId]: '',
+      [this.formControlNames.personCode]: '',
+      [this.formControlNames.firstName]: '',
+      [this.formControlNames.middleName]: '',
+      [this.formControlNames.lastName]: '',
+      [this.formControlNames.firstNameNP]: '',
+      [this.formControlNames.middleNameNP]: '',
+      [this.formControlNames.lastNameNP]: '',
+      [this.formControlNames.lsi]: '',
+      [this.formControlNames.gender]: '',
+      [this.formControlNames.mStatus]: '',
+      [this.formControlNames.citizenshipNo]: '',
+      [this.formControlNames.districtId]: '',
+      [this.formControlNames.localBodyId]: '',
+      [this.formControlNames.ward]: '',
+      [this.formControlNames.address]: '',
+      [this.formControlNames.phone1]: '',
+      [this.formControlNames.phone2]: '',
+      [this.formControlNames.mobile]: '',
+      [this.formControlNames.email]: '',
+      [this.formControlNames.web]: '',
     });
     this.filterForm = this.formBuilder.group({
       district: 'all',
@@ -71,7 +119,7 @@ export class StaffComponent implements OnInit {
 
   populateList() {
     this.allSO = [];
-    this.staffService.getAllStaff().subscribe(data => {
+    this.personService.getAllPerson().subscribe(data => {
       if (data['success'] === true) {
         this.allSO = data['data'];
       }
@@ -91,7 +139,7 @@ export class StaffComponent implements OnInit {
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
-    this.staffService.createStaff(plusData).subscribe(data => {
+    this.personService.createPerson(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
@@ -141,7 +189,7 @@ export class StaffComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-        this.staffService.deleteStaff(id).subscribe(data => {
+        this.personService.deletePerson(id).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
             this.diffrentialLoding();
@@ -166,17 +214,33 @@ export class StaffComponent implements OnInit {
   edit(i) {
     this.setEdit = this.allSO[i];
     this.change1(this.setEdit['districtId'], 'update');
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: this.setEdit['staffId'],
-      [this.formControlNames.staffCode]: this.setEdit['staffCode'],
-      [this.formControlNames.name]: this.setEdit['name'],
-      [this.formControlNames.nameNP]: this.setEdit['nameNP'],
-      [this.formControlNames.monthlyPay]: this.setEdit['monthlyPay'],
+    this.updatePersonForm = this.formBuilder.group({
+      [this.formControlNames.personId]: this.setEdit['personId'],
+      [this.formControlNames.personCode]: this.setEdit['personCode'],
+      [this.formControlNames.firstName]: this.setEdit['firstName'],
+      [this.formControlNames.middleName]: this.setEdit['middleName'],
+      [this.formControlNames.lastName]: this.setEdit['lastName'],
+      [this.formControlNames.firstNameNP]: this.setEdit['firstNameNP'],
+      [this.formControlNames.middleNameNP]: this.setEdit['middleNameNP'],
+      [this.formControlNames.lastNameNP]: this.setEdit['lastNameNP'],
+      [this.formControlNames.lsi]: this.setEdit['lsi'],
+      [this.formControlNames.gender]: this.setEdit['gender'],
+      [this.formControlNames.mStatus]: this.setEdit['mStatus'],
+      [this.formControlNames.citizenshipNo]: this.setEdit['citizenshipNo'],
+      [this.formControlNames.districtId]: this.setEdit['districtId'],
+      [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
+      [this.formControlNames.ward]: this.setEdit['ward'],
+      [this.formControlNames.address]: this.setEdit['address'],
+      [this.formControlNames.phone1]: this.setEdit['phone1'],
+      [this.formControlNames.phone2]: this.setEdit['phone2'],
+      [this.formControlNames.mobile]: this.setEdit['mobile'],
+      [this.formControlNames.email]: this.setEdit['email'],
+      [this.formControlNames.web]: this.setEdit['web'],
     });
   }
 
   doEdit(data) {
-    this.staffService.updateStaff(data).subscribe(data => {
+    this.personService.updatePerson(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();

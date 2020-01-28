@@ -16,7 +16,10 @@ import { MyInterceptor } from './_interceptor/token.interceptor';
 import { SoComponent } from './so/so.component';
 import { SchemeComponent } from './scheme/scheme.component';
 import { LocalBodyComponent } from './local-body/local-body.component';
+import { PersonComponent } from './person/person.component';
 import { StaffComponent } from './staff/staff.component';
+import { PositionComponent } from './position/position.component';
+import { BatchComponent } from './batch/batch.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { StaffComponent } from './staff/staff.component';
     SoComponent,
     SchemeComponent,
     LocalBodyComponent,
+    PersonComponent,
     StaffComponent,
+    PositionComponent,
+    BatchComponent
   ],
   imports: [
     BrowserModule,

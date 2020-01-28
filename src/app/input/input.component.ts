@@ -1,3 +1,4 @@
+import { BatchService } from './../batch/_service/batch.service';
 import  swal  from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { LocalBodyService } from '../local-body/_service/local-body.service';
@@ -16,22 +17,27 @@ export class InputComponent implements OnInit {
   allDistrict = [];
   localUnderDistrict=[];
   allSchemes = [];
+  allBatch = [];
   selectedSchemes = [];
   loading = false;
   contractForm:FormGroup;
   constructor(
     private localService: LocalBodyService,
     private soService: SoService,
+    private batchService: BatchService,
     private formBuilder: FormBuilder,
     private schemeService: SchemeService
   ) { 
-
+this.getBatches();
 this.getAllSo();
 this.getDistricts();
 this.getSchemes();
 this.contractForm = this.formBuilder.group({
-  select:'none',
-  district:'none'
+  batchId:'none',
+  soId:'none',
+  districtId:'none',
+  localBodyId:'none',
+  schemeId:'none',
 });
   }
 
@@ -43,7 +49,7 @@ this.contractForm = this.formBuilder.group({
       swal.fire('Wait','Please select valid scheme','info');
       return;
     }
-    if(this.selectedSchemes.length<4){
+    if(this.selectedSchemes.length<10){
    this.selectedSchemes.push(this.allSchemes[i]);
     } else {
       swal.fire('Wait','Scheme Limit Exceeded!','warning');
@@ -72,6 +78,7 @@ this.contractForm = this.formBuilder.group({
   }
 
   getLocalBodyByDistrict(id) {
+    
     this.loading = true;
     this.localService.getLocalBodiesByDistrictId(id).subscribe(data => {
       if (data['success'] === true) {
@@ -85,6 +92,14 @@ this.contractForm = this.formBuilder.group({
     this.schemeService.getAllScheme().subscribe(data => {
       if (data['success'] === true) {
         this.allSchemes = data['data'];
+      }
+    });
+  }
+  getBatches(){
+    this.allBatch = [];
+    this.batchService.getAllBatch().subscribe(data => {
+      if (data['success'] === true) {
+        this.allBatch = data['data'];
       }
     });
   }

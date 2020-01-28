@@ -1,15 +1,15 @@
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { StaffService } from './_service/staff.service';
+import { PositionService } from './_service/position.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
 @Component({
-  selector: 'app-staff',
-  templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.css']
+  selector: 'app-position',
+  templateUrl: './position.component.html',
+  styleUrls: ['./position.component.css']
 })
-export class StaffComponent implements OnInit {
+export class PositionComponent implements OnInit {
 
   allDistricts = [];
   allLocalBodies = [];
@@ -22,13 +22,13 @@ export class StaffComponent implements OnInit {
   setEdit;
   loading = false;
 
-  staffForm: FormGroup;
-  updateStaffForm: FormGroup;
+  positionForm: FormGroup;
+  updatePositionForm: FormGroup;
   filterForm: FormGroup;
 
   formControlNames = {
-    staffId: 'staffId',
-    staffCode: 'staffCode',
+    positionId: 'positionId',
+    positionCode: 'positionCode',
     name: 'name',
     nameNP: 'nameNP',
     monthlyPay:'monthlyPay',
@@ -38,22 +38,22 @@ export class StaffComponent implements OnInit {
   }
   constructor(
     private localService: LocalBodyService,
-    private staffService: StaffService,
+    private positionService: PositionService,
     private formBuilder: FormBuilder
   ) {
-    this.staffForm = this.formBuilder.group({
-      [this.formControlNames.staffCode]: '',
+    this.positionForm = this.formBuilder.group({
+      [this.formControlNames.positionCode]: '',
+      [this.formControlNames.monthlyPay]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
     });
 
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: '',
-      [this.formControlNames.staffCode]: '',
+    this.updatePositionForm = this.formBuilder.group({
+      [this.formControlNames.positionId]: '',
+      [this.formControlNames.positionCode]: '',
+      [this.formControlNames.monthlyPay]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
     });
     this.filterForm = this.formBuilder.group({
       district: 'all',
@@ -71,7 +71,7 @@ export class StaffComponent implements OnInit {
 
   populateList() {
     this.allSO = [];
-    this.staffService.getAllStaff().subscribe(data => {
+    this.positionService.getAllPosition().subscribe(data => {
       if (data['success'] === true) {
         this.allSO = data['data'];
       }
@@ -91,7 +91,7 @@ export class StaffComponent implements OnInit {
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
-    this.staffService.createStaff(plusData).subscribe(data => {
+    this.positionService.createPosition(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
@@ -141,7 +141,7 @@ export class StaffComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-        this.staffService.deleteStaff(id).subscribe(data => {
+        this.positionService.deletePosition(id).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
             this.diffrentialLoding();
@@ -166,17 +166,17 @@ export class StaffComponent implements OnInit {
   edit(i) {
     this.setEdit = this.allSO[i];
     this.change1(this.setEdit['districtId'], 'update');
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: this.setEdit['staffId'],
-      [this.formControlNames.staffCode]: this.setEdit['staffCode'],
+    this.updatePositionForm = this.formBuilder.group({
+      [this.formControlNames.positionId]: this.setEdit['positionId'],
+      [this.formControlNames.positionCode]: this.setEdit['positionCode'],
+      [this.formControlNames.monthlyPay]: this.setEdit['monthlyPay'],
       [this.formControlNames.name]: this.setEdit['name'],
       [this.formControlNames.nameNP]: this.setEdit['nameNP'],
-      [this.formControlNames.monthlyPay]: this.setEdit['monthlyPay'],
     });
   }
 
   doEdit(data) {
-    this.staffService.updateStaff(data).subscribe(data => {
+    this.positionService.updatePosition(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();

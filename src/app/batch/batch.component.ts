@@ -1,19 +1,19 @@
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { StaffService } from './_service/staff.service';
+import { BatchService } from './_service/batch.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
 @Component({
-  selector: 'app-staff',
-  templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.css']
+  selector: 'app-batch',
+  templateUrl: './batch.component.html',
+  styleUrls: ['./batch.component.css']
 })
-export class StaffComponent implements OnInit {
+export class BatchComponent implements OnInit {
 
   allDistricts = [];
   allLocalBodies = [];
-  allSO = [];
+  allBatch = [];
   createLBUnderDistrict = [];
   filterLBUnderDistrict = [];
   updateLBUnderDistrict = [];
@@ -22,38 +22,35 @@ export class StaffComponent implements OnInit {
   setEdit;
   loading = false;
 
-  staffForm: FormGroup;
-  updateStaffForm: FormGroup;
+  batchForm: FormGroup;
+  updateBatchForm: FormGroup;
   filterForm: FormGroup;
 
   formControlNames = {
-    staffId: 'staffId',
-    staffCode: 'staffCode',
-    name: 'name',
-    nameNP: 'nameNP',
-    monthlyPay:'monthlyPay',
+    batchId: 'batchId',
+    batchNo: 'batchNo',
+    batchDescEN: 'batchDescEN',
+    batchDescNP: 'batchDescNP',
     active: 'active',
     createdBy: 'createdBy',
     createdOn: 'createdOn'
   }
   constructor(
     private localService: LocalBodyService,
-    private staffService: StaffService,
+    private batchService: BatchService,
     private formBuilder: FormBuilder
   ) {
-    this.staffForm = this.formBuilder.group({
-      [this.formControlNames.staffCode]: '',
-      [this.formControlNames.name]: '',
-      [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
+    this.batchForm = this.formBuilder.group({
+      [this.formControlNames.batchNo]: '',
+      [this.formControlNames.batchDescEN]: '',
+      [this.formControlNames.batchDescNP]: '',
     });
 
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: '',
-      [this.formControlNames.staffCode]: '',
-      [this.formControlNames.name]: '',
-      [this.formControlNames.nameNP]: '',
-      [this.formControlNames.monthlyPay]: '',
+    this.updateBatchForm = this.formBuilder.group({
+      [this.formControlNames.batchId]: '',
+      [this.formControlNames.batchNo]: '',
+      [this.formControlNames.batchDescEN]: '',
+      [this.formControlNames.batchDescNP]: '',
     });
     this.filterForm = this.formBuilder.group({
       district: 'all',
@@ -70,10 +67,10 @@ export class StaffComponent implements OnInit {
   }
 
   populateList() {
-    this.allSO = [];
-    this.staffService.getAllStaff().subscribe(data => {
+    this.allBatch = [];
+    this.batchService.getAllBatch().subscribe(data => {
       if (data['success'] === true) {
-        this.allSO = data['data'];
+        this.allBatch = data['data'];
       }
     });
   }
@@ -91,7 +88,7 @@ export class StaffComponent implements OnInit {
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
-    this.staffService.createStaff(plusData).subscribe(data => {
+    this.batchService.createBatch(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
@@ -141,7 +138,7 @@ export class StaffComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-        this.staffService.deleteStaff(id).subscribe(data => {
+        this.batchService.deleteBatch(id).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
             this.diffrentialLoding();
@@ -164,19 +161,18 @@ export class StaffComponent implements OnInit {
   }
 
   edit(i) {
-    this.setEdit = this.allSO[i];
+    this.setEdit = this.allBatch[i];
     this.change1(this.setEdit['districtId'], 'update');
-    this.updateStaffForm = this.formBuilder.group({
-      [this.formControlNames.staffId]: this.setEdit['staffId'],
-      [this.formControlNames.staffCode]: this.setEdit['staffCode'],
-      [this.formControlNames.name]: this.setEdit['name'],
-      [this.formControlNames.nameNP]: this.setEdit['nameNP'],
-      [this.formControlNames.monthlyPay]: this.setEdit['monthlyPay'],
+    this.updateBatchForm = this.formBuilder.group({
+      [this.formControlNames.batchId]: this.setEdit['batchId'],
+      [this.formControlNames.batchNo]: this.setEdit['batchNo'],
+      [this.formControlNames.batchDescEN]: this.setEdit['batchDescEN'],
+      [this.formControlNames.batchDescNP]: this.setEdit['batchDescNP'],
     });
   }
 
   doEdit(data) {
-    this.staffService.updateStaff(data).subscribe(data => {
+    this.batchService.updateBatch(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();

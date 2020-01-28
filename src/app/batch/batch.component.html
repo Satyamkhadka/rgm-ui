@@ -55,7 +55,7 @@
             </div>
             <div class="col-6">
                 <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
-                    <i class="fa fa-plus"> </i> Add Staff
+                    <i class="fa fa-plus"> </i> Add Batch
                 </span>
             </div>
         </div>
@@ -64,37 +64,29 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Name NP</th>
+                <th scope="col">Batch No.</th>
+                <th scope="col">Descrition</th>
                 <th scope="col">Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of allSO; let i = index;">
+            <tr *ngFor="let item of allBatch; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{item[formControlNames.staffCode]}}</td>
+                <td>{{item[formControlNames.batchNo]}}</td>
+                <td>{{item[formControlNames.batchDescEN]}}</td>
                 <td>
-                    {{item[formControlNames.name]}}
-                </td>
-                <td>{{item[formControlNames.nameNP]}}</td>
-
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2">
-                    <i class="fa fa-user"> </i>
-
-                </span>
-
                 <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
                     data-target="#update" (click)="edit(i)">
                     <i class="fa fa-pencil"> </i>
 
                 </span>
                 <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.staffId])">
+                    (click)="delete(item[formControlNames.batchId])">
                     <i class="fa fa-trash"> </i>
 
                 </span>
+            </td>
             </tr>
 
         </tbody>
@@ -111,7 +103,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Staff</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create SO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,33 +113,30 @@
 
 
 
-                <form [formGroup]="staffForm">
+                <form [formGroup]="batchForm">
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="code">Staff Code</label>
-                            <input type="text" class="form-control" id="code" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
+                            <label for="batchno">Batch No</label>
+                            <input type="text" class="form-control" id="batchno" placeholder="Batch No"
+                                [formControlName]="formControlNames.batchNo">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-6">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Name"
-                                [formControlName]="formControlNames.name">
+                            <label for="batchDescEN">Batch Description English</label>
+                            <textarea type="textbox" class="form-control" id="batchDescEN" placeholder="Batch Description English"
+                                [formControlName]="formControlNames.batchDescEN"> </textarea>
+
                         </div>
                         <div class="form-group col-6">
-                            <label for="nameNP">NameNP</label>
-                            <input type="text" class="form-control" id="nameNP" placeholder="NameNP"
-                                [formControlName]="formControlNames.nameNP">
+                            <label for="batchDescNP">Batch Description Nepali</label>
+                            <textarea  class="form-control textarea" id="batchDescNP" placeholder="Batch Description Nepali"
+                                [formControlName]="formControlNames.batchDescNP"> </textarea>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="monthlyPay">Monthly Pay</label>
-                            <input type="text" class="form-control" id="monthlyPay" placeholder="Monthly Pay"
-                                [formControlName]="formControlNames.monthlyPay">
-                        </div>
-                    </div>
+
+                    
+
                 </form>
 
 
@@ -157,7 +146,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="create(staffForm.value)">Create</button>
+                    (click)="create(batchForm.value)">Create</button>
             </div>
         </div>
     </div>
@@ -176,34 +165,29 @@
 
 
 
-                <form [formGroup]="updateStaffForm">
+                <form [formGroup]="updateBatchForm">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="ubatchno">Batch No</label>
+                            <input type="text" class="form-control" id="ubatchno" placeholder="Batch No"
+                                [formControlName]="formControlNames.batchNo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="ubatchDescEN">Batch Description English</label>
+                            <textarea type="textbox" class="form-control" id="ubatchDescEN" placeholder="Batch Description English"
+                                [formControlName]="formControlNames.batchDescEN"> </textarea>
 
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="ucode">Staff Code</label>
-                            <input type="text" class="form-control" id="ucode" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label for="uname">Name</label>
-                            <input type="text" class="form-control" id="uname" placeholder="Name"
-                                [formControlName]="formControlNames.name">
                         </div>
                         <div class="form-group col-6">
-                            <label for="unameNP">NameNP</label>
-                            <input type="text" class="form-control" id="unameNP" placeholder="NameNP"
-                                [formControlName]="formControlNames.nameNP">
+                            <label for="ubatchDescNP">Batch Description Nepali</label>
+                            <textarea  class="form-control textarea" id="ubatchDescNP" placeholder="Batch Description Nepali"
+                                [formControlName]="formControlNames.batchDescNP"> </textarea>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="umonthlyPay">Monthly Pay</label>
-                            <input type="text" class="form-control" id="umonthlyPay" placeholder="Monthly Pay"
-                                [formControlName]="formControlNames.monthlyPay">
-                        </div>
-                    </div>
+
+                    
                 </form>
 
 
@@ -211,57 +195,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateStaffForm.value)">Update</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="attributes" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-
-
-                <form [formGroup]="updateStaffForm">
-
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="ucode">Staff Code</label>
-                            <input type="text" class="form-control" id="ucode" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label for="uname">Name</label>
-                            <input type="text" class="form-control" id="uname" placeholder="Name"
-                                [formControlName]="formControlNames.name">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="unameNP">NameNP</label>
-                            <input type="text" class="form-control" id="unameNP" placeholder="NameNP"
-                                [formControlName]="formControlNames.nameNP">
-                        </div>
-                    </div>
-                   
-                   
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateStaffForm.value)">Update</button>
+                    (click)="doEdit(updateBatchForm.value)">Update</button>
             </div>
         </div>
     </div>

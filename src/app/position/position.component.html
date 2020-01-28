@@ -55,7 +55,7 @@
             </div>
             <div class="col-6">
                 <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
-                    <i class="fa fa-plus"> </i> Add Staff
+                    <i class="fa fa-plus"> </i> Add Position
                 </span>
             </div>
         </div>
@@ -74,16 +74,12 @@
         <tbody>
             <tr *ngFor="let item of allSO; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{item[formControlNames.staffCode]}}</td>
+                <td>{{item[formControlNames.positionCode]}}</td>
                 <td>
-                    {{item[formControlNames.name]}}
+                   {{item[formControlNames.name]}}
                 </td>
                 <td>{{item[formControlNames.nameNP]}}</td>
 
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2">
-                    <i class="fa fa-user"> </i>
-
-                </span>
 
                 <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
                     data-target="#update" (click)="edit(i)">
@@ -91,7 +87,7 @@
 
                 </span>
                 <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.staffId])">
+                    (click)="delete(item[formControlNames.positionId])">
                     <i class="fa fa-trash"> </i>
 
                 </span>
@@ -111,7 +107,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Staff</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create Position</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,12 +117,12 @@
 
 
 
-                <form [formGroup]="staffForm">
+                <form [formGroup]="positionForm">
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="code">Staff Code</label>
-                            <input type="text" class="form-control" id="code" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
+                            <label for="code">Position Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="positionCode"
+                                [formControlName]="formControlNames.positionCode">
                         </div>
                     </div>
                     <div class="form-row">
@@ -143,8 +139,8 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="monthlyPay">Monthly Pay</label>
-                            <input type="text" class="form-control" id="monthlyPay" placeholder="Monthly Pay"
+                            <label for="pay">Monthly Pay</label>
+                            <input type="text" class="form-control" id="pay" placeholder="Monthly Pay"
                                 [formControlName]="formControlNames.monthlyPay">
                         </div>
                     </div>
@@ -157,7 +153,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="create(staffForm.value)">Create</button>
+                    (click)="create(positionForm.value)">Create</button>
             </div>
         </div>
     </div>
@@ -167,7 +163,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Local Body</h5>
+                <h5 class="modal-title">Update Position</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -176,13 +172,13 @@
 
 
 
-                <form [formGroup]="updateStaffForm">
-
+                <form [formGroup]="updatePositionForm">
+                   
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="ucode">Staff Code</label>
-                            <input type="text" class="form-control" id="ucode" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
+                            <label for="ucode">Position Code</label>
+                            <input type="text" class="form-control" id="ucode" placeholder="positionCode"
+                                [formControlName]="formControlNames.positionCode">
                         </div>
                     </div>
                     <div class="form-row">
@@ -197,10 +193,11 @@
                                 [formControlName]="formControlNames.nameNP">
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="umonthlyPay">Monthly Pay</label>
-                            <input type="text" class="form-control" id="umonthlyPay" placeholder="Monthly Pay"
+                            <label for="upay">Monthly Pay</label>
+                            <input type="text" class="form-control" id="upay" placeholder="Monthly Pay"
                                 [formControlName]="formControlNames.monthlyPay">
                         </div>
                     </div>
@@ -211,57 +208,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateStaffForm.value)">Update</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="attributes" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-
-
-                <form [formGroup]="updateStaffForm">
-
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="ucode">Staff Code</label>
-                            <input type="text" class="form-control" id="ucode" placeholder="staffCode"
-                                [formControlName]="formControlNames.staffCode">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label for="uname">Name</label>
-                            <input type="text" class="form-control" id="uname" placeholder="Name"
-                                [formControlName]="formControlNames.name">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="unameNP">NameNP</label>
-                            <input type="text" class="form-control" id="unameNP" placeholder="NameNP"
-                                [formControlName]="formControlNames.nameNP">
-                        </div>
-                    </div>
-                   
-                   
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateStaffForm.value)">Update</button>
+                    (click)="doEdit(updatePositionForm.value)">Update</button>
             </div>
         </div>
     </div>

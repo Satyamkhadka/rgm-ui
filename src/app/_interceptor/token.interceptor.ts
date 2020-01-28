@@ -19,8 +19,9 @@ export class MyInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     //how to update the request Parameters
+    const localItem = localStorage.getItem('LoggedInUser')? localStorage.getItem('LoggedInUser'):  '{}';
     const updatedRequest = request.clone({
-      headers: request.headers.set("Authorization", localStorage.getItem('LoggedInUser'))
+      headers: request.headers.set("Authorization",localItem )
     });
     //logging the updated Parameters to browser's console
     // console.log("Before making api call : ", updatedRequest);

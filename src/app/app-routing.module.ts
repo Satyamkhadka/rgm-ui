@@ -9,7 +9,10 @@ import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './auth.guard';
 import { SoComponent } from './so/so.component';
 import { LocalBodyComponent } from './local-body/local-body.component';
+import { PersonComponent } from './person/person.component';
 import { StaffComponent } from './staff/staff.component';
+import { PositionComponent } from './position/position.component';
+import { BatchComponent } from './batch/batch.component';
 
 
 const routes: Routes = [
@@ -21,7 +24,10 @@ const routes: Routes = [
   { path: 'so', component: SoComponent },
   { path: 'scheme', component: SchemeComponent },
   { path: 'local-body', component: LocalBodyComponent },
+  { path: 'person', component: PersonComponent },
   { path: 'staff', component: StaffComponent },
+  { path: 'position', component: PositionComponent },
+  { path: 'batch', component: BatchComponent },
 
 ];
 
