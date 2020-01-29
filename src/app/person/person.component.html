@@ -284,7 +284,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Local Body</h5>
+                <h5 class="modal-title">Update Person</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -294,6 +294,14 @@
 
 
                 <form [formGroup]="updatePersonForm">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="code">Person Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="personCode"
+                                [formControlName]="formControlNames.personCode">
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="ufirstName">First Name</label>
@@ -379,7 +387,7 @@
                                     <span class="sr-only">Loading...</span>
                                 </span></label>
                             <select id="ulocal" class="form-control" [formControlName]="formControlNames.localBodyId">
-                                <option *ngFor="let item of createLBUnderDistrict" [value]="item['localBodyId']">
+                                <option *ngFor="let item of updateLBUnderDistrict" [value]="item['localBodyId']">
                                     {{item['name']}}
                                 </option>
                             </select>

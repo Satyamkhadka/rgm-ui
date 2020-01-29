@@ -13,13 +13,18 @@
         </select>
       </div>
 
-      <!-- <div class="form-group col-2">
-        <label for="projmanager">Select Batch</label>
+      <div class="form-group col-2">
+        <label for="projmanager">Select PM</label>
         <select id="projmanager" class="form-control" formControlName="batchId">
           <option value='none'>Choose...</option>
-          <option *ngFor="let item of allBatch" [value]="item['batchId']">{{item['name']}}</option>
+          <option *ngFor="let item of allProjectManager" [value]="item['personId']">
+            <span *ngIf="item['firstName']">{{item['firstName']}} </span>
+            <span *ngIf="item['middleName']">{{item['middleName']}} </span>
+            <span *ngIf="item['lastName']">{{item['lastName']}} </span>
+        
+          </option>
         </select>
-      </div> -->
+      </div>
       <div class="form-group col-8">
         <!-- select SO organization -->
         <label for="so">Select SO</label>
@@ -66,14 +71,6 @@
         </div>
       </div>
       <div class="form-group col-6">
-        <!-- <div class="mt-4">
-          <span class="mr-3">
-            Number Of Scheme:
-          </span>
-          <span class="btn btn-secondary mr-2" (click)="subtractProduct()">-</span>
-          <span class="mr-2"> {{numberOfScheme }} </span>
-          <span class="btn btn-secondary" (click)="addProduct()"> + </span>
-        </div> -->
         <div class="card border border-info category-card">
           <h5 class="card-title text-center mx-2 mt-2 bg-light">Selected Schemes</h5>
           <div class="card-body mb-2">
@@ -93,14 +90,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">
-          Check me out
-        </label>
-      </div>
-    </div> -->
+   
     <button [routerLink]="['/contract']" routerLinkActive="router-link-active"  class="btn btn-primary btn-lg">Generate Contract</button>
   </form>
 </div>

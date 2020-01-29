@@ -20,4 +20,16 @@ export class StaffService {
   updateStaff(data){
     return this.httpClient.post(environment.url+'staff/update',data);
   }
+  getPersonsUnderStaff(id){
+    return this.httpClient.get(environment.url+'staff/persons/'+id);
+  }
+  addPersonUnderStaff(data){
+    return this.httpClient.post(environment.url+'staff/addPerson',data);
+  }
+  removePersonUnderStaff(staffAllocateId){
+    return this.httpClient.post(environment.url+'staff/removePerson',{staffAllocateId});
+  }
+  getProjectManagers(){
+    return this.httpClient.get(environment.url+'staff/projectmanager');
+  }
 }

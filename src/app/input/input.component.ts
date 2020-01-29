@@ -5,6 +5,7 @@ import { LocalBodyService } from '../local-body/_service/local-body.service';
 import { SoService } from '../so/_service/so.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SchemeService } from '../scheme/_service/scheme.service';
+import { StaffService } from '../staff/_service/staff.service';
 
 @Component({
   selector: 'app-input',
@@ -18,6 +19,7 @@ export class InputComponent implements OnInit {
   localUnderDistrict=[];
   allSchemes = [];
   allBatch = [];
+  allProjectManager = [];
   selectedSchemes = [];
   loading = false;
   contractForm:FormGroup;
@@ -25,13 +27,16 @@ export class InputComponent implements OnInit {
     private localService: LocalBodyService,
     private soService: SoService,
     private batchService: BatchService,
+    private staffService: StaffService,
     private formBuilder: FormBuilder,
     private schemeService: SchemeService
   ) { 
 this.getBatches();
+this.getProjectManagers();
 this.getAllSo();
 this.getDistricts();
 this.getSchemes();
+
 this.contractForm = this.formBuilder.group({
   batchId:'none',
   soId:'none',
@@ -100,6 +105,14 @@ this.contractForm = this.formBuilder.group({
     this.batchService.getAllBatch().subscribe(data => {
       if (data['success'] === true) {
         this.allBatch = data['data'];
+      }
+    });
+  }
+
+  getProjectManagers(){
+    this.staffService.getProjectManagers().subscribe(data => {
+      if (data['success'] === true) {
+        this.allProjectManager = data['data'];
       }
     });
   }

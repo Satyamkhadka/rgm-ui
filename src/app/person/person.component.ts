@@ -260,6 +260,7 @@ export class PersonComponent implements OnInit {
           this.createLBUnderDistrict = data['data'];
         } else if (source === 'update') {
           console.log(data)
+          console.log('updated update ')
           this.updateLBUnderDistrict = data['data'];
         } else if (source === 'filter') { this.filterLBUnderDistrict = data['data']; }
       }

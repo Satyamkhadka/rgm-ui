@@ -1,3 +1,4 @@
+import { PersonService } from './../person/_service/person.service';
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -14,11 +15,16 @@ export class StaffComponent implements OnInit {
   allDistricts = [];
   allLocalBodies = [];
   allSO = [];
+  allPerson = [];
+
+  personUnderStaff = [];
+
   createLBUnderDistrict = [];
   filterLBUnderDistrict = [];
   updateLBUnderDistrict = [];
   activeLocalBodyFilter = "all";
   activeDistrictFilter = 'all';
+  selectedStaff = '';
   setEdit;
   loading = false;
 
@@ -39,7 +45,8 @@ export class StaffComponent implements OnInit {
   constructor(
     private localService: LocalBodyService,
     private staffService: StaffService,
-    private formBuilder: FormBuilder
+    private personService: PersonService,
+    private formBuilder: FormBuilder,
   ) {
     this.staffForm = this.formBuilder.group({
       [this.formControlNames.staffCode]: '',
@@ -60,6 +67,7 @@ export class StaffComponent implements OnInit {
       localBody: 'all'
     });
     this.getDistricts();
+    this.getAllPeople();
     //this.getLocalBodies();
     //this.getSchemes();
     this.populateList();
@@ -74,6 +82,15 @@ export class StaffComponent implements OnInit {
     this.staffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
         this.allSO = data['data'];
+      }
+    });
+  }
+
+  getAllPeople(){
+    this.allPerson = [];
+    this.personService.getAllPerson().subscribe(data => {
+      if (data['success'] === true) {
+        this.allPerson = data['data'];
       }
     });
   }
@@ -205,4 +222,53 @@ export class StaffComponent implements OnInit {
     this.setLocalBodyByDistrict(event, source);
   }
 
+  getPersonsUnderStaff(staffId){
+    this.staffService.getPersonsUnderStaff(staffId).subscribe(data => {
+      if (data['success'] === true) {
+        this.selectedStaff = staffId;
+        this.personUnderStaff = data['data'];
+      }
+    });
+  }
+  addPersonUnderStaff(personId){
+    let plusData = {staffId:this.selectedStaff, personId:personId};
+    console.log(plusData)
+    plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
+    plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    plusData[this.formControlNames.active] = true;
+    this.staffService.addPersonUnderStaff(plusData).subscribe(data => {
+      if (data['success'] === true) {
+        swal.fire('Success', data['message'], 'success');
+        this.getPersonsUnderStaff(this.selectedStaff);
+      } else if (data['success'] === false) {
+        swal.fire('Oops', data['message'], 'error');
+      }
+    });
+  }
+  removePersonUnderStaff(staffAllocateId){
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+  
+          this.staffService.removePersonUnderStaff(staffAllocateId).subscribe(data => {
+            if (data['success'] === true) {
+              swal.fire('Deleted', data['message'], 'info');
+              this.getPersonsUnderStaff(this.selectedStaff);
+            } else if (data['success'] === false) {
+              swal.fire('oops', data['message'], 'error');
+            }
+          });
+  
+  
+        }
+      })
+    
+  }
 }
