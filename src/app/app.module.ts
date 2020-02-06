@@ -1,3 +1,4 @@
+import { PmComponent } from './pm/pm.component';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,6 +21,8 @@ import { PersonComponent } from './person/person.component';
 import { StaffComponent } from './staff/staff.component';
 import { PositionComponent } from './position/position.component';
 import { BatchComponent } from './batch/batch.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { AllcontractComponent } from './allcontract/allcontract.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { BatchComponent } from './batch/batch.component';
     PersonComponent,
     StaffComponent,
     PositionComponent,
-    BatchComponent
+    BatchComponent,
+    PmComponent,
+    SidebarComponent,
+    AllcontractComponent
   ],
   imports: [
     BrowserModule,

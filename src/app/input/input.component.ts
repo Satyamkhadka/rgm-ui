@@ -1,3 +1,4 @@
+import { ContractService } from './_service/contract.service';
 import { BatchService } from './../batch/_service/batch.service';
 import  swal  from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +7,7 @@ import { SoService } from '../so/_service/so.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SchemeService } from '../scheme/_service/scheme.service';
 import { StaffService } from '../staff/_service/staff.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-input',
@@ -14,32 +16,37 @@ import { StaffService } from '../staff/_service/staff.service';
 })
 export class InputComponent implements OnInit {
 
-  allSo=[];
+  soUnderPM=[];
   allDistrict = [];
   localUnderDistrict=[];
   allSchemes = [];
   allBatch = [];
   allProjectManager = [];
   selectedSchemes = [];
+  selectedSo = [];
+
+  soFilterArray = ['none','none']; // first is batch and second is PM (personId)
   loading = false;
+  showNotification = false;
   contractForm:FormGroup;
   constructor(
     private localService: LocalBodyService,
     private soService: SoService,
     private batchService: BatchService,
     private staffService: StaffService,
+    private contractService: ContractService,
     private formBuilder: FormBuilder,
     private schemeService: SchemeService
   ) { 
 this.getBatches();
 this.getProjectManagers();
-this.getAllSo();
 this.getDistricts();
 this.getSchemes();
 
 this.contractForm = this.formBuilder.group({
   batchId:'none',
   soId:'none',
+  personId:'none',
   districtId:'none',
   localBodyId:'none',
   schemeId:'none',
@@ -65,10 +72,18 @@ this.contractForm = this.formBuilder.group({
       this.selectedSchemes.splice(i,1);
     }
   }
-  getAllSo() {
-    this.soService.getAllSo().subscribe(data => {
+  getSoUnderPM(personId) {
+    this.loading = true;
+    this.staffService.getSOUnderPM(personId).subscribe(data => {
+     this.loading = false;
       if (data['success'] === true) {
-        this.allSo = data['data'];
+        this.soUnderPM = [];
+        this.soUnderPM = data['data'];
+        this.soUnderPM=this.soUnderPM.filter(el=>{
+          if(el['batchId']==this.soFilterArray[0]){
+            return true;
+          }
+        })
       }
     });
   }
@@ -116,8 +131,49 @@ this.contractForm = this.formBuilder.group({
       }
     });
   }
+
+
 selectDistrict(i){
   if(i==='none'){ this.localUnderDistrict=[]; return;}
 this.getLocalBodyByDistrict(i);
+}
+
+changeSoFilter(index, id){
+  this.soFilterArray[index] = id;
+  if(this.soFilterArray[0]!=='none' && this.soFilterArray[1]!=='none'){
+    this.showNotification = false;
+    this.getSoUnderPM(this.soFilterArray[1]);
+  } else {
+    this.showNotification = true;
+  }
+}
+
+generateContract(data){
+  let plusData = data;
+  delete plusData['schemeId'];
+  plusData['createdBy'] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
+  plusData['createdOn'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  plusData['schemes'] = JSON.stringify(this.selectedSchemes);
+  plusData['active'] = true;
+  console.log(plusData)
+
+  this.contractService.createContract(plusData).subscribe(data => {
+    if (data['success'] === true) {
+      swal.fire('Success', data['message'], 'success');
+      //do something here ... 
+    } else if (data['success'] === false) {
+      swal.fire('Oops', data['message'], 'error');
+    }
+  });
+}
+
+
+getDecodedAccessToken(token: string): any {
+  try {
+    return jwt_decode(token);
+  }
+  catch (Error) {
+    return null;
+  }
 }
 }

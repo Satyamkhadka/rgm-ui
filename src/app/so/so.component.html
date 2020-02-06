@@ -6,7 +6,8 @@
                 <div class="form-row">
                     <div class="form-group col-9">
 
-                        <select id="topinputState" class="form-control" formControlName="district" (change)="change1($event.target.value,'filter')">
+                        <select id="topinputState" class="form-control" formControlName="district"
+                            (change)="change1($event.target.value,'filter')">
                             <option selected value="all">All</option>
                             <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
                             </option>
@@ -30,7 +31,8 @@
                     <div class="form-group col-10">
                         <select id="inputState" class="form-control" formControlName="localBody">
                             <option selected value="all">All</option>
-                            <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">{{item['name']}}
+                            <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">
+                                {{item['name']}}
                             </option>
                         </select>
                     </div>
@@ -81,17 +83,24 @@
                 <td>{{item[formControlNames.address]}}</td>
                 <td>{{item[formControlNames.phone1]+', '+item[formControlNames.phone1]}}</td>
                 <td>{{item[formControlNames.contactPerson]+', '+item[formControlNames.cPhone]}}</td>
-                
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#update" (click)="edit(i)">
-                    <i class="fa fa-pencil"> </i>
 
-                </span>
-                <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.soId])">
-                    <i class="fa fa-trash"> </i>
+                <td>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#addStaff" (click)="selectSo(item.soId)">
+                        <i class="fa fa-user"> </i>
 
-                </span>
+                    </span>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#update" (click)="edit(i)">
+                        <i class="fa fa-pencil"> </i>
+
+                    </span>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                        (click)="delete(item[formControlNames.soId])">
+                        <i class="fa fa-trash"> </i>
+
+                    </span>
+                </td>
             </tr>
 
         </tbody>
@@ -128,7 +137,7 @@
                         <div class="form-group col-md-5">
                             <label for="nameNP">SO Name (in Nepali)</label>
                             <input type="text" class="form-control" id="nameNP" placeholder="SO NAME NP"
-                            [formControlName]="formControlNames.nameNP">
+                                [formControlName]="formControlNames.nameNP">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="code">SO Code</label>
@@ -223,13 +232,14 @@
                         <div class="form-group col-6">
                             <label for="uinputState">District</label>
                             <select id="uinputState" class="form-control"
-                                [formControlName]="formControlNames.districtId" required (change)="change1($event.target.value,'create')">
+                                [formControlName]="formControlNames.districtId" required
+                                (change)="change1($event.target.value,'create')">
                                 <option value='' selected>Select District</option>
                                 <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
                                 </option>
                             </select>
                         </div>
-                       <!-- <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label for="local">Local Body <span class="spinner-border p-1" role="status" *ngIf="loading">
                                 <span class="sr-only">Loading...</span>
                             </span></label>
@@ -253,7 +263,7 @@
         </div>
     </div>
 </div>
-
+<!-- update modal -->
 <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="updatelocalbody" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -265,7 +275,7 @@
             </div>
             <div class="modal-body">
 
-                
+
 
                 <form [formGroup]="updateSoForm">
                     <div class="form-row">
@@ -277,7 +287,7 @@
                         <div class="form-group col-md-5">
                             <label for="unameNP">SO Name (in Nepali)</label>
                             <input type="text" class="form-control" id="unameNP" placeholder="SO NAME NP"
-                            [formControlName]="formControlNames.nameNP">
+                                [formControlName]="formControlNames.nameNP">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="ucode">SO Code</label>
@@ -372,14 +382,15 @@
                         <div class="form-group col-6">
                             <label for="uuinputState">District</label>
                             <select id="uuinputState" class="form-control"
-                                [formControlName]="formControlNames.districtId" required (change)="change1($event.target.value,'update')">
+                                [formControlName]="formControlNames.districtId" required
+                                (change)="change1($event.target.value,'update')">
                                 <option value='' selected>Select District</option>
                                 <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
                                 </option>
                             </select>
                         </div>
 
-                       <!-- <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label for="ulocal">Local Body <span class="spinner-border p-1" role="status" *ngIf="loading">
                                 <span class="sr-only">Loading...</span>
                             </span></label>
@@ -397,6 +408,75 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-dismiss="modal"
                     (click)="doEdit(updateSoForm.value)">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add staff and person  -->
+<div class="modal fade" id="addStaff" tabindex="-1" role="dialog" aria-labelledby="addStaff" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Staffs to SO</h5>
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" [formGroup]="assignForm">
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <select id="staff" class="form-control" formControlName="staffId"
+                                (change)="getPersonUnderStaff(assignForm.value.staffId)">
+                                <option selected value="none">Select Staff</option>
+                                <option *ngFor="let item of allStaff" [value]="item['staffId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <select id="person" class="form-control" formControlName="personId">
+                                <option selected value="none">Select Position First</option>
+                                <option *ngFor="let item of personUnderStaff" [value]="item['personId']">
+                                    {{item['personCode']+ ' || ' +item['firstName']+item['middleName']+ item['lastName']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                          <span class="btn btn-success w-100" (click)="assignStaffUnderSo(assignForm.value)"><i class="fa fa-plus"></i> Add</span>
+                        </div>
+
+                    </div>
+                </form>
+
+
+                <div class="accordion" id="accordionExample">
+                    <div class="card" *ngFor = "let item of staffUnderSo; let i = index;">
+                      <div class="card-header"
+                      (click)="getPersonAssignedUnderStaff(item.staffId,i)" id="headingOne" data-toggle="collapse" [attr.data-target]="'#acc'+i" aria-expanded="false" aria-controls="collapseOne">
+                        <h5 class="mb-0">
+                          
+                            {{item.name}} 
+                            <span class="badge badge-secondary">{{item.number}}</span>
+                        </h5>
+                      </div>
+                  
+                      <div [id]="'acc'+i" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <span class="btn btn-success w-100" *ngFor="let element of personUnderAssignedStaff">
+                            {{ element['personCode']+' || '+ element['firstName']+ element['middleName']+element['lastName']   }} 
+<span class="btn btn-danger rounded-circle float-right" (click)="removePersonAssignedUnderStaff(element.staffAllocateId)"> <i class="fa fa-trash"></i></span>
+                          
+                        </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

@@ -1,61 +1,17 @@
-<!-- <div class="container-flex mt-5 mb-5">
-    <div class="row">
-        <div class="col-6">
-            <span class="h4">Show SO by district</span>
-            <form class="form" [formGroup]="filterForm">
-                <div class="form-row">
-                    <div class="form-group col-9">
 
-                        <select id="topinputState" class="form-control" formControlName="district"
-                            (change)="change1($event.target.value,'filter')">
-                            <option selected value="all">All</option>
-                            <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-3">
-                        <span class="btn btn-success" (click)="getSoBy('district',filterForm.value.district)">
-                            Show
-                            <span class="spinner-border p-1" role="status" *ngIf="loading">
-                                <span class="sr-only">Loading...</span>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-6">
-            <span class="h4">Show SO by local-body</span>
-            <form class="form" [formGroup]="filterForm">
-                <div class="form-row">
-                    <div class="form-group col-10">
-                        <select id="inputState" class="form-control" formControlName="localBody">
-                            <option selected value="all">All</option>
-                            <option *ngFor="let item of filterLBUnderDistrict" [value]="item['localBodyId']">
-                                {{item['name']}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-2">
-                        <span class="btn btn-success" (click)="getSoBy('localBody',filterForm.value.localBody)">
-                            Show
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
 <!-- table part -->
 <div class="container-flex mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
-
+                
             </div>
             <div class="col-6">
-                <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
-                    <i class="fa fa-plus"> </i> Add Staff
+                <span class="ml-2 btn btn-success float-right" (click)="edit()" data-toggle="modal" data-target="#update">
+                    <i class="fa fa-gear"> </i> PM settings
+                </span>
+                <span class="btn btn-success float-right" data-toggle="modal" data-target="#addPeople">
+                    <i class="fa fa-plus"> </i> Add Pm
                 </span>
             </div>
         </div>
@@ -65,44 +21,45 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Name NP</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Details</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
                 <th scope="col">Actions</th>
-
+    
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of allStaff; let i = index;">
+            <tr *ngFor="let item of allPm; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{item[formControlNames.staffCode]}}</td>
-                <td>
-                    {{item[formControlNames.name]}}
-                </td>
-                <td>{{item[formControlNames.nameNP]}}</td>
-<td>
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#addPeople" (click)="getPersonsUnderStaff(item[formControlNames.staffId])">
-                    <i class="fa fa-user"> </i>
-
-                </span>
-
-                <!-- <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#addSO" (click)="getSOUnderPM(item[formControlNames.staffId])">
-                    <i class="fa fa-envelope"> </i> 
-
-                </span>
--->
-                <span *ngIf="!item[formControlNames.projectManager]" class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#update" (click)="edit(i)">
-                    <i class="fa fa-pencil"> </i>
-
-                </span>
-                <span *ngIf="!item[formControlNames.projectManager]" class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.staffId])">
-                    <i class="fa fa-trash"> </i>
-
-                </span>
+            <td>{{item[personControlNames.personCode]}}</td>
+            <td>
+                <span *ngIf="item[personControlNames.firstName]">{{item[personControlNames.firstName]}} </span>
+                <span *ngIf="item[personControlNames.middleName]">{{item[personControlNames.middleName]}} </span>
+                <span *ngIf="item[personControlNames.lastName]">{{item[personControlNames.lastName]}} </span>
             </td>
+            <td>{{item[personControlNames.phone1]+', '+item[personControlNames.phone1]}}</td>
+            <td>{{item[personControlNames.gender]+', '+item[personControlNames.mStatus]}}</td>
+            <td>{{item[personControlNames.address]}}</td>
+            <td>{{item[personControlNames.email]}}</td>
+
+            <!-- <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+            data-target="#addPeople" (click)="getPersonsUnderStaff(item[formControlNames.personId])">
+            <i class="fa fa-user"> </i>
+
+        </span> -->
+
+            <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                data-target="#addSO" (click)="getSOUnderPM(item['personId'])">
+                <i class="fa fa-envelope"> </i>
+
+            </span>
+            <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                (click)="removePersonUnderPm(item['staffAllocateId'])">
+                <i class="fa fa-trash"> </i>
+
+            </span>
             </tr>
 
         </tbody>
@@ -116,7 +73,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Staff</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create Pm</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -126,15 +83,22 @@
 
 
 
-                <form [formGroup]="staffForm">
+                <form [formGroup]="pmForm">
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="code">Staff Code</label>
+                            <label for="code">Pm Code</label>
                             <input type="text" class="form-control" id="code" placeholder="staffCode"
                                 [formControlName]="formControlNames.staffCode">
                         </div>
                     </div>
-                    
+                    <div class="form-row">
+                        <div class="form-check">
+                            <label for="projectManager" class="form-check-label">Project Manager?</label>
+                            <input type="checkbox" class="form-check-input ml-2" id="projectManager"
+                                placeholder="Project Manager" [formControlName]="formControlNames.projectManager">
+                        </div>
+
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="name">Name</label>
@@ -163,7 +127,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="create(staffForm.value)">Create</button>
+                    (click)="create(pmForm.value)">Create</button>
             </div>
         </div>
     </div>
@@ -183,17 +147,18 @@
 
 
 
-                <form [formGroup]="updateStaffForm">
+                <form [formGroup]="updatePmForm">
 
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="ucode">Staff Code</label>
+                            <label for="ucode">Pm Code</label>
                             <input type="text" class="form-control" id="ucode" placeholder="staffCode"
                                 [formControlName]="formControlNames.staffCode">
                         </div>
 
                     </div>
 
+                   
 
                     <div class="form-row">
                         <div class="form-group col-6">
@@ -221,7 +186,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                    (click)="doEdit(updateStaffForm.value)">Update</button>
+                    (click)="doEdit(updatePmForm.value)">Update</button>
             </div>
         </div>
     </div>
@@ -229,7 +194,7 @@
 
 
 <!-- add people modal -->
- <div class="modal fade" id="addPeople" tabindex="-1" role="dialog" aria-labelledby="addPeople" aria-hidden="true">
+<div class="modal fade" id="addPeople" tabindex="-1" role="dialog" aria-labelledby="addPeople" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -242,9 +207,9 @@
 
 
 
-                <form [formGroup]="updateStaffForm">
+                <form [formGroup]="updatePmForm">
                     <div class="row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-12">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -272,7 +237,7 @@
 
                                         <td>
                                             <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
-                                                (click)="addPersonUnderStaff(item['personId'])">
+                                                (click)="addPersonUnderPm(item['personId'])">
                                                 <i class="fa fa-plus"> </i>
 
                                             </span>
@@ -282,34 +247,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="form-group col-6">
-                            <div class="card category-card">
-                                <h5 class="card-title text-center mx-2 mt-3 bg-light">Assigned Persons</h5>
-                                <div class="card-body mb-2 bg-light">
-                                    <div class="custom-height">
-                                        <div class="float-left mx-1">
-                                            <div class="card-title text-center">
-                                                <h6 *ngFor="let item of personUnderStaff;let i = index;"
-                                                    class="btn btn-success mr-2">
-                                                    <span>{{item['personCode'] + ' || '}}
-                                                    </span>
-                                                    <span *ngIf="item['firstName']">{{item['firstName']}}
-                                                    </span>
-                                                    <span *ngIf="item['middleName']">{{item['middleName']}}
-                                                    </span>
-                                                    <span *ngIf="item['lastName']">{{item['lastName']}}
-                                                    </span>
-                                                    <span class="btn btn-danger rounded-circle"
-                                                        (click)="removePersonUnderStaff(item['staffAllocateId'])">
-                                                        <i class="fa fa-trash"></i>
-                                                    </span>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
                     </div>
 
                 </form>
@@ -320,10 +258,10 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 <!-- add SO and Batch modal -->
-<!-- <div class="modal fade" id="addSO" tabindex="-1" role="dialog" aria-labelledby="addProject" aria-hidden="true">
+<div class="modal fade" id="addSO" tabindex="-1" role="dialog" aria-labelledby="addProject" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -333,12 +271,23 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                <form class="form" [formGroup]="filterForm">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            Select Batch:
+                            <select id="topinputState" class="form-control" formControlName="batchId" (change)="selectBatch(filterForm.value.batchId)">
+                                <option selected value="all">All</option>
+                                <option *ngFor="let item of allBatch" [value]="item['batchId']">{{item['batchNo']}}</option>
+                            </select>
+                        </div>
+                       
+                    </div>
+                </form>
 
 
                 <form>
                     <div class="row">
-                        <div class="form-group col-6">
+                        <div class="col-6">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -362,7 +311,7 @@
 
                                         <td>
                                             <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
-                                                (click)="addSOunderPM(item['soCode'])">
+                                                (click)="addSOUnderPM(item['soId'])">
                                                 <i class="fa fa-plus"> </i>
 
                                             </span>
@@ -372,20 +321,20 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="form-group col-6">
-                            <div class="card category-card">
-                                <h5 class="card-title text-center mx-2 mt-3 bg-light">Assigned Persons</h5>
+                        <div class="col-6">
+                            <div class="card w-100">
+                                <h5 class="card-title text-center mt-3 bg-light">Assigned SO</h5>
                                 <div class="card-body mb-2 bg-light">
-                                    <div class="custom-height">
-                                        <div class="float-left mx-1">
+                                    <div>
+                                        <div >
                                             <div class="card-title text-center">
-                                                <h6 *ngFor="let item of SOUnderPM;let i = index;"
-                                                    class="btn btn-success mr-2">
+                                                <h6 *ngFor="let item of selectedSoUnderBatch;let i = index;"
+                                                    class="btn btn-success w-100">
                                                     <span>{{item['soCode'] + ' || '}}
                                                     </span>
                                                     <span>{{item['name']}}
                                                     </span>
-                                                    <span class="btn btn-danger rounded-circle"
+                                                    <span class="btn btn-danger float-right"
                                                         (click)="removeSOUnderPM(item['pmAllocateId'])">
                                                         <i class="fa fa-trash"></i>
                                                     </span>
@@ -406,4 +355,4 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>

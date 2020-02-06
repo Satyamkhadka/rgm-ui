@@ -1,3 +1,4 @@
+import { PmComponent } from './pm/pm.component';
 import { SchemeComponent } from './scheme/scheme.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -13,12 +14,13 @@ import { PersonComponent } from './person/person.component';
 import { StaffComponent } from './staff/staff.component';
 import { PositionComponent } from './position/position.component';
 import { BatchComponent } from './batch/batch.component';
+import { AllcontractComponent } from './allcontract/allcontract.component';
 
 
 const routes: Routes = [
   { path: '', component: InputComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'contract', component: ContractComponent},
+  { path: 'contract/:contractId', component: ContractComponent},
   { path: 'superadmin', component: SuperadminComponent },
   { path: 'admin', component: AdminComponent},
   { path: 'so', component: SoComponent },
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'staff', component: StaffComponent },
   { path: 'position', component: PositionComponent },
   { path: 'batch', component: BatchComponent },
+  { path: 'pm', component: PmComponent },
+  { path: 'contract', component: AllcontractComponent },
 
 ];
 

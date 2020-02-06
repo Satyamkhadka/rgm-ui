@@ -1,3 +1,4 @@
+import { StaffService } from './../staff/_service/staff.service';
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -13,17 +14,23 @@ export class SoComponent implements OnInit {
   allDistricts = [];
   allLocalBodies = [];
   allSO = [];
+  allStaff = [];
   createLBUnderDistrict = [];
   filterLBUnderDistrict = [];
   updateLBUnderDistrict = [];
+  personUnderStaff = [];
+  personUnderAssignedStaff = [];
+  staffUnderSo = [];
   activeLocalBodyFilter = "all";
   activeDistrictFilter = 'all';
   setEdit;
   loading = false;
+  selectedSo;
 
   soForm: FormGroup;
   updateSoForm: FormGroup;
   filterForm: FormGroup;
+  assignForm:FormGroup;
 
   formControlNames = {
     soId: 'soId',
@@ -53,7 +60,8 @@ export class SoComponent implements OnInit {
   constructor(
     private localService: LocalBodyService,
     private soService: SoService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private staffService: StaffService
   ) {
     this.soForm = this.formBuilder.group({
       [this.formControlNames.soCode]: '',
@@ -110,10 +118,14 @@ export class SoComponent implements OnInit {
       district: 'all',
       localBody: 'all'
     });
+    this.assignForm = this.formBuilder.group({
+      staffId: 'none',
+      personId: 'none'
+    });
+    
     this.getDistricts();
-    //this.getLocalBodies();
-    //this.getSchemes();
     this.populateList();
+    this.getAllStaff();
 
   }
 
@@ -294,8 +306,87 @@ export class SoComponent implements OnInit {
         }
       });
     }
-
-    
   }
 
+  getAllStaff(){
+    this.allStaff = [];
+    this.staffService.getAllStaff().subscribe(data => {
+      if (data['success'] === true) {
+        this.allStaff = data['data'];
+        this.allStaff = this.allStaff.filter(e=>{
+          if(e['projectManager']){
+            return false;
+          } else return true;
+        })
+      }
+    });
+  }
+  selectSo(soId){
+    console.log('seelct')
+  this.selectedSo = soId;
+  this.staffUnderSo = [];
+  this.soService.getStaffUnderSo(this.selectedSo).subscribe(data => {
+    if (data['success'] === true) {
+      this.staffUnderSo = data['data'];
+    }
+  });
+  }
+  getPersonUnderStaff(staffId) { //for dropdown
+    this.staffService.getPersonsUnderStaff(staffId).subscribe(data => {
+      if (data['success'] === true) {
+        this.personUnderStaff = data['data'];
+      }
+    });
+  }
+
+  assignStaffUnderSo(data){
+
+    let plusData = data;
+    plusData['soId'] = this.selectedSo;
+    plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
+    plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    plusData[this.formControlNames.active] = true;
+    this.soService.assignStaffUnderSo(plusData).subscribe(data => {
+      if (data['success'] === true) {
+        swal.fire('Success', data['message'], 'success');
+        this.selectSo(this.selectedSo);
+      } else if (data['success'] === false) {
+        swal.fire('Oops', data['message'], 'error');
+      }
+    });
+  }
+
+  getPersonAssignedUnderStaff(staffId) { //assigned under staff and so
+    const filter = {staffId,'soId':this.selectedSo}
+    this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
+      if (data['success'] === true) {
+        if(data['data'].length>0){
+        this.personUnderAssignedStaff = data['data'];
+        console.log(this.personUnderAssignedStaff)
+        }
+      }
+    });
+  }
+  removePersonAssignedUnderStaff(staffAllocateId){
+    swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.soService.removePersonUnderSoandStaff(staffAllocateId).subscribe(data => {
+          if (data['success'] === true) {
+            swal.fire('Deleted', data['message'], 'info');
+            this.selectSo(this.selectedSo);
+          } else if (data['success'] === false) {
+            swal.fire('oops', data['message'], 'error');
+          }
+        });
+      }
+    })
+  }
 }

@@ -1,0 +1,47 @@
+
+<!-- table part -->
+<div class="container-flex mt-5">
+    <div class="container-flex">
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                <span [routerLink]="['/']" routerLinkActive="router-link-active" 
+                 class="btn btn-success float-right" data-toggle="modal"
+                  data-target="#create">
+                    <i class="fa fa-plus"> </i> Generate Contract
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">SO</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of allContract; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.createdOn}}</td>
+                <td>
+                <span class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
+                    <i class="fa fa-eye"> </i>
+                </span>
+                <span class="btn btn-danger rounded-circle rounded-circle-sm">
+                    <i class="fa fa-trash"> </i>
+
+                </span>
+            </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>

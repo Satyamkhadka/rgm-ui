@@ -27,4 +27,19 @@ export class SoService {
   updateSo(data){
     return this.httpClient.post(environment.url+'so/update',data);
   }
+  assignStaffUnderSo(data){
+    return this.httpClient.post(environment.url+'so/addStaff',data);
+  }
+  getStaffUnderSo(soId){
+    return this.httpClient.get(environment.url+'so/staffs/'+soId);
+  }
+
+  getPersonUnderSoandStaff(filter){
+    return this.httpClient.post(environment.url+'so/staffs/add/person',filter);
+
+  }
+  removePersonUnderSoandStaff(staffAllocateId){
+    return this.httpClient.post(environment.url+'so/staffs/remove/person',{staffAllocateId});
+
+  }
 }

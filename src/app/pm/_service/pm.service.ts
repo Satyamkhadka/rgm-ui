@@ -4,33 +4,36 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class StaffService {
+export class PmService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createStaff(data){
+  createPm(data){
     return this.httpClient.post(environment.url+'staff',data);
   }
-  getAllStaff(){
+  getAllPm(){
     return this.httpClient.get(environment.url+'staffs');
   }
-  deleteStaff(id){
+  deletePm(id){
     return this.httpClient.post(environment.url+'staff/delete',{staffId:id});
   }
-  updateStaff(data){
+  updatePm(data){
     return this.httpClient.post(environment.url+'staff/update',data);
   }
-  getPersonsUnderStaff(id){
+  getPersonsUnderPm(id){
     return this.httpClient.get(environment.url+'staff/persons/'+id);
   }
-  addPersonUnderStaff(data){
+  addPersonUnderPm(data){
     return this.httpClient.post(environment.url+'staff/addPerson',data);
   }
-  removePersonUnderStaff(staffAllocateId){
+  removePersonUnderPm(staffAllocateId){
     return this.httpClient.post(environment.url+'staff/removePerson',{staffAllocateId});
   }
   getProjectManagers(){
     return this.httpClient.get(environment.url+'staff/projectmanager');
+  }
+  getProjectManagerSettings(){
+    return this.httpClient.get(environment.url+'staff/projectmanager/settings');
   }
   getSOUnderPM(id){
     return this.httpClient.get(environment.url+'staff/so/'+id);
