@@ -23,6 +23,8 @@ import { PositionComponent } from './position/position.component';
 import { BatchComponent } from './batch/batch.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
+import { MiscComponent } from './misc/misc.component';
+import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { AllcontractComponent } from './allcontract/allcontract.component';
     BatchComponent,
     PmComponent,
     SidebarComponent,
-    AllcontractComponent
+    AllcontractComponent,
+    MiscComponent,
+    CostBreakdownComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,8 @@ import { AllcontractComponent } from './allcontract/allcontract.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+  
   ],
   providers: [
     AuthGuard,

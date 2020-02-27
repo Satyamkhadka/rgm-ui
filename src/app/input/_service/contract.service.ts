@@ -20,5 +20,7 @@ export class ContractService {
   updateContract(data){
     return this.httpClient.post(environment.url+'contract/update',data);
   }
-  
+  getContractById(contractId){
+    return this.httpClient.get(environment.url+'contract/'+contractId);
+  }
 }

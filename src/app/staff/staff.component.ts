@@ -16,7 +16,7 @@ export class StaffComponent implements OnInit {
   allDistricts = [];
   allLocalBodies = [];
   allStaff = [];
-  allSo =[];
+  allSo = [];
   allPerson = [];
 
   personUnderStaff = [];
@@ -41,6 +41,7 @@ export class StaffComponent implements OnInit {
     name: 'name',
     nameNP: 'nameNP',
     monthlyPay: 'monthlyPay',
+    workingDays: 'workingDays',
     projectManager: 'projectManager',
     active: 'active',
     createdBy: 'createdBy',
@@ -58,6 +59,7 @@ export class StaffComponent implements OnInit {
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.monthlyPay]: '',
+      [this.formControlNames.workingDays]: '',
       [this.formControlNames.projectManager]: '',
     });
 
@@ -67,6 +69,8 @@ export class StaffComponent implements OnInit {
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.monthlyPay]: '',
+      [this.formControlNames.workingDays]: '',
+
 
     });
     this.filterForm = this.formBuilder.group({
@@ -87,6 +91,7 @@ export class StaffComponent implements OnInit {
     this.allStaff = [];
     this.staffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
+        console.log(data)
         this.allStaff = data['data'];
       }
     });
@@ -108,7 +113,7 @@ export class StaffComponent implements OnInit {
       }
     });
   }
-  getAllSo(){
+  getAllSo() {
     this.soService.getAllSo().subscribe(data => {
       if (data['success'] === true) {
         this.allSo = data['data'];
@@ -202,6 +207,7 @@ export class StaffComponent implements OnInit {
       [this.formControlNames.name]: this.setEdit['name'],
       [this.formControlNames.nameNP]: this.setEdit['nameNP'],
       [this.formControlNames.monthlyPay]: this.setEdit['monthlyPay'],
+      [this.formControlNames.workingDays]: this.setEdit['workingDays'],
     });
   }
 
@@ -284,7 +290,7 @@ export class StaffComponent implements OnInit {
     })
 
   }
-//pm part
+  //pm part
   // getSOUnderPM(staffId) {
   //   this.staffService.getSOUnderPM(staffId).subscribe(data => {
   //     if (data['success'] === true) {

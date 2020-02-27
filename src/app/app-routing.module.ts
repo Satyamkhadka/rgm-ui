@@ -1,3 +1,4 @@
+import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { PmComponent } from './pm/pm.component';
 import { SchemeComponent } from './scheme/scheme.component';
 import { NgModule } from '@angular/core';
@@ -15,14 +16,15 @@ import { StaffComponent } from './staff/staff.component';
 import { PositionComponent } from './position/position.component';
 import { BatchComponent } from './batch/batch.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
+import { MiscComponent } from './misc/misc.component';
 
 
 const routes: Routes = [
   { path: '', component: InputComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'contract/:contractId', component: ContractComponent},
+  { path: 'contract/:contractId', component: ContractComponent },
   { path: 'superadmin', component: SuperadminComponent },
-  { path: 'admin', component: AdminComponent},
+  { path: 'admin', component: AdminComponent },
   { path: 'so', component: SoComponent },
   { path: 'scheme', component: SchemeComponent },
   { path: 'local-body', component: LocalBodyComponent },
@@ -32,6 +34,9 @@ const routes: Routes = [
   { path: 'batch', component: BatchComponent },
   { path: 'pm', component: PmComponent },
   { path: 'contract', component: AllcontractComponent },
+  { path: 'misc', component: MiscComponent },
+  { path: 'contract/cost/:contractId', component: CostBreakdownComponent },
+
 
 ];
 

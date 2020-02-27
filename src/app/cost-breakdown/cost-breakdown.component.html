@@ -1,0 +1,201 @@
+<div class="container mt-4">
+
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Item</th>
+                <th scope="col">Input of Staff in days</th>
+                <th scope="col"> Salary per month</th>
+                <th scope="col"> Amount(NRS)</th>
+                <th scope="col"> Number Of Scheme <span class="bg-warning">({{numberOfSchemes+''}})</span></th>
+                <th scope="col"> Remarks</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- human resources -->
+
+            <tr>
+                <td> 1.</td>
+                <td colspan="6"> Human Resources</td>
+            </tr>
+            <tr>
+                <td>1.1</td>
+                <td> Team Leader</td>
+                <td>{{ calculatedData['Team Leader']['fairWorkingDays']}}</td>
+                <td>{{ calculatedData['Team Leader']['monthlyPay']}}</td>
+                <td>{{ calculatedData['Team Leader']['fairMonthlyPay']}}</td>
+                <td>{{ calculatedData['Team Leader']['payable']}}</td>
+                <td> - </td>
+            </tr>
+
+            <tr>
+                <td>1.2</td>
+                <td> Technical Officer</td>
+                <td>{{ calculatedData['Technical Officer']['fairWorkingDays']}}</td>
+                <td>{{ calculatedData['Technical Officer']['monthlyPay']}}</td>
+                <td>{{ calculatedData['Technical Officer']['fairMonthlyPay']}}</td>
+                <td>{{ calculatedData['Technical Officer']['payable']}}</td>
+                <td> - </td>
+            </tr>
+
+            <tr>
+                <td>1.3</td>
+                <td> Accountant</td>
+                <td>{{ calculatedData['Accountant']['fairWorkingDays']}}</td>
+                <td>{{ calculatedData['Accountant']['monthlyPay']}}</td>
+                <td>{{ calculatedData['Accountant']['fairMonthlyPay']}}</td>
+                <td>{{ calculatedData['Accountant']['payable']}}</td>
+                <td> - </td>
+            </tr>
+
+            <tr>
+                <td>1.4</td>
+                <td> WASH Technician</td>
+                <td>{{ calculatedData['Wash Technician']['fairWorkingDays']}}</td>
+                <td>{{ calculatedData['Wash Technician']['monthlyPay']}}</td>
+                <td>{{ calculatedData['Wash Technician']['fairMonthlyPay']}}</td>
+                <td>{{ calculatedData['Wash Technician']['payable']}}</td>
+                <td> - </td>
+            </tr>
+            <!-- end of hr -->
+
+            <!-- totaling stuffs -->
+            <tr>
+                <td></td>
+                <td>Sub-total</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['hrSubTotal']}}</td>
+                <td>{{ calculatedData['fairHrSubTotal']}} </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td> 15% Overhead</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['hrOverhead']}}</td>
+                <td>{{ calculatedData['fairHrOverhead']}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>HR Total</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['hrTotal']}}</td>
+                <td>{{ calculatedData['fairHrTotal']}} </td>
+                <td></td>
+            </tr>
+            <!-- totaling stuffs -->
+
+            <!-- start of misc -->
+
+            <tr>
+                <td> 2.</td>
+                <td colspan="6"> Miscellenous Cost </td>
+            </tr>
+            <tr>
+                <td>2.1</td>
+                <td> Transportation </td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ contractDetails['transportationCost']}}</td>
+                <td>{{ miscData['transportationCost']}}</td>
+                <td> 2 Round trips for contract and Scheme Visit </td>
+            </tr>
+
+            <tr>
+                <td>2.2</td>
+                <td>Communication</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ contractDetails['communicationCost']}}</td>
+                <td>{{ miscData['communicationCost']}}</td>
+                <td> - </td>
+            </tr>
+
+            <tr>
+                <td>2.3</td>
+                <td> Reporting</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ contractDetails['reportingCost']}}</td>
+                <td>{{ miscData['reportingCost']}}</td>
+                <td> - </td>
+            </tr>
+
+            <tr>
+                <td>2.4</td>
+                <td> Joint Monitoring (WSUC, Local Government (LG), SO)</td>
+                <td></td>
+                <td></td>
+                <td>{{ contractDetails['jointMonitoringCost']}}</td>
+                <td>{{ miscData['jointMonitoringCost']}}</td>
+                <td> Including cost of LG technical staff </td>
+            </tr>
+
+            <!-- totaling stuffs -->
+            <tr>
+                <td></td>
+                <td>Misc. Cost Total</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['miscTotal']}}</td>
+                <td>{{ calculatedData['fairMiscTotal']}} </td>
+                <td></td>
+            </tr>
+            <!-- totaling stuffs -->
+            <!-- end of misc -->
+
+            <!-- 3no orientation -->
+            <tr>
+                <td>3.</td>
+                <td>Community Level Orientation</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['orientationCost']}}</td>
+                <td>{{ calculatedData['fairOrientationCost']}} </td>
+                <td></td>
+            </tr>
+            <!-- 3no orientation -->
+            <!-- total -->
+
+            <tr>
+                <td></td>
+                <td>Total (1+2+3)</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['total']}}</td>
+                <td>{{ calculatedData['fairTotal']}} </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>4.</td>
+                <td>13% VAT</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['vat']}}</td>
+                <td>{{ calculatedData['fairVat']}} </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>5. </td>
+                <td>Grand-total Cost Per Scheme</td>
+                <td></td>
+                <td></td>
+                <td>{{ calculatedData['grandTotal']}}</td>
+                <td>{{ calculatedData['fairGrandTotal']}} </td>
+                <td></td>
+            </tr>
+
+            <!-- total -->
+        </tbody>
+    </table>
+</div>

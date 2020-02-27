@@ -1,13 +1,13 @@
-
 <!-- table part -->
 <div class="container-flex mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
-                
+
             </div>
             <div class="col-6">
-                <span class="ml-2 btn btn-success float-right" (click)="edit()" data-toggle="modal" data-target="#update">
+                <span class="ml-2 btn btn-success float-right" (click)="edit()" data-toggle="modal"
+                    data-target="#update">
                     <i class="fa fa-gear"> </i> PM settings
                 </span>
                 <span class="btn btn-success float-right" data-toggle="modal" data-target="#addPeople">
@@ -27,39 +27,39 @@
                 <th scope="col">Address</th>
                 <th scope="col">Email</th>
                 <th scope="col">Actions</th>
-    
+
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of allPm; let i = index;">
                 <td>{{i+1}}</td>
-            <td>{{item[personControlNames.personCode]}}</td>
-            <td>
-                <span *ngIf="item[personControlNames.firstName]">{{item[personControlNames.firstName]}} </span>
-                <span *ngIf="item[personControlNames.middleName]">{{item[personControlNames.middleName]}} </span>
-                <span *ngIf="item[personControlNames.lastName]">{{item[personControlNames.lastName]}} </span>
-            </td>
-            <td>{{item[personControlNames.phone1]+', '+item[personControlNames.phone1]}}</td>
-            <td>{{item[personControlNames.gender]+', '+item[personControlNames.mStatus]}}</td>
-            <td>{{item[personControlNames.address]}}</td>
-            <td>{{item[personControlNames.email]}}</td>
+                <td>{{item[personControlNames.personCode]}}</td>
+                <td>
+                    <span *ngIf="item[personControlNames.firstName]">{{item[personControlNames.firstName]}} </span>
+                    <span *ngIf="item[personControlNames.middleName]">{{item[personControlNames.middleName]}} </span>
+                    <span *ngIf="item[personControlNames.lastName]">{{item[personControlNames.lastName]}} </span>
+                </td>
+                <td>{{item[personControlNames.phone1]+', '+item[personControlNames.phone1]}}</td>
+                <td>{{item[personControlNames.gender]+', '+item[personControlNames.mStatus]}}</td>
+                <td>{{item[personControlNames.address]}}</td>
+                <td>{{item[personControlNames.email]}}</td>
 
-            <!-- <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                <!-- <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
             data-target="#addPeople" (click)="getPersonsUnderStaff(item[formControlNames.personId])">
             <i class="fa fa-user"> </i>
 
         </span> -->
 
-            <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                data-target="#addSO" (click)="getSOUnderPM(item['personId'])">
-                <i class="fa fa-envelope"> </i>
+                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                    data-target="#addSO" (click)="getSOUnderPM(item['personId'])">
+                    <i class="fa fa-envelope"> </i>
 
-            </span>
-            <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                (click)="removePersonUnderPm(item['staffAllocateId'])">
-                <i class="fa fa-trash"> </i>
+                </span>
+                <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                    (click)="removePersonUnderPm(item['staffAllocateId'])">
+                    <i class="fa fa-trash"> </i>
 
-            </span>
+                </span>
             </tr>
 
         </tbody>
@@ -158,7 +158,7 @@
 
                     </div>
 
-                   
+
 
                     <div class="form-row">
                         <div class="form-group col-6">
@@ -177,6 +177,11 @@
                             <label for="umonthlyPay">Monthly Pay</label>
                             <input type="text" class="form-control" id="umonthlyPay" placeholder="Monthly Pay"
                                 [formControlName]="formControlNames.monthlyPay">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="workingDays">Working Days</label>
+                            <input type="text" class="form-control" id="workingDays" placeholder="Working Days"
+                                [formControlName]="formControlNames.workingDays">
                         </div>
                     </div>
                 </form>
@@ -247,7 +252,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    
+
                     </div>
 
                 </form>
@@ -275,12 +280,14 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             Select Batch:
-                            <select id="topinputState" class="form-control" formControlName="batchId" (change)="selectBatch(filterForm.value.batchId)">
+                            <select id="topinputState" class="form-control" formControlName="batchId"
+                                (change)="selectBatch(filterForm.value.batchId)">
                                 <option selected value="all">All</option>
-                                <option *ngFor="let item of allBatch" [value]="item['batchId']">{{item['batchNo']}}</option>
+                                <option *ngFor="let item of allBatch" [value]="item['batchId']">{{item['batchNo']}}
+                                </option>
                             </select>
                         </div>
-                       
+
                     </div>
                 </form>
 
@@ -304,7 +311,7 @@
                                         <td>{{item['soCode']}}</td>
                                         <td>
                                             {{item['name']}}
-                                            
+
                                         </td>
 
 
@@ -326,7 +333,7 @@
                                 <h5 class="card-title text-center mt-3 bg-light">Assigned SO</h5>
                                 <div class="card-body mb-2 bg-light">
                                     <div>
-                                        <div >
+                                        <div>
                                             <div class="card-title text-center">
                                                 <h6 *ngFor="let item of selectedSoUnderBatch;let i = index;"
                                                     class="btn btn-success w-100">

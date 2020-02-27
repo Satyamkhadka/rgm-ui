@@ -26,6 +26,11 @@ export class SidebarComponent implements OnInit {
         urlTo:'/so'
       },
       {
+        name:'Scheme',
+        icon:'briefcase',
+        urlTo:'/scheme'
+      },
+      {
         name:'Staffs',
         icon:'users',
         urlTo:'/staff'
@@ -42,8 +47,13 @@ export class SidebarComponent implements OnInit {
       },
       {
         name:'Assign',
-        icon:'handshake',
+        icon:'download',
         urlTo:'/'
+      },
+      {
+        name:'Contracts',
+        icon:'eye',
+        urlTo:'/contract'
       },
 
     ];

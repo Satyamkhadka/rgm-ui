@@ -1,6 +1,6 @@
 
 <!-- table part -->
-<div class="container-flex mt-5">
+<div class="container mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
@@ -31,9 +31,14 @@
                 <td>{{item.name}}</td>
                 <td>{{item.createdOn}}</td>
                 <td>
-                <span class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
-                    <i class="fa fa-eye"> </i>
-                </span>
+                    <span [routerLink]="['/contract/'+item['contractId']]" routerLinkActive="router-link-active"  class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
+                        <i class="fa fa-eye"> </i>
+                    </span>
+                    <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
+                    data-target="#budget" data-toggle="modal"
+                    >
+                        <i class="fa fa-money"> </i>
+                    </span>
                 <span class="btn btn-danger rounded-circle rounded-circle-sm">
                     <i class="fa fa-trash"> </i>
 
@@ -44,4 +49,69 @@
         </tbody>
     </table>
 
+</div>
+
+
+<div class="modal fade" id="budget" tabindex="-1" role="dialog" aria-labelledby="budgetAllocation" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Installments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+<div class="container-flex">
+    <div class="row">
+        <div class="col-6">
+            <div class="card w-100">
+                <div class="card-header">
+                  70% payment
+                </div>
+                <div class="card-body">
+                    <div class="status">
+
+                        <span class="w-100">
+                            <span class="border border-success rounded-circle p-2">  <i class="fa fa-check text-success"></i> </span> Installment Payment made
+                        </span>
+                        <span class="w-100">
+                            <span class="border border-danger rounded-circle p-2">  <i class="fa fa-close text-danger"></i> </span> Installment Not Payment made
+                        </span>
+                    </div>
+                    <div class="paymentDate">
+
+                    </div>
+                    <div class="paymentMadeBy">
+
+                    </div>
+                </div>
+              </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card w-100">
+                <div class="card-header">
+                  30% payment
+                </div>
+                <div class="card-body">
+                    <span class="w-100">
+                        <span class="border border-success rounded-circle p-2">  <i class="fa fa-check text-success"></i> </span> Installment Payment made
+                    </span>
+                    <span class="w-100">
+                        <span class="border border-danger rounded-circle p-2">  <i class="fa fa-close text-danger"></i> </span> Installment Not Payment made
+                    </span>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+    </div>
 </div>

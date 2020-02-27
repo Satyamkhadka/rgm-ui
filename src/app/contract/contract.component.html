@@ -1,72 +1,741 @@
 <style>
     @media print {
-       .noprint {
-          visibility: hidden;
-       }
+        .noprint {
+            visibility: hidden;
+        }
     }
-    </style>
 
-<div style="margin-left:1cm;margin-top:2cm; margin-bottom: 2cm; margin-right: 1cm;">
-    <h6> TEMPLETE headers</h6>
-    
-    <h6> 6 months SO Cost For PIP Contract</h6>
-    
-    <table  style="width:100%" border="1">
-        <!-- table titles -->
-        <tr>
-            <td>SN.</td>
-            <td>Item</td>
-            <td>Input of Staff per Scheme in days</td>
-            <td>Salary per Month</td>
-            <td>Amount. NRS</td>                                                
-            <td>Grand Total | Number of Scheme (1)</td>
-            <td>Remarks</td>
-        </tr>
-    
-        <!-- human resources heading-->
-        <tr>
-            <td>1</td>
-            <td colspan="6">Human Resources</td>
-        </tr>
-        
-        <!-- human resources content -->
-        <tr>
-            <td>1.1</td>
-            <td>Team Leader</td>
-            <td>12</td>
-            <td>32000</td>
-            <td>12800</td>
-            <td>12800</td>
-            <td>One month payment to be made</td>
-        </tr>
-        <tr>
-            <td>1.2</td>
-            <td>Team Leader</td>
-            <td>12</td>
-            <td>32000</td>
-            <td>12800</td>
-            <td>12800</td>
-            <td>One month payment to be made</td>
-        </tr>
-        <tr>
-            <td>1.3</td>
-            <td>Team Leader</td>
-            <td>12</td>
-            <td>32000</td>
-            <td>12800</td>
-            <td>12800</td>
-            <td>One month payment to be made</td>
-        </tr>
+    @page {
+        size: 21cm 29.7cm;
+    }
 
-         <!-- human resources heading-->
-         <tr>
-            <td>2</td>
-            <td colspan="6"> ETC ETC</td>
-        </tr>
-    </table>
-    <h6> TEMPLETE footers</h6>
+    table {
+        width: 100%;
+    }
+
+    .align-right {
+        text-align: right;
+    }
+
+    .showBorder {
+        margin-bottom: 1rem;
+    }
+
+    table,
+    .showBorder,
+    th,
+    td {
+        border: 1pt solid black;
+        border-collapse: collapse;
+    }
+
+    .custom-text-center {
+        text-align: center;
+    }
+</style>
+
+<div class="wholeWrapper" style="margin-left:3cm;margin-top:2cm; margin-bottom: 2cm; margin-right: 1cm;">
+
+
+    <div class="heading">
+
+        <h6 class="custom-text-center">
+            <p>
+                ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति
+            </p>
+            <p>
+                शिवमार्ग, महाराजगञ्ज
+            </p>
+            <p>
+                पो.व.नं.: १२४१४, काठमाडौं, नेपाल
+            </p>
+            <p>
+                टेलिफोन नं.: ४००३०१०, ४००३०१२/फ्याक्स नं.: ४००३०११
+            </p>
+        </h6>
+
+    </div>
+
+    <div class="headingBox">
+        <h4 class="custom-text-center">
+            <b>
+                <p> निर्माण चरण पश्चातको कार्यका लागि </p>
+                <p> ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति र </p>
+                <!--  DATA  batch Number -->
+                <p>सहयोगी संस्था बीच गरिएको सम्झौतापत्र ({{contractDetails['batchNo']}}) </p>
+            </b>
+        </h4>
+
+    </div>
+
+    <div class="schemeTable">
+
+        <h6> निर्माण चरण पश्चातको कार्यका लागि सम्झौता गरिएका आयोजनाहरूको विवरण :</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>कोड नं.</th>
+                    <th>खानेपानी आयोजनाको नाम</th>
+                    <th>जिल्ला</th>
+                    <th>नगर/गाउँपालिका</th>
+                    <th>वडा नं</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of schemes">
+                    <td>{{item['schemeCode']}}</td>
+                    <td>{{item['nameNP']}}</td>
+                    <td>{{district}}</td>
+                    <td>{{localBody}}</td>
+                    <td>{{ '-'}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div class="introduction">
+        <p><strong>(१)परिचय</strong></p>
+        <p><strong>क.सम्झौताका पक्षहरू</strong></p>
+        <p><span style="font-weight: 400;">
+                सहयोगी संस्था (यसपछि सहयोगी संस्था भनिनेछ) र ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति(यसपछि कोष
+                विकास समिति भनिनेछ) बीच यो सम्झौता भएको व्यहोरा दुवै पक्षद्वारा प्रमाणित तथा स्वीकार गरिन्छ।
+            </span></p>
+        <p><strong>ख.कार्य क्षेत्र</strong></p>
+        <p><span style="font-weight: 400;">यो सम्झौता अनुसार दुवै पक्ष देहाय अनुसारका कार्य गर्न सहमत भएका
+                छन्ः</span></p>
+        <ul style="font-weight: 400;">
+            <li><span>सहयोगी संस्थाका लागि निर्माण चरण पश्चातको सम्झौताका कार्य शर्तहरू अनुसार कार्य गर्न।</span>
+            </li>
+            <li><span>माथि उल्लेखित आयोजनाहरूमा निर्माण चरण पश्चातको निर्देशिका २०७६ अनुसार कार्य गर्न।</span></li>
+            <li><span>यदि आयोजनाको फिल्ड सर्भेक्षण पश्चात मर्मत गर्नु पर्ने भएमा उक्त आयोजनाको स्वीकृत डिजाइन
+                    इष्टिमेट अनुसार मर्मत सम्भारको कार्य सम्पन्न गर्न।</span></li>
+            <li><span>निर्माण चरण पश्चातको कार्य सम्पन्न भएपछि स्थानीय तहलाई आयोजना पूर्ण सञ्चालित अवस्थामा
+                    हस्तान्तरण गर्न।</span></li>
+            <li><span>आवश्यकता अनुसार आयोजनाको समय थप हुनसक्नेछ।यदि समय थप गर्नु पर्ने मनासिब कारण भएमा उक्त अवधिको
+                    रकम निर्माण चरण पश्चातको निर्देशिका २०७६ अनुसार नै हुनेछ ।&nbsp;</span></li>
+        </ul>
+        <p><strong>ग.सम्झौताको अवधि</strong></p>
+        <ul>
+            <li><span style="font-weight: 400;">सम्झौता अवधि मिति {{startDate}} देखि मिति {{endDate}} सम्म
+                    हुनेछ।</span></li>
+        </ul>
+    </div>
+
+    <div class="overheadAllocation">
+
+        <p><strong>(२) सम्झौताको वित्तीय व्यवस्था र भुक्तानी तालिका</strong></p>
+        <p><strong>क. सम्झौताको कुल रकम</strong></p>
+        <div class="showBorder">
+
+            <p><span style="font-weight: 400;">निर्माण चरण पश्चातका लागि सम्झौताको कुल रकमः रु
+                    {{calculatedData['grandTotal']}}
+
+                    <br />(अक्षरेपी {{calculatedData['grandTotalWR']}} मात्र)</span></p>
+        </div>
+
+
+        <p><span style="font-weight: 400;">उपरोक्त कुल रकममा देहायका शीर्षक अनुसारको रकमहरू समावेश भएको छः</span>
+        </p>
+
+    </div>
+    <div class="ohAllocatinTable">
+        <table>
+
+            <tr>
+                <td>
+                    <p><strong>क्र.स.</strong></p>
+                </td>
+                <td>
+                    <p><strong>विवरण</strong></p>
+                </td>
+                <td>
+                    <p><strong>रकम रू.</strong></p>
+                </td>
+            </tr>
+
+
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        <p><strong>१</strong></p>
+                    </td>
+                    <td>
+                        <p><strong>कर्मचारीको तलब,शिरोभार तथा मू.अ. कर</strong></p>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१.१</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">टिम लिडर</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Team Leader']['fairPay']; else ifnot">
+                        {{ calculatedData['Team Leader']['fairPay'] }} </td>
+                    <ng-template #ifnot>
+                        <td>&nbsp; -</td>
+                    </ng-template>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१.२</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">प्राविधिक अधिकृत</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Technical Officer']['fairPay']; else ifnot">
+                        {{ calculatedData['Technical Officer']['fairPay'] }} </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१.३</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">लेखापाल</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Accountant']['fairPay']; else ifnot">
+                        {{ calculatedData['Accountant']['fairPay'] }} </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१.४</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">वास टेक्निसियन</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Wash Technician']['fairPay']; else ifnot">
+                        {{ calculatedData['Wash Technician']['fairPay'] }}
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">जम्मा </span></p>
+                    </td>
+                    <td>{{calculatedData['hrSubTotal']}}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१.५</span></p>
+                    </td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">कुल शिरोभार (कर्मचारी तलब(क्र.सं. १)को १५%</span></p>
+                    </td>
+                    <td>&nbsp;</td>
+
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">जम्मा</span></p>
+                    </td>
+                    <td>{{calculatedData['hrOverhead']}}</td>
+
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">कर्मचारीको तलब, शिरोभार तथा मू.अ. करको जम्मा </span></p>
+                    </td>
+                    <td>{{calculatedData['hrTotal']}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><strong>२</strong></p>
+                    </td>
+                    <td>
+                        <p><strong>मसलन्द (Miscellaneous) खर्चहरू</strong></p>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">२.१</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">यातायात खर्च</span></p>
+                    </td>
+                    <td>{{contractDetails['transportationCost']}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">२.२</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">सञ्&zwj;चार खर्च</span></p>
+                    </td>
+                    <td>{{contractDetails['communicationCost']}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">२.३</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">रिपोर्टिङ खर्च</span></p>
+                    </td>
+                    <td>{{contractDetails['reportingCost']}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">२.४</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">संयुक्त अनुगमन(उपभोक्ता समिति, स्थानीय तह तथा सहयोगी
+                                संस्था)</span></p>
+                    </td>
+                    <td>{{contractDetails['jointMonitoringCost']}}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="align-right">
+                        <p><strong>मसलन्द (Miscellaneous) खर्चको जम्मा</strong></p>
+                    </td>
+                    <td>{{calculatedData['miscTotal']}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">३</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">समुदाय स्तरको तालिम</span></p>
+                    </td>
+                    <td>{{calculatedData['orientationCost']}}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">४</span></p>
+                    </td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">जम्मा (क्र.सं. १, २ तथा ३)</span></p>
+                    </td>
+                    <td>{{calculatedData['total']}}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">५</span></p>
+                    </td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">मूल्य अभिवृद्धि कर (१३%)</span></p>
+                    </td>
+                    <td>{{calculatedData['vat']}}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">६</span></p>
+                    </td>
+                    <td class="align-right">
+                        <p><span style="font-weight: 400;">कुल जम्मा (४+५)</span></p>
+                    </td>
+                    <td>{{calculatedData['grandTotal']}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="downpayment">
+
+        <p><strong>ख.कोष विकास समितिबाट सहयोगी संस्थालाई हुने भुक्तानी तालिका</strong></p>
+        <p><span style="font-weight: 400;">सहयोगी संस्थाको बैंक खातामा एकाउण्ट पेयी (Account Payee) चेकको माध्यमबाट
+                देहाय अनुसार भुक्तानी गरिनेछ :</span></p>
+
+        <table>
+
+            <tr>
+                <td>
+                    <p><strong>क्र.स.</strong></p>
+                </td>
+                <td>
+                    <p><strong>विवरण</strong></p>
+                </td>
+                <td>
+                    <p><strong>प्रथम किस्ता; रकम रू.</strong></p>
+                </td>
+                <td>
+                    <p><strong>प्रतिशत</strong></p>
+                </td>
+                <td>
+                    <p><strong>दोस्रो/अन्तिम किस्तारकम रू.</strong></p>
+                </td>
+                <td>
+                    <p><strong>प्रतिशत</strong></p>
+                </td>
+            </tr>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">१</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">कर्मचारीको तलब, शिरोभार तथा मू. अ. कर&nbsp;</span></p>
+                    </td>
+                    <td>{{calculatedData['hrSubTotal70']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">७०</span></p>
+                    </td>
+                    <td>{{calculatedData['hrSubTotal30']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">३०</span></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">२</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">मसलन्द खर्चहरू&nbsp;</span></p>
+                    </td>
+                    <td>{{calculatedData['miscTotal']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">१००</span></p>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">३</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">समुदाय स्तरको तालिम</span></p>
+                    </td>
+                    <td>{{calculatedData['orientationCost']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">१००</span></p>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">४</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">कुल शिरोभार</span></p>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>{{calculatedData['hrOverhead']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">१००</span></p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+    </div>
+    <div class="textsUnder">
+
+        <p><strong>ग.भुक्तानीका शर्तहरू</strong></p>
+        <p><strong>ग १.प्रथम किस्ता भुक्तानी</strong></p>
+        <p><span style="font-weight: 400;">सम्झौता भएपछि देहाय अनुसारका कार्यशर्तहरू पूरा भएमा प्रथम किस्ता भुक्तानी
+                &nbsp;गरिनेछः</span></p>
+        <p><span style="font-weight: 400;">अ. सम्झौतामा उल्लेख गरिए अनुरूपका कर्मचारीहरूको बायोडाटा तथा नियुक्त भएको
+                पुष्टी गर्ने नियुक्ती पत्रका प्रतिलिपिहरू पेश भएको।</span></p>
+        <p><span style="font-weight: 400;">आ. कोष विकास समितिबाट प्राप्त हुने रकम मात्रको कारोबार हुने गरी सहयोगी
+                संस्थाद्वारा यस कार्यका लागि छुट्टै बैंक खाता खोलिएको प्रमाण पेश भएको।</span></p>
+        <p><span style="font-weight: 400;">इ. स्थानीय तहलाई सम्बन्धित आयोजनाहरूको निर्माण चरण पश्चातको कार्य
+                सञ्&zwj;चालन गर्नेबारे जानकारी दिइएको प्रमाण पेश भएको।</span></p>
+        <p><span style="font-weight: 400;">ई. कर बिजक पेश भएको।</span></p>
+        <p><strong>ग २.अन्तिम किस्ता भुक्तानी</strong></p>
+        <p><span style="font-weight: 400;">कोष विकास समितिबाट अन्तिम किस्ताको भुक्तानीका शर्तहरू निम्नलिखित
+                हुनेछन्:</span></p>
+        <p><span style="font-weight: 400;">अ. सम्झौता अनुसार निर्माण चरण पश्चातका सम्पूर्ण कामहरू सम्पन्न गरी सम्पन्न
+                प्रतिवेदन कोष विकास समितिले तोकेको ढाँचामा पेश गरेको।</span></p>
+        <p><span style="font-weight: 400;">आ. यदि आयोजना मर्मत गरेको भए आयोजना सम्पन्न प्रतिवेदन कोष विकास समितिले
+                तोकेको ढाँचामा पेश गरेको।</span></p>
+        <p><span style="font-weight: 400;">इ. प्रथम किस्ताको वित्तीय विवरण पेश गरेको।</span></p>
+        <p><span style="font-weight: 400;">ई. कोष विकास समितिले (आफैँ वा तेस्रो पक्षद्वारा) अनुगमन गर्दा सम्झौता अनुरुप
+                काम गरेको।</span></p>
+        <p><span style="font-weight: 400;">उ. कर बिजक पेश गरेको।</span></p>
+        <p><strong>(३)कोष विकास समिति, सहयोगी संस्था तथा उपभोक्ता समितिको भूमिका</strong></p>
+        <p><span style="font-weight: 400;">निर्माण चरण पश्चातको निर्देशिका २०७६ को बुँदा नं. ६ अन्तर्गत ६.१, ६.२ र ६.३
+                अनुरुप कोष विकास समिति, सहयोगी संस्था र उपभोक्ता समितिले भूमिका निर्वाह गर्नु पर्नेछ।</span></p>
+        <p><strong>(४)सहयोगी संस्थाको जनशक्ति व्यवस्थापन</strong></p>
+        <p><span style="font-weight: 400;">कोष विकास समिति र सहयोगी संस्थाबीच भएको सम्झौता अनुसार कर्मचारीहरू संस्थाले
+                खटाउनु पर्नेछ।</span></p>
+        <p><span style="font-weight: 400;">यो सम्झौताको कार्यशर्तहरूको अधीनमा रही सहयोगी संस्थाले देहाय अनुसारका
+                कर्मचारीहरू नियुक्त गर्नु पर्नेछ। यसरी नियुक्त भएका कर्मचारीहरूले कोष विकास समितिले तोके अनुसारका कार्य
+                विवरण </span><strong>(Job Discripition)</strong><span style="font-weight: 400;"> तथा सम्झौताको कार्य
+                शर्त अनुसार सम्बन्धित आयोजनाको काम गर्नुपर्नेछ।</span></p>
+        <p><strong>सहयोगी संस्थाका कर्मचारीहरूको विवरण</strong></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <p><strong>पद</strong></p>
+                    </td>
+                    <td>
+                        <p><strong>नाम</strong></p>
+                    </td>
+                    <td>
+                        <p><strong>दिन</strong></p>
+                    </td>
+                    <td>
+                        <p><strong>कार्यक्षेत्र</strong></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">टिम लिडर</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Team Leader']['person']; else ifnot">
+                        {{calculatedData['Team Leader']['person']['firstName']+' '+calculatedData['Team Leader']['person']['middleName']+' '+calculatedData['Team Leader']['person']['lastName']}}
+                    </td>
+                    <td *ngIf="calculatedData['Team Leader']['workingDays']; else ifnot">
+                        {{calculatedData['Team Leader']['workingDays']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">प्राविधिक अधिकृत</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Technical Officer']['person']; else ifnot">
+                        {{calculatedData['Technical Officer']['person']['firstNameNP']+' '+calculatedData['Technical Officer']['person']['middleNameNP']+' '+calculatedData['Technical Officer']['person']['lastNameNP']}}
+                    </td>
+                    <td *ngIf="calculatedData['Technical Officer']['workingDays']; else ifnot">
+                        {{calculatedData['Technical Officer']['workingDays']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">लेखापाल</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Accountant']['person']; else ifnot">
+                        {{calculatedData['Accountant']['person']['firstNameNP']+' '+calculatedData['Accountant']['person']['middleNameNP']+' '+calculatedData['Accountant']['person']['lastNameNP']}}
+                    </td>
+                    <td *ngIf="calculatedData['Accountant']['workingDays']; else ifnot">
+                        {{calculatedData['Accountant']['workingDays']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: 400;">वास टेक्निसियन</span></p>
+                    </td>
+                    <td *ngIf="calculatedData['Wash Technician']['person']; else ifnot">
+                        {{calculatedData['Wash Technician']['person']['firstNameNP']+' '+calculatedData['Wash Technician']['person']['middleNameNP']+' '+calculatedData['Wash Technician']['person']['lastNameNP']}}
+                    </td>
+                    <td *ngIf="calculatedData['Wash Technician']['workingDays']; else ifnot">
+                        {{calculatedData['Wash Technician']['workingDays']}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="names">
+        <p><span style="font-weight: 400;">सहयोगी संस्थाले निर्माण चरण पश्चातको कार्यक्रमका लागि नियुक्त भएका सबै
+                कर्मचारीहरूको व्यक्तिगत नियुक्ति पत्र वा करारनामाको अभिलेख राखी सोको पालना गर्नु पर्नेछ। कर्मचारीहरूले
+                समुदायमा काम गरेको दिनको अभिलेख राख्&zwj;नु, प्रत्येक कर्मचारीहरूको कार्ययोजना बनाई उनीहरूलाई सम्बन्धित
+                कार्य क्षेत्रमा परिचालन गर्नु, अनुगमन तथा मूल्याङ्कन गर्नु, कार्य प्रगति प्रतिवेदन तयार गरी निर्धारित
+                समयमा कोष विकास समितिमा पेश गर्नु सहयोगी संस्थाको उत्तरदायित्व हुनेछ।</span></p>
+        <p><strong>(५)पारिश्रमिक तथा अन्य भुक्तानी प्रक्रिया</strong></p>
+        <p><span style="font-weight: 400;">कर्मचारीहरूको पारिश्रमिकको भुक्तानी वा अन्य सम्पूर्ण कारोबार बैंक खाताबाट चेक
+                मार्फत गरेको हुनु पर्नेछ।</span></p>
+        <p><strong>(६)कर्मचारीको फेरबदल</strong></p>
+        <p><span style="font-weight: 400;">कोष विकास समितिले स्वीकृत गरेको अवस्था बाहेक सहयोगी संस्थाले प्रस्ताव गरेको
+                कर्मचारी फेरबदल गर्न सक्ने छैन। यदि कुनै कारणवश फेरबदल गर्नु परेमा सोको स्पष्ट कारण खुलाई कोष विकास
+                समितिको स्वीकृति लिएर मात्र गर्न सकिनेछ।</span></p>
+        <p><strong>(७)बैंक खाता</strong></p>
+        <p><strong>क.खानेपानी तथा सरसफाइ उपभोक्ता समिति र सहयोगी संस्थाको संयुक्त खाता</strong></p>
+        <p><span style="font-weight: 400;">आयोजना मर्मत गर्नुपर्ने भएमा खानेपानी तथा सरसफाइ उपभोक्ता समूहले तोकेको वा
+                पायक पर्ने स्थानमा खानेपानी तथा सरसफाइ उपभोक्ता समिति र सहयोगी संस्थाले संयुक्त बैंक खाता खोल्नु पर्नेछ।
+                उक्त खाता सञ्&zwj;चालनका लागि खानेपानी तथा सरसफाइ उपभोक्ता समितिले समितिका अध्यक्ष र समितिले तोकेको एक
+                पदाधिकारी एवं सहयोगी संस्थाले अध्यक्ष वा टिमलीडर मध्ये एक जनालाई खाता सञ्&zwj;चालकको रूपमा मनोनयन
+                गर्नेछ। संयुक्त खाताको लेखा व्यवस्थापन प्रचलित कानुन अनुसार कोष विकास समितिले तोकेको ढाँचा अनुसार
+                राख्&zwj;नुका साथै प्राप्त भएको कोष, खर्च भएको रकम र बाँकी रकम देखिने सहायक कागजातहरू समेत व्यवस्थित
+                रूपमा राखेको हुनु पर्नेछ।</span></p>
+        <p><strong>(८)लेखा व्यवस्थापन</strong></p>
+        <p><strong>क.सहयोगी संस्थाबाट लेखा हिसाबको पालना</strong></p>
+        <p><span style="font-weight: 400;">सहयोगी संस्थाले कोष विकास समितिको मार्गदर्शन अनुरूप निर्माण चरण पश्चातको
+                कार्यका लागि एक छुट्टै बैंक खाता खोली सोको लेखा व्यवस्थापन गर्नु पर्नेछ। लेखा व्यवस्थापन प्रचलित कानुन
+                अनुसार कोष विकास समितिले तोकेको ढाँचा अनुसार राख्&zwj;नुका साथै प्राप्त भएको कोष, खर्च भएको रकम र बाँकी
+                रकम देखिने सहायक कागजातहरू समेत व्यवस्थित रूपमा राखेको हुनु पर्नेछ।</span></p>
+        <p><strong>ख.खानेपानी तथा सरसफाइ उपभोक्ता समूह तथा सहयोगी संस्थाको संयुक्त लेखा हिसाबको पालना</strong></p>
+        <p><span style="font-weight: 400;">लेखा हिसाब कोष विकास समितिको मार्गदर्शन अनुरूप प्रचलित कानुन अनुसार राखिएको
+                सुनिश्चित गर्नु सहयोगी संस्थाको जिम्मेवारी हुनेछ। लेखा हिसाब आयोजना स्थलमा राखिएको, अद्यावधिक भएको र कोष
+                विकास समितिबाट स्थलगत भ्रमणको बेलामा निरीक्षणका लागि उपलब्ध हुने कुरा सहयोगी संस्थाले सुनिश्चित गर्नु
+                पर्नेछ। खानेपानी तथा सरसफाइ उपभोक्ता समितिले लेखा हिसाबको वस्तुस्थिति विवरण समुदायको भेला गरी सार्वजनिक
+                प्रदर्शन गर्नु पर्नेछ र साथै उक्त आयोजना निर्माणमा भएको आम्दानी तथा खर्चको विवरण सम्बन्धित समुदायको
+                सार्वजनिक स्थलमा Display Board मार्फत पनि प्रदर्शन गर्नु पर्नेछ। सो कार्यका लागि सहयोगी संस्थाले
+                उपभोक्ता समितिलाई सहयोग गर्नु सहयोगी संस्थाको कर्तव्य हुनेछ।</span></p>
+        <p><strong>ग.कर</strong></p>
+        <p><span style="font-weight: 400;">यो सम्झौताको सन्दर्भमा नेपाल सरकारलाई बुझाउनु पर्ने कुनै पनि करको दायित्व
+                सहयोगी संस्थाको हुनेछ।</span></p>
+        <p><strong>घ.आर्थिक लेखा परीक्षण</strong></p>
+        <p><span style="font-weight: 400;">आयोजनाको निर्माण चरण पश्चातको सम्बन्धित सहयोगी संस्थाको लेखा कोष विकास
+                समितिबाट नियुक्त&nbsp; लेखापरीक्षकबाट सहयोगी संस्थाले आफ्नो आर्थिक विवरण पेश गरेपछि कोष विकास समितिबाट
+                लेखापरीक्षण हुनेछ। सहयोगी संस्थाले आफ्नो लेखा, अभिलेख र कागजातहरू कोष विकास समितिबाट तोकिएको लेखा
+                परीक्षकलाई उपलब्ध गराउनु पर्नेछ। साथै आर्थिक हिसाब किताव तोकिएको मापदण्डमा नराखेको पाइएमा संस्थालाई कालो
+                सूचिमा राखिने छ।</span></p>
+        <p><strong>(९)सहयोगी संस्थाको कार्य सम्पादन प्रतिवेदन</strong></p>
+        <p><strong>क. सहयोगी संस्थाको कार्य सम्पादन तथा प्रगति प्रतिवेदन&nbsp;</strong></p>
+        <p><span style="font-weight: 400;">अ. सहयोगी संस्थाका टिम लीडरले मासिक रुपमा कोष विकास समितिले तोकेको मोबाइल
+                एप्लीकेसन प्रयोग गरी प्रगति विवरण पेश गर्नु पर्नेछ।&nbsp;</span></p>
+        <p><span style="font-weight: 400;">आ</span><strong>. </strong> <span style="font-weight: 400;">सहयोगी संस्थाले
+                अन्तिम किस्ता भुक्तानीका लागि कोष विकास समितिबाट निर्दिष्ट गरिएको ढाँचामा कार्य सम्पन्न प्रगति प्रतिवेदन
+                पेश गर्नु पर्नेछ।</span></p>
+        <p><strong>(१०)कोष विकास समितिद्वारा निर्माण चरण पश्चातको कार्य व्यवस्थापन</strong></p>
+        <p><strong>अ.निर्माण चरण पश्चातको कार्य व्यवस्थापन</strong></p>
+        <p><span style="font-weight: 400;">निर्माण चरण पश्चातको कार्य व्यवस्थापनका लागि कोष विकास समितिबाट कार्यक्रम
+                व्यवस्थापक लाई जिम्मा दिई सहयोगी संस्थालाई सो व्यक्तिको नाम र अन्य आवश्यक विवरणहरू उपलब्ध गराउने
+                जिम्मेवारी कोष विकास समितिको रहने छ। सो व्यक्ति सहयोगी संस्थाका लागि कोष विकास समितिका तर्फबाट प्रथम
+                सम्पर्क व्यक्तिका रूपमा रहने छन् र सहयोगी संस्थाले सो व्यक्ति मार्फत कोष विकास समितिसँग संस्थागत व्यवहार
+                गर्ने छन्।</span></p>
+        <p><strong>(११)अनुगमन र सुपरीवेक्षण</strong></p>
+        <p><span style="font-weight: 400;">कोष विकास समितिले नियुक्त गरेका कुनै पनि व्यक्ति/संस्थाले सम्झौता अवधि भित्र
+                आयोजना स्थलमा भएको कामको प्रगति तथा आयोजना क्षेत्रको कुनै पनि समयमा अनुगमन गर्न सक्नेछन्। कोष विकास
+                समितिले नियुक्त गरेका व्यक्ति/संस्थालाई अनुगमन क्रियाकलापहरूमा सहयोग प्रदान गर्नु सहयोगी संस्थाको
+                कर्तव्य हुनेछ।</span></p>
+        <p><strong>&nbsp;(१२)&nbsp;सम्झौतासँग सम्बद्ध अन्य शर्तहरू</strong></p>
+        <p><strong>क.भ्रष्ट अथवा छलकपटपूर्ण व्यवहारहरू</strong></p>
+        <p><span style="font-weight: 400;">कोष विकास समितिलाई सम्झौता कार्यान्वयनको सिलसिलामा भ्रष्ट वा छलकपटपूर्ण
+                व्यवहारहरूमा सहयोगी संस्था संलग्न छ भन्ने लागेमा कोष विकास समितिले यो सम्झौतालाई दफा ३१ अनुसार सम्झौता
+                रद्ध गर्नेछ। यो दफाको प्रयोजनका लागि भ्रष्ट व्यवहारहरू भन्नाले सम्झौता कार्यान्वयनमा खानेपानी तथा सरसफाइ
+                उपभोक्ता समूहको कुनै सदस्य, सेवामूलक निकायको कर्मचारी वा कोष विकास समितिको कर्मचारीको काम प्रभावित हुने
+                गरी कुनै वस्तु/मूल्य प्रस्ताव गर्ने, लिने, दिने वा प्राप्त गर्ने, मिलेमतोमा गलत कार्य गर्ने, अनावश्यक
+                दवाव वा बलको प्रयोग गर्ने जस्ता कार्यलाई सम्झनु पर्दछ भने 'छलकपटपूर्ण व्यवहार' भन्नाले कोष विकास समितिको
+                अहित हुने गरी सम्झौताको कार्यान्वयन प्रभावित गर्नका लागि तथ्यहरूको गलत प्रस्तुति गर्ने कार्य सम्झनु
+                पर्दछ। त्यस्तो संस्थालाई कालो सूचिमा राखी भविष्यमा कोष विकास समितिको कुनै पनि काममा योग्य नहुने गरी
+                हटाइनेछ।</span></p>
+        <p><strong>ख.दोहोरो भ्रमण खर्च</strong></p>
+        <p><span style="font-weight: 400;">सहयोगी संस्थाबाट कार्यशर्त अनुसारका कार्यहरूको प्रगति विवरण कोष विकास समितिमा
+                पेश गर्दा अधुरो, अपुरो पेश गरेमा बाँकी किस्ता भुक्तानी गरिनु अघि कोष विकास समितिले अनुगमन भ्रमण
+                दोहोर्&zwj;याउनु परेको खण्डमा यस्तो दोहोरो भ्रमणमा लाग्ने अतिरिक्त खर्च सहयोगी संस्थाले व्यहोर्नु
+                पर्नेछ। यो रकम सम्बन्धित किस्ताको भुक्तानी रकमबाट कटौती हुनेछ। कुनै क्रियाकलाप सम्पन्न नभएको अवस्थामा
+                कोष विकास समितिको भुक्तानी वा आंशिक भुक्तानी प्रभावित हुने किसिमको कुनै क्रियाकलापको प्रगति सम्बन्धमा
+                कोष विकास समितिलाई सहयोगी संस्था वा खानेपानी तथा सरसफाइ उपभोक्ता समितिले गलत सूचना दिएमा तदनुसार कारवाही
+                गरिने छ।</span></p>
+        <p><strong>ग.बचत वा बाँकी रकम</strong></p>
+        <p><span style="font-weight: 400;">यदि कार्यक्रमको अन्त्य सम्ममा सम्पूर्ण कार्य सफलता पूर्वक सम्पन्न भई स्वीकृत
+                बजेट खर्च भएको छैन भने बाँकी रहेको रकम खानेपानी तथा सरसफाइ उपभोक्ता समितिको हुनेछ र सो रकम उपभोक्ता
+                समितिका नाममा रहेको मर्मत सम्भार कोष खातामा जम्मा गरेको हुनु पर्नेछ।</span></p>
+        <p><strong>घ.सम्झौताको संशोधन</strong></p>
+        <p><span style="font-weight: 400;">कुनै परिवर्तन वा संशोधन भएमा दुवै पक्षको आपसी समझदारीबाट सम्झौतामा परिवर्तन
+                वा संशोधन गर्न सकिनेछ।&nbsp;</span></p>
+        <p><span style="font-weight: 400;">अ. सहयोगी संस्थाबाट फिल्ड सर्भेक्षण पश्चात मूल सम्झौतामा उल्लेखित
+                आयोजनाहरुमध्ये कुनै आयोजनाको निर्माण चरण पश्चातको कार्य अघि बढ्न नसक्ने देखिएमा प्रति आयोजना जम्मा रु.
+                १०,०००/- (रु दश हजार मात्र) भुक्तानी दिइनेछ।&nbsp;</span></p>
+        <p><span style="font-weight: 400;">आ. सहयोगी संस्थबाट फिल्ड सर्भेक्षण पश्चात कुनै सहयोगी संस्थाबाट काम गर्नका
+                लागि आवश्यक कागजपत्रहरु (संस्थाको नवीकरण पत्र, मू.अ.कर दर्ता प्रमाणपत्र, कर चुक्ता प्रमाणपत्र आदि)
+                &nbsp;नभएमा वा उक्त संस्थाद्वारा काम गर्न अनिच्छा प्रकट गरेको वा अन्य कुनै कारणबाट सम्बन्धित सहयोगी
+                संस्थालाई आयोजना थप हुन गएमा कोष विकास समितिबाट स्वीकृत गरी पुन: सम्झौता संशोधन गर्न सकिनेछ र सम्झौताको
+                लागत निर्माण चरण पश्चातको निर्देशिका २०७६ अनुसार नै हुनेछ।&nbsp;</span></p>
+        <p><span style="font-weight: 400;">इ. सहयोगी संस्थाबाट फिल्ड सर्भेक्षण पश्चात् कुनै आयोजनाको पुन:मर्मत सम्भार
+                गर्नु पर्ने भएमा उक्त आयोजनाको स्वीकृत लागत इष्टिमेट अनुसार आयोजना अनुसार छुट्टाछुट्टै संशोधित सम्झौता
+                गरिनेछ र सयुक्त खाताको सञ्चालन, लेखा व्यवस्थापन र हरहिसाब मूल सम्झौता अनुसार नै हुनेछ । भुक्तानीको कार्य
+                र प्रक्रिया भने संशोधित सम्झौता अनुसार नै हुनेछ ।&nbsp;</span></p>
+        <p><strong>(१३)सम्झौता रकममा कटौती</strong></p>
+        <p><span style="font-weight: 400;">देहायका अवस्थाहरू भएको खण्डमा कोष विकास समितिलाई कामको खर्च बराबरको रकम कटौती
+                गर्ने वा भुक्तानी रोक्का गर्ने अधिकार रहनेछः</span></p>
+        <ul style="font-weight: 400;">
+            <li><span>तोकिएका क्रियाकलापहरू निर्दिष्ट गरिए अनुसार सञ्&zwj;चालन नभएमा,</span></li>
+            <li><span>क्रियाकलापहरूमा परिवर्तन गरी समग्रमा सम्पन्न कामको परिमाण र गुणस्तरमा कमी आएमा,</span></li>
+            <li><span>प्रस्तावमा उल्लेखित सेवा तथा सामग्रीहरू उपलब्ध गराउन नसकेमा वा परिवर्तन गरी अन्य सेवा तथा
+                    सामग्रीहरू प्रयोग गरेमा,</span></li>
+            <li><span>आयोजनाको संख्या घट्न गएमा,</span></li>
+            <li><span>सम्झौतामा कुनै परिवर्तन वा संशोधन भएमा</span></li>
+        </ul>
+        <p><strong>(१४)विवाद समाधान</strong></p>
+        <p><span style="font-weight: 400;">विवादको अवस्था उत्पन्न भएमा दुवै पक्षले समाधानको प्रयास गर्नेछन् र विवाद
+                समाधानको सम्भावना नरहेमा दुवै पक्षको आपसी सहमतिबाट मध्यस्थकर्ताको चयन गर्नु पर्नेछ। यदि यी प्रयासहरूबाट
+                पनि विवादको समाधान हुनु नसकेमा नेपालको प्रचलित कानुनी व्यवस्था अनुसार हुनेछ।</span></p>
+        <p><strong>(१५)सम्झौताको समाप्ति</strong></p>
+        <p><span style="font-weight: 400;">सम्झौतामा हस्ताक्षर भएपछि यदि देहायको कुनै अवस्था हुन आएको खण्डमा कोष विकास
+                समितिलाई सम्झौता समाप्त गर्ने र/वा सहयोगी संस्थाका लागि भुक्तानी दिन बाँकी रकमको निकासा रोक्का गर्ने
+                पूर्ण अधिकार हुनेछ।</span></p>
+        <ul style="font-weight: 400;">
+            <li><span>फिल्ड सर्भेक्षण सम्पन्न गरी कार्यारम्भ गरेको मितिले ३० दिन भित्रमा प्रतिवेदन पेश गर्नु पर्नेछ। यदि
+                    उक्त मिति सम्ममा प्रतिवोदन पेश नगरेमा सम्झौता स्वतः रद्द हुनेछ।</span></li>
+            <li><span>सहयोगी संस्थाको कमजोर कार्य सम्पादन तथा असहयोगका कारण सम्झौताको कार्यान्वयन सन्तोषप्रद रूपमा पूरा
+                    हुन नसकेमा,</span></li>
+            <li><span>सहयोगी संस्थाले उपलब्ध गराएका पूर्व आवश्यक सूचनाहरू बेठीक भएको र कोष विकास समितिलाई अन्यौलमा
+                    पार्ने मनसाय भएको पाइएमा,</span></li>
+            <li><span>आयोजनाको कार्यान्वयन हुने सम्भावना नभएमा,</span></li>
+            <li><span>आयोजनाको कोष तथा सामग्रीहरू अव्यवस्थित भएमा,</span></li>
+            <li><span>आयोजनाको निर्माण चरण पश्चातको प्रस्तावमा लाभान्वित वर्गहरूको प्रभावकारी सहभागिताको अभाव
+                    देखिएमा,</span></li>
+            <li><span>आयोजनाको निर्माण चरण पश्चात कार्य सम्बन्धी विवाद देखिएमा,</span></li>
+            <li><span>सहयोगी संस्थाले तोकिएको समयभित्र सम्झौता अनुरूप काम गर्न नसकेमा,</span></li>
+            <li><span>खरिद गरिएका सामग्रीहरूको नाम, प्रमाण चिन्ह, स्पेसिफिकेशन कोष विकास समितिबाट स्वीकृत प्राविधिक
+                    निर्देशिका अनुसार नभएमा,</span></li>
+            <li><span>आयोजनाको निर्माण चरण पश्चात कार्य गर्न अन्य संघ संस्थाबाट पहल भइसकेको वा आयोजनाको निर्माणमा
+                    दोहोरोपना भएको प्रमाणित भएमा।</span></li>
+        </ul>
+        <p><span style="font-weight: 400;">सम्झौता समाप्त भएको अवस्थामा अन्य कुनै योग्य सहयोगी संस्थासँग नयाँ सम्झौता
+                गर्ने वा आवश्यक क्रियाकलापहरू राम्ररी सम्पन्न गर्न कोष विकास समितिका कार्यकारी निर्देशकले उचित
+                ठहर्&zwj;याएको अन्य कुनै उपयुक्त व्यवस्था गर्ने अधिकार कोष विकास समितिमा नीहित रहनेछ।</span></p>
+        <p><strong>(१६)सम्झौता&nbsp;</strong></p>
+        <p><span style="font-weight: 400;">निर्माण चरण पश्चात सम्झौता तीन प्रति तयार गरी सम्बन्धित दुवै पक्षले हस्ताक्षर
+                गरी सहयोगी संस्था र कोष विकास समितिले एक एक प्रति राख्नेछन् र एक प्रति जानकारीका लागि स्थानीय तहमा
+                पठाउनु पर्नेछ।</span></p>
+        <p><strong>(१७)स्वीकारोक्ती</strong></p>
+        <p><span style="font-weight: 400;">यो सम्झौतामा निर्दिष्ट गरिएका प्रावधान तथा शर्तहरू, विश्व बैकद्वारा जारी
+                भ्रष्टाचार विरुद्धको निर्देशिका एवं समय समयमा हुन सक्ने संशोधनहरू अन्तर्गत रही निर्माण चरण पश्चातका
+                क्रियाकलापहरू सञ्चालनका लागि भएको यो सम्झौता हामी स्वीकार गर्दछौं।</span></p>
+        <p><em><span style="font-weight: 400;">(</span></em><em><span style="font-weight: 400;">नोटः आयोजनाको फिल्ड
+                    सर्भेक्षण पश्चात आयोजनाको संख्या थपघट हुन सक्नेछ। साथै</span></em><em><span
+                    style="font-weight: 400;">, </span></em><em><span style="font-weight: 400;">निर्माण चरण पश्चातको
+                    निर्देशिका २०७६</span></em> <em><span style="font-weight: 400;">अनुसार समितिको निर्णय भई आयोजना थप
+                    हुन गएमा सहयोगी संस्थासँगको सम्झौता संशोधन गरिनेछ र संशोधित रकम निर्माण चरण पश्चात्को निर्देशिका
+                    २०७६ मा उल्लेख भए अनुसार नै हुनेछ।</span></em><em><span style="font-weight: 400;">)</span></em></p>
+        <p>&nbsp;</p>
+        <div class="container-flex">
+            <div class="row">
+                <div class="col-6">
+                    <p><strong>दस्तखत :</strong></p>
+                    <p><span style="font-weight: 400;">नाम : चोक प्रसाद धिताल </span></p>
+                    <p><span style="font-weight: 400;">पद : </span></p>
+                    <p><span style="font-weight: 400;">ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति सहयोगी
+                            :</span></p>
+                    <p><span style="font-weight: 400;">मिति : {{createdDate}}</span></p>
+                    <p><span style="font-weight: 400;">छाप : </span></p>
+                </div>
+                <div class="col-6">
+                    <p><strong>दस्तखत :</strong></p>
+                    <p><span style="font-weight: 400;">नाम :
+                            {{contractDetails['firstNameNP']+' '+contractDetails['middleNameNP']+' '+contractDetails['lastNameNP']}}</span>
+                    </p>
+                    <p><span style="font-weight: 400;"> कार्यकारी निर्देशक पद : अध्यक्ष</span></p>
+                    <p><span style="font-weight: 400;"> संस्थाको नाम : {{contractDetails['nameNP']}}</span></p>
+                    <p><span style="font-weight: 400;"> मिति : {{createdDate}}</span></p>
+                    <p><span style="font-weight: 400;"> छाप :</span></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <div class="noprint">
-     <button (click)="printPage()"> Print </button>
+        <button (click)="printPage()"> Print </button>
     </div>
 </div>

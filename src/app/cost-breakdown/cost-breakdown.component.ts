@@ -5,11 +5,11 @@ import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
 import NumberToWords from 'number-to-words';
 @Component({
-  selector: 'app-contract',
-  templateUrl: './contract.component.html',
-  styleUrls: ['./contract.component.css']
+  selector: 'app-cost-breakdown',
+  templateUrl: './cost-breakdown.component.html',
+  styleUrls: ['./cost-breakdown.component.css']
 })
-export class ContractComponent implements OnInit {
+export class CostBreakdownComponent implements OnInit {
 
   contractId;
   contractDetails = {};
@@ -26,6 +26,7 @@ export class ContractComponent implements OnInit {
   overhead = 15;
   vat = 13;
 
+  hrListing = [];
   //dates 
   startDate;
   endDate;
@@ -95,15 +96,24 @@ export class ContractComponent implements OnInit {
     this.createdDate = this.createdDate.format('yyyy-mmmm-dd , ddd');
     //hr part 
     this.calculatedData['hrSubTotal'] = 0;
+    this.calculatedData['fairHrSubTotal'] = 0;
     this.staff.forEach(e => {
       this.calculatedData[e.name] = {};
-      this.calculatedData[e.name]['fairPay'] = ((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes;
+      this.calculatedData[e.name]['monthlyPay'] = e['monthlyPay'];
+      this.calculatedData[e.name]['fairMonthlyPay'] = (e['monthlyPay'] / 30) * e['workingDays'];
+      this.calculatedData[e.name]['payable'] = ((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes;
       this.calculatedData[e.name]['person'] = e['person'];
-      this.calculatedData[e.name]['workingDays'] = e['workingDays'] * this.numberOfSchemes;
-      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['fairPay'];
-    })
+      this.calculatedData[e.name]['workingDays'] = e['workingDays'];
+      this.calculatedData[e.name]['fairWorkingDays'] = e['workingDays'] * this.numberOfSchemes;
+      //totals
+      this.calculatedData['fairHrSubTotal'] += this.calculatedData[e.name]['fairMonthlyPay'];
+      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['payable'];
+    });
+    //overheads
     this.calculatedData['hrOverhead'] = this.overhead / 100 * this.calculatedData['hrSubTotal'];
     this.calculatedData['hrTotal'] = this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead'];
+    this.calculatedData['fairHrOverhead'] = this.overhead / 100 * this.calculatedData['fairHrSubTotal'];
+    this.calculatedData['fairHrTotal'] = this.calculatedData['fairHrSubTotal'] + this.calculatedData['fairHrOverhead'];
 
 
     // misc part
@@ -112,19 +122,30 @@ export class ContractComponent implements OnInit {
     this.miscData['reportingCost'] = this.contractDetails['reportingCost'] * this.numberOfSchemes;
     this.miscData['jointMonitoringCost'] = this.contractDetails['jointMonitoringCost'] * this.numberOfSchemes;
 
-    this.calculatedData['orientationCost'] = this.contractDetails['orientationCost'] * this.numberOfSchemes;
+    this.calculatedData['orientationCost'] = this.contractDetails['orientationCost'];
+    this.calculatedData['fairOrientationCost'] = this.contractDetails['orientationCost'] * this.numberOfSchemes;
+
     this.calculatedData['miscTotal'] = 0;
+    this.calculatedData['fairMiscTotal'] = 0;
     for (let item in this.miscData) {
       this.calculatedData[item] = this.miscData[item];
-      this.calculatedData['miscTotal'] += this.miscData[item];
+      this.calculatedData['fairMiscTotal'] += this.miscData[item];
+      this.calculatedData['miscTotal'] += this.contractDetails[item];
     }
-    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.contractDetails['orientationCost'];
-    this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
-    this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
-    this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
 
-    this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['hrSubTotal'];
-    this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['hrSubTotal'];
+    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost'];
+    this.calculatedData['fairTotal'] = this.calculatedData['fairHrTotal'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost'];
+
+    this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
+    this.calculatedData['fairVat'] = this.vat / 100 * this.calculatedData['fairTotal'];
+
+    this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
+    this.calculatedData['fairGrandTotal'] = this.calculatedData['fairTotal'] + this.calculatedData['fairVat'];
+    this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
+    this.calculatedData['fairGrandTotalWR'] = NumberToWords.toWords(this.calculatedData['fairGrandTotal'].toFixed());
+
+    this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['fairHrSubTotal'];
+    this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['fairHrSubTotal'];
 
     console.log(this.calculatedData)
   }

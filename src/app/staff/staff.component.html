@@ -79,30 +79,31 @@
                     {{item[formControlNames.name]}}
                 </td>
                 <td>{{item[formControlNames.nameNP]}}</td>
-<td>
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#addPeople" (click)="getPersonsUnderStaff(item[formControlNames.staffId])">
-                    <i class="fa fa-user"> </i>
+                <td>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#addPeople" (click)="getPersonsUnderStaff(item[formControlNames.staffId])">
+                        <i class="fa fa-user"> </i>
 
-                </span>
+                    </span>
 
-                <!-- <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                    <!-- <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
                     data-target="#addSO" (click)="getSOUnderPM(item[formControlNames.staffId])">
                     <i class="fa fa-envelope"> </i> 
 
                 </span>
 -->
-                <span *ngIf="!item[formControlNames.projectManager]" class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#update" (click)="edit(i)">
-                    <i class="fa fa-pencil"> </i>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#update" (click)="edit(i)">
+                        <i class="fa fa-pencil"> </i>
 
-                </span>
-                <span *ngIf="!item[formControlNames.projectManager]" class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.staffId])">
-                    <i class="fa fa-trash"> </i>
+                    </span>
+                    <span *ngIf="!item[formControlNames.projectManager]"
+                        class="btn btn-danger rounded-circle rounded-circle-sm"
+                        (click)="delete(item[formControlNames.staffId])">
+                        <i class="fa fa-trash"> </i>
 
-                </span>
-            </td>
+                    </span>
+                </td>
             </tr>
 
         </tbody>
@@ -134,7 +135,7 @@
                                 [formControlName]="formControlNames.staffCode">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="name">Name</label>
@@ -152,6 +153,11 @@
                             <label for="monthlyPay">Monthly Pay</label>
                             <input type="text" class="form-control" id="monthlyPay" placeholder="Monthly Pay"
                                 [formControlName]="formControlNames.monthlyPay">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="workingDays">Working Days</label>
+                            <input type="text" class="form-control" id="workingDays" placeholder="Working Days"
+                                [formControlName]="formControlNames.workingDays">
                         </div>
                     </div>
                 </form>
@@ -174,7 +180,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Local Body</h5>
+                <h5 class="modal-title">Update Staff</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -213,6 +219,11 @@
                             <input type="text" class="form-control" id="umonthlyPay" placeholder="Monthly Pay"
                                 [formControlName]="formControlNames.monthlyPay">
                         </div>
+                        <div class="form-group col-4">
+                            <label for="uworkingDays">Working Days</label>
+                            <input type="text" class="form-control" id="uworkingDays" placeholder="Working Days"
+                                [formControlName]="formControlNames.workingDays">
+                        </div>
                     </div>
                 </form>
 
@@ -229,7 +240,7 @@
 
 
 <!-- add people modal -->
- <div class="modal fade" id="addPeople" tabindex="-1" role="dialog" aria-labelledby="addPeople" aria-hidden="true">
+<div class="modal fade" id="addPeople" tabindex="-1" role="dialog" aria-labelledby="addPeople" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -320,7 +331,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 <!-- add SO and Batch modal -->
 <!-- <div class="modal fade" id="addSO" tabindex="-1" role="dialog" aria-labelledby="addProject" aria-hidden="true">

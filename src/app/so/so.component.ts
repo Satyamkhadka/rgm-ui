@@ -30,7 +30,7 @@ export class SoComponent implements OnInit {
   soForm: FormGroup;
   updateSoForm: FormGroup;
   filterForm: FormGroup;
-  assignForm:FormGroup;
+  assignForm: FormGroup;
 
   formControlNames = {
     soId: 'soId',
@@ -41,7 +41,7 @@ export class SoComponent implements OnInit {
     ward: 'ward',
     vdcId: 'vdcId',
     districtId: 'districtId',
-    localBodyId: 'localBodyId',
+    // localBodyId: 'localBodyId',
     address: 'address',
     poBox: 'poBox',
     phone1: 'phone1',
@@ -71,7 +71,7 @@ export class SoComponent implements OnInit {
       [this.formControlNames.ward]: '',
       // [this.formControlNames.vdcId]:'',
       [this.formControlNames.districtId]: '',
-      [this.formControlNames.localBodyId]: '',
+      // [this.formControlNames.localBodyId]: '',
       [this.formControlNames.address]: '',
       [this.formControlNames.poBox]: '',
       [this.formControlNames.phone1]: '',
@@ -98,7 +98,7 @@ export class SoComponent implements OnInit {
       [this.formControlNames.ward]: '',
       //[this.formControlNames.vdcId]:'',
       [this.formControlNames.districtId]: '',
-      [this.formControlNames.localBodyId]: '',
+      // [this.formControlNames.localBodyId]: '',
       [this.formControlNames.address]: '',
       [this.formControlNames.poBox]: '',
       [this.formControlNames.phone1]: '',
@@ -122,7 +122,7 @@ export class SoComponent implements OnInit {
       staffId: 'none',
       personId: 'none'
     });
-    
+
     this.getDistricts();
     this.populateList();
     this.getAllStaff();
@@ -238,7 +238,7 @@ export class SoComponent implements OnInit {
       [this.formControlNames.ward]: this.setEdit['ward'],
       //[this.formControlNames.vdcId]:this.setEdit['vdcId'],
       [this.formControlNames.districtId]: this.setEdit['districtId'],
-      [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
+      //[this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
       [this.formControlNames.address]: this.setEdit['address'],
       [this.formControlNames.poBox]: this.setEdit['poBox'],
       [this.formControlNames.phone1]: this.setEdit['phone1'],
@@ -288,7 +288,7 @@ export class SoComponent implements OnInit {
 
   getSoBy(by, id) {
     if (by === 'district') {
-      if(id==='all'){ this.activeDistrictFilter = 'all';this.activeLocalBodyFilter='all'; this.populateList(); return;}
+      if (id === 'all') { this.activeDistrictFilter = 'all'; this.activeLocalBodyFilter = 'all'; this.populateList(); return; }
       this.soService.getSoByDistrictId(id).subscribe(data => {
         if (data['success']) {
           this.allSO = data['data'];
@@ -297,7 +297,7 @@ export class SoComponent implements OnInit {
         }
       });
     } else if (by === 'localBody') {
-      if(id==='all'){ this.activeLocalBodyFilter='all'; this.getSoBy('district',this.activeDistrictFilter); return; }
+      if (id === 'all') { this.activeLocalBodyFilter = 'all'; this.getSoBy('district', this.activeDistrictFilter); return; }
       this.soService.getSoByLocalBodyId(id).subscribe(data => {
         if (data['success']) {
           this.allSO = data['data'];
@@ -308,28 +308,28 @@ export class SoComponent implements OnInit {
     }
   }
 
-  getAllStaff(){
+  getAllStaff() {
     this.allStaff = [];
     this.staffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
         this.allStaff = data['data'];
-        this.allStaff = this.allStaff.filter(e=>{
-          if(e['projectManager']){
+        this.allStaff = this.allStaff.filter(e => {
+          if (e['projectManager']) {
             return false;
           } else return true;
         })
       }
     });
   }
-  selectSo(soId){
+  selectSo(soId) {
     console.log('seelct')
-  this.selectedSo = soId;
-  this.staffUnderSo = [];
-  this.soService.getStaffUnderSo(this.selectedSo).subscribe(data => {
-    if (data['success'] === true) {
-      this.staffUnderSo = data['data'];
-    }
-  });
+    this.selectedSo = soId;
+    this.staffUnderSo = [];
+    this.soService.getStaffUnderSo(this.selectedSo).subscribe(data => { //get staff under so
+      if (data['success'] === true) {
+        this.staffUnderSo = data['data'];
+      }
+    });
   }
   getPersonUnderStaff(staffId) { //for dropdown
     this.staffService.getPersonsUnderStaff(staffId).subscribe(data => {
@@ -339,7 +339,7 @@ export class SoComponent implements OnInit {
     });
   }
 
-  assignStaffUnderSo(data){
+  assignStaffUnderSo(data) {
 
     let plusData = data;
     plusData['soId'] = this.selectedSo;
@@ -357,17 +357,17 @@ export class SoComponent implements OnInit {
   }
 
   getPersonAssignedUnderStaff(staffId) { //assigned under staff and so
-    const filter = {staffId,'soId':this.selectedSo}
+    const filter = { staffId, 'soId': this.selectedSo }
     this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
       if (data['success'] === true) {
-        if(data['data'].length>0){
-        this.personUnderAssignedStaff = data['data'];
-        console.log(this.personUnderAssignedStaff)
+        if (data['data'].length > 0) {
+          this.personUnderAssignedStaff = data['data'];
+          console.log(this.personUnderAssignedStaff)
         }
       }
     });
   }
-  removePersonAssignedUnderStaff(staffAllocateId){
+  removePersonAssignedUnderStaff(staffAllocateId) {
     swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

@@ -20,7 +20,7 @@ export class PmComponent implements OnInit {
   allSo = [];
   allPerson = [];
   allBatch = [];
-managerInfo = [];
+  managerInfo = [];
   personUnderPm = [];
   SOUnderPM = [];
   selectedSoUnderBatch;
@@ -44,9 +44,10 @@ managerInfo = [];
     staffId: 'staffId',
     staffCode: 'staffCode',
     name: 'name',
-    batchId:'batchId',
+    batchId: 'batchId',
     nameNP: 'nameNP',
     monthlyPay: 'monthlyPay',
+    workingDays: 'workingDays',
     projectManager: 'projectManager',
     active: 'active',
     createdBy: 'createdBy',
@@ -93,6 +94,7 @@ managerInfo = [];
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.monthlyPay]: '',
+      [this.formControlNames.workingDays]: '',
       [this.formControlNames.projectManager]: '',
     });
 
@@ -102,6 +104,8 @@ managerInfo = [];
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.monthlyPay]: '',
+      [this.formControlNames.workingDays]: '',
+
       [this.formControlNames.projectManager]: '',
 
     });
@@ -145,7 +149,7 @@ managerInfo = [];
       }
     });
   }
- private  create(data) {
+  private create(data) {
     let plusData = data;
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -172,20 +176,20 @@ managerInfo = [];
   }
 
 
-private getProjectManagerSettings(){
-  this.pmService.getProjectManagerSettings().subscribe(data => {
-    if (data['success'] === true) {
-      console.log(data)
-      if (data['data'][0]) {
-        this.managerInfo = data['data'][0];
-      } else {
-        console.log('creatin')
-        this.create({staffCode:'PM/PM',projectManager:true, name:'Project Manager', nameNP:'Project Manager', monthlyPay:'0'})
+  private getProjectManagerSettings() {
+    this.pmService.getProjectManagerSettings().subscribe(data => {
+      if (data['success'] === true) {
+        console.log(data)
+        if (data['data'][0]) {
+          this.managerInfo = data['data'][0];
+        } else {
+          console.log('creatin')
+          this.create({ staffCode: 'PM/PM', projectManager: true, name: 'Project Manager', nameNP: 'Project Manager', monthlyPay: '0' })
+        }
+
       }
-      
-    } 
-  });
-}
+    });
+  }
   edit() {
     this.updatePmForm = this.formBuilder.group({
       [this.formControlNames.staffId]: this.managerInfo['staffId'],
@@ -193,6 +197,7 @@ private getProjectManagerSettings(){
       [this.formControlNames.name]: this.managerInfo['name'],
       [this.formControlNames.nameNP]: this.managerInfo['nameNP'],
       [this.formControlNames.monthlyPay]: this.managerInfo['monthlyPay'],
+      [this.formControlNames.workingDays]: this.managerInfo['workingDays'],
       [this.formControlNames.projectManager]: this.managerInfo['projectManager'],
     });
   }
@@ -227,7 +232,7 @@ private getProjectManagerSettings(){
     this.pmService.addPersonUnderPm(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
-       this.populateList();
+        this.populateList();
       } else if (data['success'] === false) {
         swal.fire('Oops', data['message'], 'error');
       }
@@ -271,13 +276,13 @@ private getProjectManagerSettings(){
   }
   addSOUnderPM(soId) {
     console.log(soId)
-    if(this.selectedBatch==='all'){
-      swal.fire('Oops','Please select batch first', 'info');
+    if (this.selectedBatch === 'all') {
+      swal.fire('Oops', 'Please select batch first', 'info');
       return;
     }
     let plusData = { personId: this.selectedPm, soId: soId };
     plusData[this.formControlNames.batchId] = this.selectedBatch;
-    
+
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
@@ -317,25 +322,25 @@ private getProjectManagerSettings(){
     })
 
   }
-  getAllBatch(){
-    this.batchService.getAllBatch().subscribe(data=>{
+  getAllBatch() {
+    this.batchService.getAllBatch().subscribe(data => {
       if (data['success'] === true) {
         this.allBatch = data['data'];
       }
     })
   }
-  selectBatch(batchId){
+  selectBatch(batchId) {
     this.selectedBatch = batchId;
     this.selectedSoUnderBatch = this.SOUnderPM;
-    if(batchId === 'all'){
+    if (batchId === 'all') {
       return;
     }
-    this.selectedSoUnderBatch  = this.SOUnderPM.filter(el=>{
-      if(el['batchId']==batchId){
+    this.selectedSoUnderBatch = this.SOUnderPM.filter(el => {
+      if (el['batchId'] == batchId) {
         return true;
       } else return false;
     })
   }
 
- 
+
 }

@@ -12,12 +12,19 @@ export class LocalBodyService {
   getAllDistricts(){
     return this.httpClient.get(environment.url+'districts');
   }
+  getDistrictById(districtId){
+    return this.httpClient.get(environment.url+'district/'+districtId);
+  }
+
   createLocalBody(data){
     console.log(data)
     return this.httpClient.post(environment.url+'local-body',data);
   }
   getAllLocalBodies(){
     return this.httpClient.get(environment.url+'local-bodies');
+  }
+  getLocalBodyById(localBodyId){
+    return this.httpClient.get(environment.url+'local-body/id/'+localBodyId);
   }
   getLocalBodiesByDistrictId(districtId){
     return this.httpClient.get(environment.url+'local-bodies/districtId/'+districtId);
