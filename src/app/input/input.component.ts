@@ -194,7 +194,9 @@ export class InputComponent implements OnInit {
     plusData['startDate'] = data.startYear + '-' + data.startMonth + '-' + data.startDay;
     plusData['endDate'] = data.endYear + '-' + data.endMonth + '-' + data.endDay;
 
-    plusData['schemes'] = JSON.stringify(this.selectedSchemes);
+    console.log(this.selectedSchemes);
+    plusData['schemes'] = JSON.stringify(selectedSchemesId);
+
     plusData['active'] = true;
 
     // deleting unnecessary data 

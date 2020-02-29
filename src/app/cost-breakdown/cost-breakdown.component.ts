@@ -106,8 +106,8 @@ export class CostBreakdownComponent implements OnInit {
       this.calculatedData[e.name]['workingDays'] = e['workingDays'];
       this.calculatedData[e.name]['fairWorkingDays'] = e['workingDays'] * this.numberOfSchemes;
       //totals
-      this.calculatedData['fairHrSubTotal'] += this.calculatedData[e.name]['fairMonthlyPay'];
-      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['payable'];
+      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['fairMonthlyPay'];
+      this.calculatedData['fairHrSubTotal'] += this.calculatedData[e.name]['payable'];
     });
     //overheads
     this.calculatedData['hrOverhead'] = this.overhead / 100 * this.calculatedData['hrSubTotal'];
@@ -144,8 +144,18 @@ export class CostBreakdownComponent implements OnInit {
     this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
     this.calculatedData['fairGrandTotalWR'] = NumberToWords.toWords(this.calculatedData['fairGrandTotal'].toFixed());
 
+
     this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['fairHrSubTotal'];
+    this.calculatedData['total70'] = this.calculatedData['hrSubTotal70'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost']
+    this.calculatedData['vat70'] = this.vat / 100 * this.calculatedData['total70'];
+
     this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['fairHrSubTotal'];
+    this.calculatedData['total30'] = this.calculatedData['hrSubTotal30'] + this.calculatedData['fairHrOverhead'];
+    this.calculatedData['vat30'] = this.vat / 100 * this.calculatedData['total30'];
+
+    this.calculatedData['firstPaymentTotal'] = this.calculatedData['total70'] + this.calculatedData['vat70'];
+    this.calculatedData['secondPaymentTotal'] = this.calculatedData['total30'] + this.calculatedData['vat30'];
+
 
     console.log(this.calculatedData)
   }

@@ -87,10 +87,10 @@ export class ContractComponent implements OnInit {
   calculateData() {
 
     //ummm.... dates 
-    this.startDate = new NepaliDate(this.contractDetails['startDate']); //start nepali date
-    this.endDate = new NepaliDate(this.contractDetails['endDate']); //end nepali date
-    this.startDate = this.startDate.format('yyyy-mmmm-dd , ddd');
-    this.endDate = this.endDate.format('yyyy-mmmm-dd , ddd');
+    //this.startDate = new NepaliDate(this.contractDetails['startDate']); //start nepali date
+    //this.endDate = new NepaliDate(this.contractDetails['endDate']); //end nepali date
+    //this.startDate = this.startDate.format('yyyy-mmmm-dd , ddd');
+    //this.endDate = this.endDate.format('yyyy-mmmm-dd , ddd');
     this.createdDate = new NepaliDate(this.contractDetails['createdOn']);
     this.createdDate = this.createdDate.format('yyyy-mmmm-dd , ddd');
     //hr part 
@@ -118,7 +118,7 @@ export class ContractComponent implements OnInit {
       this.calculatedData[item] = this.miscData[item];
       this.calculatedData['miscTotal'] += this.miscData[item];
     }
-    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.contractDetails['orientationCost'];
+    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost'];
     this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
     this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
     this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
