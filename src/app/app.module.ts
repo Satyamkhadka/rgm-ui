@@ -2,8 +2,10 @@ import { PmComponent } from './pm/pm.component';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InputComponent } from './input/input.component';
@@ -25,6 +27,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
 import { MiscComponent } from './misc/misc.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.componen
     SidebarComponent,
     AllcontractComponent,
     MiscComponent,
-    CostBreakdownComponent
+    CostBreakdownComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,7 @@ import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.componen
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-  
+    FilterPipeModule
   ],
   providers: [
     AuthGuard,

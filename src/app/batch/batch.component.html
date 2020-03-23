@@ -47,11 +47,11 @@
     </div>
 </div> -->
 <!-- table part -->
-<div class="container-flex mt-5">
+<div class="container mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
-
+                <input type="text" [(ngModel)]="filter.batchNo" placeholder="Search">
             </div>
             <div class="col-6">
                 <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
@@ -67,26 +67,25 @@
                 <th scope="col">Batch No.</th>
                 <th scope="col">Descrition</th>
                 <th scope="col">Actions</th>
-
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of allBatch; let i = index;">
+            <tr *ngFor="let item of allBatch | filterBy:filter; let i = index;">
                 <td>{{i+1}}</td>
                 <td>{{item[formControlNames.batchNo]}}</td>
                 <td>{{item[formControlNames.batchDescEN]}}</td>
                 <td>
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
-                    data-target="#update" (click)="edit(i)">
-                    <i class="fa fa-pencil"> </i>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#update" (click)="edit(item)">
+                        <i class="fa fa-pencil"> </i>
 
-                </span>
-                <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.batchId])">
-                    <i class="fa fa-trash"> </i>
+                    </span>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                        (click)="delete(item[formControlNames.batchId])">
+                        <i class="fa fa-trash"> </i>
 
-                </span>
-            </td>
+                    </span>
+                </td>
             </tr>
 
         </tbody>
@@ -124,18 +123,20 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="batchDescEN">Batch Description English</label>
-                            <textarea type="textbox" class="form-control" id="batchDescEN" placeholder="Batch Description English"
+                            <textarea type="textbox" class="form-control" id="batchDescEN"
+                                placeholder="Batch Description English"
                                 [formControlName]="formControlNames.batchDescEN"> </textarea>
 
                         </div>
                         <div class="form-group col-6">
                             <label for="batchDescNP">Batch Description Nepali</label>
-                            <textarea  class="form-control textarea" id="batchDescNP" placeholder="Batch Description Nepali"
+                            <textarea class="form-control textarea" id="batchDescNP"
+                                placeholder="Batch Description Nepali"
                                 [formControlName]="formControlNames.batchDescNP"> </textarea>
                         </div>
                     </div>
 
-                    
+
 
                 </form>
 
@@ -176,18 +177,20 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="ubatchDescEN">Batch Description English</label>
-                            <textarea type="textbox" class="form-control" id="ubatchDescEN" placeholder="Batch Description English"
+                            <textarea type="textbox" class="form-control" id="ubatchDescEN"
+                                placeholder="Batch Description English"
                                 [formControlName]="formControlNames.batchDescEN"> </textarea>
 
                         </div>
                         <div class="form-group col-6">
                             <label for="ubatchDescNP">Batch Description Nepali</label>
-                            <textarea  class="form-control textarea" id="ubatchDescNP" placeholder="Batch Description Nepali"
+                            <textarea class="form-control textarea" id="ubatchDescNP"
+                                placeholder="Batch Description Nepali"
                                 [formControlName]="formControlNames.batchDescNP"> </textarea>
                         </div>
                     </div>
 
-                    
+
                 </form>
 
 

@@ -11,49 +11,57 @@ export class SidebarComponent implements OnInit {
   listItems =
     [
       {
-        name:'Home',
-        icon:'home',
-        urlTo:'/home'
+        name: 'Home',
+        icon: 'home',
+        urlTo: '/menu'
       },
       {
-        name:'Local Body',
-        icon:'map-marker',
-        urlTo:'/local-body'
+        name: 'Local Body',
+        icon: 'map-marker',
+        urlTo: '/local-body'
       },
       {
-        name:'SO',
-        icon:'building',
-        urlTo:'/so'
+        name: 'SO',
+        icon: 'building',
+        urlTo: '/so'
       },
       {
-        name:'Scheme',
-        icon:'briefcase',
-        urlTo:'/scheme'
+        name: 'Scheme',
+        icon: 'briefcase',
+        urlTo: '/scheme'
       },
       {
-        name:'Staffs',
-        icon:'users',
-        urlTo:'/staff'
+        name: 'Staffs',
+        icon: 'users',
+        urlTo: '/staff'
       },
       {
-        name:'Person',
-        icon:'user',
-        urlTo:'/person'
+        name: 'Person',
+        icon: 'user',
+        urlTo: '/person'
+      }, {
+        name: 'Project Manager',
+        icon: 'user-tie',
+        urlTo: '/pm'
       },
       {
-        name:'Batch',
-        icon:'calendar',
-        urlTo:'/batch'
+        name: 'Batch',
+        icon: 'calendar',
+        urlTo: '/batch'
       },
       {
-        name:'Assign',
-        icon:'download',
-        urlTo:'/'
+        name: 'Assign',
+        icon: 'download',
+        urlTo: '/'
       },
       {
-        name:'Contracts',
-        icon:'eye',
-        urlTo:'/contract'
+        name: 'Contracts',
+        icon: 'eye',
+        urlTo: '/contract'
+      }, {
+        name: 'Miscellelious',
+        icon: 'dollar',
+        urlTo: '/misc'
       },
 
     ];

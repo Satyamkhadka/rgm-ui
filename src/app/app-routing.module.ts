@@ -1,3 +1,4 @@
+import { MenuComponent } from './menu/menu.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { PmComponent } from './pm/pm.component';
 import { SchemeComponent } from './scheme/scheme.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'pm', component: PmComponent },
   { path: 'contract', component: AllcontractComponent },
   { path: 'misc', component: MiscComponent },
+  { path: 'menu', component: MenuComponent },
   { path: 'contract/cost/:contractId', component: CostBreakdownComponent },
 
 

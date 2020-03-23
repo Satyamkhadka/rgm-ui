@@ -1,12 +1,13 @@
-<div class="container-flex mt-5 mb-5">
+<div class="container mt-5 mb-5">
     <span class="h4">Select District</span>
     <form class="form" [formGroup]="districtForm">
         <div class="form-row">
             <div class="form-group col-9">
-                
+
                 <select id="topinputState" class="form-control" formControlName="district">
                     <option selected value="all">All</option>
-                    <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
+                    <option *ngFor="let item of allDistricts" [value]="item['districtId']">
+                        {{item['name']}}</option>
                 </select>
             </div>
             <div class="form-group col-3">
@@ -14,7 +15,7 @@
                     Show
                     <span class="spinner-border p-1" role="status" *ngIf="loading">
                         <span class="sr-only">Loading...</span>
-                      </span>
+                    </span>
                 </span>
             </div>
         </div>
@@ -22,18 +23,18 @@
 </div>
 
 <!-- table part -->
-<div class="container-flex">
+<div class="container">
     <div class="container-flex">
-    <div class="row">
-        <div class="col-6">
-           
+        <div class="row">
+            <div class="col-6">
+                <input type="text" [(ngModel)]="filter.name" placeholder="Search">
+            </div>
+            <div class="col-6">
+                <span class="btn btn-success float-right" data-toggle="modal" data-target="#createlocalbody">
+                    <i class="fa fa-plus"> </i> Add Local Body
+                </span>
+            </div>
         </div>
-        <div class="col-6">
-            <span class="btn btn-success float-right" data-toggle="modal" data-target="#createlocalbody">
-                <i class="fa fa-plus"> </i> Add Local Body
-            </span>
-        </div>
-    </div>        
     </div>
     <table class="table table-striped">
         <thead>
@@ -46,21 +47,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor = "let item of allLocalBodies; let i = index;">
+            <tr *ngIf="(allLocalBodies | filterBy: filter).length === 0">
+                <td colspan="5" class="text-center">no data found</td>
+            </tr>
+            <tr *ngFor="let item of allLocalBodies | filterBy: filter; let i = index;">
                 <td>{{i+1}}</td>
                 <td>{{item[formControlNames.code]}}</td>
                 <td>{{item[formControlNames.name]}}</td>
-                <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" 
-                data-toggle="modal" data-target="#updatelocalbody"
-                (click)="edit(i)">
-                    <i class="fa fa-pencil"> </i>
+                <td>
 
-                </span>
-                <span class="btn btn-danger rounded-circle rounded-circle-sm"
-                    (click)="delete(item[formControlNames.selfid])">
-                    <i class="fa fa-trash"> </i>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#updatelocalbody" (click)="edit(item)">
+                        <i class="fa fa-pencil"> </i>
 
-                </span>
+                    </span>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                        (click)="delete(item[formControlNames.selfid])">
+                        <i class="fa fa-trash"> </i>
+                    </span>
+                </td>
+
             </tr>
 
         </tbody>
@@ -110,7 +116,8 @@
                             <select id="inputState" class="form-control" formControlName="role"
                                 [formControlName]="formControlNames.id">
                                 <option value='' selected>Select District</option>
-                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -175,7 +182,8 @@
                             <select id="uinputState" class="form-control" formControlName="role"
                                 [formControlName]="formControlNames.id" required>
                                 <option value='' selected>Select District</option>
-                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}</option>
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
                             </select>
                         </div>
                     </div>

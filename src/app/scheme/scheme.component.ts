@@ -12,20 +12,20 @@ import jwt_decode from 'jwt-decode';
 })
 export class SchemeComponent implements OnInit {
   allSO = [];
-  allScheme=[];
+  allScheme = [];
   activeFilter = "all";
   setEdit;
   loading = false;
-
+  filter: any = { name: '' };
   schemeForm: FormGroup;
   updateSchemeForm: FormGroup;
   filterForm: FormGroup;
 
   formControlNames = {
-    schemeId:'schemeId',
-    schemeCode:'schemeCode',
-    name:'name',
-    nameNP:'nameNP',
+    schemeId: 'schemeId',
+    schemeCode: 'schemeCode',
+    name: 'name',
+    nameNP: 'nameNP',
     active: 'active',
     createdBy: 'createdBy',
     createdOn: 'createdOn',
@@ -35,26 +35,26 @@ export class SchemeComponent implements OnInit {
     private soService: SoService,
     private formBuilder: FormBuilder,
     private schemeService: SchemeService
-  ) { 
+  ) {
 
     this.schemeForm = this.formBuilder.group({
-[this.formControlNames.schemeCode]:'',
-[this.formControlNames.name]:'',
-[this.formControlNames.nameNP]:'',
-[this.formControlNames.active]:'',
-[this.formControlNames.createdBy]:'',
-[this.formControlNames.createdOn]:'',
+      [this.formControlNames.schemeCode]: '',
+      [this.formControlNames.name]: '',
+      [this.formControlNames.nameNP]: '',
+      [this.formControlNames.active]: '',
+      [this.formControlNames.createdBy]: '',
+      [this.formControlNames.createdOn]: '',
 
     });
 
     this.updateSchemeForm = this.formBuilder.group({
-      [this.formControlNames.schemeId]:'',
-      [this.formControlNames.schemeCode]:'',
-      [this.formControlNames.name]:'',
-      [this.formControlNames.nameNP]:'',
-          });
+      [this.formControlNames.schemeId]: '',
+      [this.formControlNames.schemeCode]: '',
+      [this.formControlNames.name]: '',
+      [this.formControlNames.nameNP]: '',
+    });
     this.filterForm = this.formBuilder.group({
-      so:'all'
+      so: 'all'
     });
     this.getAllSo();
     this.populateList();
@@ -86,7 +86,7 @@ export class SchemeComponent implements OnInit {
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
-    
+
     this.schemeService.createScheme(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
@@ -136,17 +136,17 @@ export class SchemeComponent implements OnInit {
     if (this.activeFilter === 'all') {
       this.populateList();
     } else {
-     this.getSchemeBySo(this.activeFilter);
+      this.getSchemeBySo(this.activeFilter);
     }
   }
 
-  edit(i) {
-    this.setEdit = this.allScheme[i];
+  edit(data) {
+    this.setEdit = data;
     this.updateSchemeForm = this.formBuilder.group({
-        [this.formControlNames.schemeId]:this.setEdit['schemeId'],
-        [this.formControlNames.schemeCode]:this.setEdit['schemeCode'],
-        [this.formControlNames.name]:this.setEdit['name'],
-        [this.formControlNames.nameNP]:this.setEdit['nameNP'],
+      [this.formControlNames.schemeId]: this.setEdit['schemeId'],
+      [this.formControlNames.schemeCode]: this.setEdit['schemeCode'],
+      [this.formControlNames.name]: this.setEdit['name'],
+      [this.formControlNames.nameNP]: this.setEdit['nameNP'],
     });
   }
 
@@ -164,16 +164,16 @@ export class SchemeComponent implements OnInit {
   }
 
   getSchemeBySo(id) {
-    if(id==='all'){this.activeFilter='all'; this.populateList();}
+    if (id === 'all') { this.activeFilter = 'all'; this.populateList(); }
     return; //no api made
- this.schemeService.getSchemeBySoId(id).subscribe(data=>{
-  if (data['success'] === true) {
-    this.allScheme =  [];
-    this.activeFilter=id;
-    this.allScheme = data['data'];
-  }
- });
-    
+    this.schemeService.getSchemeBySoId(id).subscribe(data => {
+      if (data['success'] === true) {
+        this.allScheme = [];
+        this.activeFilter = id;
+        this.allScheme = data['data'];
+      }
+    });
+
   }
 
 }

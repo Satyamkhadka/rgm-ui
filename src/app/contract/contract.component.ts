@@ -87,12 +87,14 @@ export class ContractComponent implements OnInit {
   calculateData() {
 
     //ummm.... dates 
-    //this.startDate = new NepaliDate(this.contractDetails['startDate']); //start nepali date
-    //this.endDate = new NepaliDate(this.contractDetails['endDate']); //end nepali date
-    //this.startDate = this.startDate.format('yyyy-mmmm-dd , ddd');
-    //this.endDate = this.endDate.format('yyyy-mmmm-dd , ddd');
-    this.createdDate = new NepaliDate(this.contractDetails['createdOn']);
-    this.createdDate = this.createdDate.format('yyyy-mmmm-dd , ddd');
+    this.startDate = new NepaliDate(this.contractDetails['startDate']); //start nepali date
+    this.endDate = new NepaliDate(this.contractDetails['endDate']); //end nepali date
+    this.startDate = this.startDate.format('yyyy-mmmm-dd , ddd');
+    this.endDate = this.endDate.format('yyyy-mmmm-dd , ddd');
+    console.log(this.contractDetails['createdOn']);
+    this.createdDate = new NepaliDate(new Date(this.contractDetails['createdOn']));
+    //this.createdDate = this.createdDate.format('yyyy-mmmm-dd , ddd');
+    console.log(this.createdDate.format('yyyy-mm-dd'))
     //hr part 
     this.calculatedData['hrSubTotal'] = 0;
     this.staff.forEach(e => {

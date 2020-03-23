@@ -1,15 +1,13 @@
-
 <!-- table part -->
 <div class="container mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
-
+                <input type="text" [(ngModel)]="filter.name" placeholder="Search">
             </div>
             <div class="col-6">
-                <span [routerLink]="['/']" routerLinkActive="router-link-active" 
-                 class="btn btn-success float-right" data-toggle="modal"
-                  data-target="#create">
+                <span [routerLink]="['/']" routerLinkActive="router-link-active" class="btn btn-success float-right"
+                    data-toggle="modal" data-target="#create">
                     <i class="fa fa-plus"> </i> Generate Contract
                 </span>
             </div>
@@ -26,24 +24,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of allContract; let i = index;">
+            <tr *ngFor="let item of allContract | filterBy:filter; let i = index;">
                 <td>{{i+1}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.createdOn}}</td>
                 <td>
-                    <span [routerLink]="['/contract/'+item['contractId']]" routerLinkActive="router-link-active"  class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
+                    <span [routerLink]="['/contract/'+item['contractId']]" routerLinkActive="router-link-active"
+                        class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
                         <i class="fa fa-eye"> </i>
                     </span>
-                    <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
-                    data-target="#budget" data-toggle="modal"
-                    >
+                    <span [routerLink]="['/contract/cost/'+item['contractId']]"
+                        class="btn btn-primary rounded-circle rounded-circle-sm mr-2">
                         <i class="fa fa-money"> </i>
                     </span>
-                <span class="btn btn-danger rounded-circle rounded-circle-sm">
-                    <i class="fa fa-trash"> </i>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm">
+                        <i class="fa fa-trash"> </i>
 
-                </span>
-            </td>
+                    </span>
+                </td>
             </tr>
 
         </tbody>
@@ -62,55 +60,62 @@
                 </button>
             </div>
             <div class="modal-body">
-<div class="container-flex">
-    <div class="row">
-        <div class="col-6">
-            <div class="card w-100">
-                <div class="card-header">
-                  70% payment
-                </div>
-                <div class="card-body">
-                    <div class="status">
+                <div class="container-flex">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card w-100">
+                                <div class="card-header">
+                                    70% payment
+                                </div>
+                                <div class="card-body">
+                                    <div class="status">
 
-                        <span class="w-100">
-                            <span class="border border-success rounded-circle p-2">  <i class="fa fa-check text-success"></i> </span> Installment Payment made
-                        </span>
-                        <span class="w-100">
-                            <span class="border border-danger rounded-circle p-2">  <i class="fa fa-close text-danger"></i> </span> Installment Not Payment made
-                        </span>
+                                        <span class="w-100">
+                                            <span class="border border-success rounded-circle p-2"> <i
+                                                    class="fa fa-check text-success"></i> </span> Installment Payment
+                                            made
+                                        </span>
+                                        <span class="w-100">
+                                            <span class="border border-danger rounded-circle p-2"> <i
+                                                    class="fa fa-close text-danger"></i> </span> Installment Not Payment
+                                            made
+                                        </span>
+                                    </div>
+                                    <div class="paymentDate">
+
+                                    </div>
+                                    <div class="paymentMadeBy">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card w-100">
+                                <div class="card-header">
+                                    30% payment
+                                </div>
+                                <div class="card-body">
+                                    <span class="w-100">
+                                        <span class="border border-success rounded-circle p-2"> <i
+                                                class="fa fa-check text-success"></i> </span> Installment Payment made
+                                    </span>
+                                    <span class="w-100">
+                                        <span class="border border-danger rounded-circle p-2"> <i
+                                                class="fa fa-close text-danger"></i> </span> Installment Not Payment
+                                        made
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="paymentDate">
-
-                    </div>
-                    <div class="paymentMadeBy">
-
-                    </div>
                 </div>
-              </div>
-        </div>
 
-        <div class="col-6">
-            <div class="card w-100">
-                <div class="card-header">
-                  30% payment
-                </div>
-                <div class="card-body">
-                    <span class="w-100">
-                        <span class="border border-success rounded-circle p-2">  <i class="fa fa-check text-success"></i> </span> Installment Payment made
-                    </span>
-                    <span class="w-100">
-                        <span class="border border-danger rounded-circle p-2">  <i class="fa fa-close text-danger"></i> </span> Installment Not Payment made
-                    </span>
-                </div>
-              </div>
-        </div>
-    </div>
-</div>
-    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                
+
             </div>
         </div>
     </div>

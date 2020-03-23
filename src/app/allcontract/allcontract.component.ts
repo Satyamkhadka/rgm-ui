@@ -13,6 +13,7 @@ export class AllcontractComponent implements OnInit {
 
 
   allContract = [];
+  filter: any = { name: '' }
   constructor(
     private localService: LocalBodyService,
     private contractService: ContractService,
@@ -36,7 +37,7 @@ export class AllcontractComponent implements OnInit {
     });
   }
 
- 
+
 
   getDecodedAccessToken(token: string): any {
     try {

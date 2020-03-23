@@ -21,6 +21,7 @@ export class PersonComponent implements OnInit {
   activeDistrictFilter = 'all';
   setEdit;
   loading = false;
+  filter: any = { searchKey: '' };
 
   personForm: FormGroup;
   updatePersonForm: FormGroup;
@@ -35,10 +36,10 @@ export class PersonComponent implements OnInit {
     firstNameNP: 'firstNameNP',
     middleNameNP: 'middleNameNP',
     lastNameNP: 'lastNameNP',
-    lsi:'lsi',
-    gender:'gender',
-    mStatus:'mStatus',
-    citizenshipNo:'citizenshipNo',
+    lsi: 'lsi',
+    gender: 'gender',
+    mStatus: 'mStatus',
+    citizenshipNo: 'citizenshipNo',
     districtId: 'districtId',
     localBodyId: 'localBodyId',
     ward: 'ward',
@@ -47,7 +48,7 @@ export class PersonComponent implements OnInit {
     phone2: 'phone2',
     mobile: 'mobile',
     email: 'email',
-    web:'web',
+    web: 'web',
     active: 'active',
     createdBy: 'createdBy',
     createdOn: 'createdOn'
@@ -64,7 +65,7 @@ export class PersonComponent implements OnInit {
       [this.formControlNames.lastName]: '',
       [this.formControlNames.firstNameNP]: '',
       [this.formControlNames.middleNameNP]: '',
-      [this.formControlNames.lastNameNP]: '', 
+      [this.formControlNames.lastNameNP]: '',
       [this.formControlNames.lsi]: '',
       [this.formControlNames.gender]: 'Male',
       [this.formControlNames.mStatus]: 'Single',
@@ -122,6 +123,15 @@ export class PersonComponent implements OnInit {
     this.personService.getAllPerson().subscribe(data => {
       if (data['success'] === true) {
         this.allSO = data['data'];
+
+        let temp;
+        this.allSO = this.allSO.map(e => {
+          temp = e;
+          temp['searchKey'] = e.firstName + ' ' + e.middleName + ' ' + e.lastName + ' ' + e.email + ' ' + e.personCode;
+          return temp;
+        });
+
+
       }
     });
   }
@@ -206,13 +216,16 @@ export class PersonComponent implements OnInit {
   diffrentialLoding() {
     if (this.activeLocalBodyFilter === 'all') {
       this.populateList();
+
     } else {
       //this.getSoBy(this.activeDistrictFilter, this.activeLocalBodyFilter);
     }
   }
 
-  edit(i) {
-    this.setEdit = this.allSO[i];
+  edit(data) {
+
+    this.setEdit = data;
+    console.log(this.allSO);
     this.change1(this.setEdit['districtId'], 'update');
     this.updatePersonForm = this.formBuilder.group({
       [this.formControlNames.personId]: this.setEdit['personId'],

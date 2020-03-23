@@ -501,7 +501,7 @@
                         <p><span style="font-weight: 400;">टिम लिडर</span></p>
                     </td>
                     <td *ngIf="calculatedData['Team Leader']['person']; else ifnot">
-                        {{calculatedData['Team Leader']['person']['firstName']+' '+calculatedData['Team Leader']['person']['middleName']+' '+calculatedData['Team Leader']['person']['lastName']}}
+                        {{calculatedData['Team Leader']['person']['firstNameNP']+' '+calculatedData['Team Leader']['person']['middleNameNP']+' '+calculatedData['Team Leader']['person']['lastNameNP']}}
                     </td>
                     <td *ngIf="calculatedData['Team Leader']['workingDays']; else ifnot">
                         {{calculatedData['Team Leader']['workingDays']}}</td>

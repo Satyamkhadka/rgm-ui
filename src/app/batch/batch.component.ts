@@ -21,6 +21,7 @@ export class BatchComponent implements OnInit {
   activeDistrictFilter = 'all';
   setEdit;
   loading = false;
+  filter: any = { batchNo: '', batchDescEN: '' };
 
   batchForm: FormGroup;
   updateBatchForm: FormGroup;
@@ -160,8 +161,8 @@ export class BatchComponent implements OnInit {
     }
   }
 
-  edit(i) {
-    this.setEdit = this.allBatch[i];
+  edit(data) {
+    this.setEdit = data;
     this.change1(this.setEdit['districtId'], 'update');
     this.updateBatchForm = this.formBuilder.group({
       [this.formControlNames.batchId]: this.setEdit['batchId'],

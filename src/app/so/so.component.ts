@@ -26,7 +26,7 @@ export class SoComponent implements OnInit {
   setEdit;
   loading = false;
   selectedSo;
-
+  filter: any = { name: '' };
   soForm: FormGroup;
   updateSoForm: FormGroup;
   filterForm: FormGroup;
@@ -226,8 +226,8 @@ export class SoComponent implements OnInit {
     }
   }
 
-  edit(i) {
-    this.setEdit = this.allSO[i];
+  edit(data) {
+    this.setEdit = data;
     this.change1(this.setEdit['districtId'], 'update');
     this.updateSoForm = this.formBuilder.group({
       [this.formControlNames.soId]: this.setEdit['soId'],
