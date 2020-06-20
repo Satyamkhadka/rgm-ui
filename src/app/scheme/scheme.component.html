@@ -1,6 +1,6 @@
 <div class="container mt-5 mb-5">
     <div class="row">
-        <div class="col-4">
+        <!-- <div class="col-4">
             <span class="h4">Show Scheme by SO</span>
             <form class="form" [formGroup]="filterForm">
                 <div class="form-row">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
 
     </div>
 </div>
@@ -41,6 +41,7 @@
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
                 <th scope="col">Name(NP)</th>
+                <th scope="col">Ward No</th>
                 <th scope="col">Actions</th>
 
             </tr>
@@ -51,6 +52,7 @@
                 <td> {{item.schemeCode}}</td>
                 <td> {{item.name}}</td>
                 <td>{{item.nameNP}}</td>
+                <td>{{item.wardNo}}</td>
                 <td>
 
                     <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" (click)="edit(item)"
@@ -101,6 +103,11 @@
                                 [formControlName]="formControlNames.schemeCode">
                         </div>
                     </div>
+                    <div class="form-group col-md-2">
+                        <label for="ward">Ward No.</label>
+                        <input type="text" class="form-control" id="ward" placeholder="Ward No"
+                            [formControlName]="formControlNames.wardNo">
+                    </div>
 
                 </form>
             </div>
@@ -140,6 +147,11 @@
                             <input type="text" class="form-control" id="ucode" placeholder="Scheme CODE"
                                 [formControlName]="formControlNames.schemeCode">
                         </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="uward">Ward No.</label>
+                        <input type="text" class="form-control" id="uward" placeholder="Ward No"
+                            [formControlName]="formControlNames.wardNo">
                     </div>
 
                 </form>

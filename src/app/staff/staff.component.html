@@ -47,7 +47,7 @@
     </div>
 </div> -->
 <!-- table part -->
-<div class="container-flex mt-5">
+<div class="container mt-5">
     <div class="container-flex">
         <div class="row">
             <div class="col-6">
@@ -253,9 +253,11 @@
 
 
 
-                <form [formGroup]="updateStaffForm">
-                    <div class="row">
-                        <div class="form-group col-6">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <input type="text" [(ngModel)]="filter.searchkey" placeholder="Search">
+
+                        <form [formGroup]="updateStaffForm">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -267,7 +269,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of allPerson; let i = index;">
+                                    <tr *ngFor="let item of allPerson | filterBy: filter; let i = index;">
                                         <td>{{i+1}}</td>
                                         <td>{{item['personCode']}}</td>
                                         <td>
@@ -278,8 +280,6 @@
                                             <span *ngIf="item['lastName']">{{item['lastName']}}
                                             </span>
                                         </td>
-
-
 
                                         <td>
                                             <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
@@ -292,38 +292,38 @@
 
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="form-group col-6">
-                            <div class="card category-card">
-                                <h5 class="card-title text-center mx-2 mt-3 bg-light">Assigned Persons</h5>
-                                <div class="card-body mb-2 bg-light">
-                                    <div class="custom-height">
-                                        <div class="float-left mx-1">
-                                            <div class="card-title text-center">
-                                                <h6 *ngFor="let item of personUnderStaff;let i = index;"
-                                                    class="btn btn-success mr-2">
-                                                    <span>{{item['personCode'] + ' || '}}
-                                                    </span>
-                                                    <span *ngIf="item['firstName']">{{item['firstName']}}
-                                                    </span>
-                                                    <span *ngIf="item['middleName']">{{item['middleName']}}
-                                                    </span>
-                                                    <span *ngIf="item['lastName']">{{item['lastName']}}
-                                                    </span>
-                                                    <span class="btn btn-danger rounded-circle"
-                                                        (click)="removePersonUnderStaff(item['staffAllocateId'])">
-                                                        <i class="fa fa-trash"></i>
-                                                    </span>
-                                                </h6>
-                                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="card category-card">
+                            <h5 class="card-title text-center mx-2 mt-3 bg-light">Assigned Persons</h5>
+                            <div class="card-body mb-2 bg-light">
+                                <div class="custom-height">
+                                    <div class="float-left mx-1">
+                                        <div class="card-title text-center">
+                                            <h6 *ngFor="let item of personUnderStaff;let i = index;"
+                                                class="btn btn-success mr-2">
+                                                <span>{{item['personCode'] + ' || '}}
+                                                </span>
+                                                <span *ngIf="item['firstName']">{{item['firstName']}}
+                                                </span>
+                                                <span *ngIf="item['middleName']">{{item['middleName']}}
+                                                </span>
+                                                <span *ngIf="item['lastName']">{{item['lastName']}}
+                                                </span>
+                                                <span class="btn btn-danger rounded-circle"
+                                                    (click)="removePersonUnderStaff(item['staffAllocateId'])">
+                                                    <i class="fa fa-trash"></i>
+                                                </span>
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </form>
 
             </div>
             <div class="modal-footer">

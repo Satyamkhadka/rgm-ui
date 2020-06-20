@@ -133,8 +133,12 @@ export class SoComponent implements OnInit {
   }
 
   populateList() {
+    this.loading = true;
+
     this.allSO = [];
     this.soService.getAllSo().subscribe(data => {
+      this.loading = false;
+
       if (data['success'] === true) {
         this.allSO = data['data'];
       }
@@ -165,22 +169,20 @@ export class SoComponent implements OnInit {
   }
 
   getLocalBodyByDistrict(districtId) {
-    this.loading = true;
     this.activeLocalBodyFilter = districtId;
     if (districtId.district === 'all' || districtId.district === '') {
       this.activeLocalBodyFilter = 'all';
       this.diffrentialLoding();
-      this.loading = false;
 
       return;
     }
-    this.localService.getLocalBodiesByDistrictId(districtId.district).subscribe(data => {
-      if (data['success'] === true) {
-        this.allLocalBodies = [];
-        this.allLocalBodies = data['data'];
-        this.loading = false;
-      }
-    })
+    // this.localService.getLocalBodiesByDistrictId(districtId.district).subscribe(data => {
+    //   if (data['success'] === true) {
+    //     this.allLocalBodies = [];
+    //     this.allLocalBodies = data['data'];
+    //     this.loading = false;
+    //   }
+    // })
   }
 
   getDecodedAccessToken(token: string): any {

@@ -69,8 +69,8 @@ export class LocalBodyComponent implements OnInit {
   getDistricts() {
     this.localService.getAllDistricts().subscribe(data => {
       if (data['success'] === true) {
-        console.log(this.allDistricts)
         this.allDistricts = data['data'];
+        console.log(this.allDistricts)
       }
     });
   }
@@ -101,6 +101,7 @@ export class LocalBodyComponent implements OnInit {
 
       return;
     }
+
     this.localService.getLocalBodiesByDistrictId(districtId.district).subscribe(data => {
       if (data['success'] === true) {
         this.allLocalBodies = [];

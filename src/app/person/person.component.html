@@ -108,14 +108,12 @@
 
 
 
-
-
 <!-- create Modal -->
 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create SO</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create Person</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -298,7 +296,7 @@
                         <div class="form-group col-4">
                             <label for="code">Person Code</label>
                             <input type="text" class="form-control" id="code" placeholder="personCode"
-                                [formControlName]="formControlNames.personCode">
+                                [formControlName]="formControlNames.personCode" disabled>
                         </div>
                     </div>
 
@@ -306,17 +304,16 @@
                         <div class="form-group col-4">
                             <label for="ufirstName">First Name</label>
                             <input type="text" class="form-control" id="ufirstName" placeholder="First Name"
-                                [formControlName]="formControlNames.firstName">
-                        </div>
+                                [formControlName]="formControlNames.firstName" disabled> </div>
                         <div class="form-group col-4">
                             <label for="umiddleName">Middle Name</label>
                             <input type="text" class="form-control" id="umiddleName" placeholder="Middle Name"
-                                [formControlName]="formControlNames.middleName">
+                                [formControlName]="formControlNames.middleName" disabled>
                         </div>
                         <div class="form-group col-4">
                             <label for="ulastName">Last Name</label>
                             <input type="text" class="form-control" id="ulastName" placeholder="Last Name"
-                                [formControlName]="formControlNames.lastName">
+                                [formControlName]="formControlNames.lastName" disabled>
                         </div>
                     </div>
 
@@ -368,7 +365,7 @@
                         <div class="form-group col-3">
                             <label for="ucitizenshipNo">Citizenship No</label>
                             <input type="text" class="form-control" id="ucitizenshipNo" placeholder="Citizenship Number"
-                                [formControlName]="formControlNames.citizenshipNo">
+                                [formControlName]="formControlNames.citizenshipNo" disabled>
                         </div>
                     </div>
                     <div class="form-row">
@@ -377,7 +374,8 @@
                             <select id="udistrict" class="form-control" [formControlName]="formControlNames.districtId"
                                 required (change)="change1($event.target.value,'create')">
                                 <option value='' selected>Select District</option>
-                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">
+                                    {{item['name']}}
                                 </option>
                             </select>
                         </div>

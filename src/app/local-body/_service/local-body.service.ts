@@ -9,30 +9,30 @@ export class LocalBodyService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllDistricts(){
-    return this.httpClient.get(environment.url+'districts');
+  getAllDistricts() {
+    return this.httpClient.get(environment.url + 'districts');
   }
-  getDistrictById(districtId){
-    return this.httpClient.get(environment.url+'district/'+districtId);
+  getDistrictById(districtId) {
+    return this.httpClient.get(environment.url + 'district/' + districtId);
   }
 
-  createLocalBody(data){
+  createLocalBody(data) {
     console.log(data)
-    return this.httpClient.post(environment.url+'local-body',data);
+    return this.httpClient.post(environment.url + 'local-body', data);
   }
-  getAllLocalBodies(){
-    return this.httpClient.get(environment.url+'local-bodies');
+  getAllLocalBodies() {
+    return this.httpClient.get(environment.url + 'local-bodies');
   }
-  getLocalBodyById(localBodyId){
-    return this.httpClient.get(environment.url+'local-body/id/'+localBodyId);
+  getLocalBodyById(localBodyId) {
+    return this.httpClient.get(environment.url + 'local-body/id/' + localBodyId);
   }
-  getLocalBodiesByDistrictId(districtId){
-    return this.httpClient.get(environment.url+'local-bodies/districtId/'+districtId);
+  getLocalBodiesByDistrictId(districtId) {
+    return this.httpClient.get(environment.url + 'local-bodies/districtId/' + districtId);
   }
-  deleteLocal(id){
-    return this.httpClient.post(environment.url+'local-body/delete',{localBodyId:id})
+  deleteLocal(id) {
+    return this.httpClient.post(environment.url + 'local-body/delete', { localBodyId: id })
   }
-  updateLocal(data){
-    return this.httpClient.post(environment.url+'local-body/update',data);
+  updateLocal(data) {
+    return this.httpClient.post(environment.url + 'local-body/update', data);
   }
 }

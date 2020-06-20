@@ -8,25 +8,25 @@ import { environment } from 'src/environments/environment';
 export class SchemeService {
 
   constructor(private httpClient: HttpClient) { }
-  createScheme(data){
-    return this.httpClient.post(environment.url+'scheme',data);
+  createScheme(data) {
+    return this.httpClient.post(environment.url + 'scheme', data);
   }
-  getAllScheme(){
-    return this.httpClient.get(environment.url+'schemes');
+  getAllScheme() {
+    return this.httpClient.get(environment.url + 'schemes');
   }
-  getSchemeByDistrictId(districtId){
-    return this.httpClient.get(environment.url+'schemes/districtId/'+districtId);
+  getSchemeByDistrictId(districtId) {
+    return this.httpClient.get(environment.url + 'schemes/districtId/' + districtId);
   }
-  getSchemeByLocalBodyId(localBodyId){
-    return this.httpClient.get(environment.url+'schemes/localBodyId/'+localBodyId);
+  getSchemeByLocalBodyId(localBodyId) {
+    return this.httpClient.get(environment.url + 'schemes/localBodyId/' + localBodyId);
   }
-  getSchemeBySoId(localBodyId){
-    return this.httpClient.get(environment.url+'schemes/localBodyId/'+localBodyId);
+  getSchemeBySoId(soId) {
+    return this.httpClient.get(environment.url + 'schemes/soId/' + soId);
   }
-  deleteScheme(id){
-    return this.httpClient.post(environment.url+'scheme/delete',{schemeId:id})
+  deleteScheme(id) {
+    return this.httpClient.post(environment.url + 'scheme/delete', { schemeId: id })
   }
-  updateScheme(data){
-    return this.httpClient.post(environment.url+'scheme/update',data);
+  updateScheme(data) {
+    return this.httpClient.post(environment.url + 'scheme/update', data);
   }
 }

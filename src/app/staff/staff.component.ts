@@ -35,6 +35,8 @@ export class StaffComponent implements OnInit {
   updateStaffForm: FormGroup;
   filterForm: FormGroup;
 
+  filter: any = { searchkey: '' };
+
   formControlNames = {
     staffId: 'staffId',
     staffCode: 'staffCode',
@@ -91,7 +93,6 @@ export class StaffComponent implements OnInit {
     this.allStaff = [];
     this.staffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
-        console.log(data)
         this.allStaff = data['data'];
       }
     });
@@ -102,6 +103,12 @@ export class StaffComponent implements OnInit {
     this.personService.getAllPerson().subscribe(data => {
       if (data['success'] === true) {
         this.allPerson = data['data'];
+        let temp;
+        this.allPerson = this.allPerson.map(e => {
+          temp = e;
+          temp['searchkey'] = e.firstName + ' ' + e.middleName + ' ' + e.lastName + ' ' + e.personCode;
+          return temp;
+        })
       }
     });
   }

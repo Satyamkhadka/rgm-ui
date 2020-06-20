@@ -1,39 +1,28 @@
 <div id="main" class="container-fluid d-flex mt-5">
   <div class="container-fluid d-flex mt-5">
     <div id="login" class="signin-card">
-      <h1 class="display1">Contract Generation  |  Login</h1>
+      <h1 class="display1">Contract Generation | Login</h1>
       <form role="form" [formGroup]="loginForm">
-          <div id="form-login-username" class="form-group">
-            <label for="username" class="float-label">User Name</label>
-            <input id="username" class="form-control" name="username" type="text" size="18" alt="login"
-              formControlName="userName" required />
-            <span class="form-highlight"></span>
-            <span class="form-bar"></span>
-          </div>
-          <div id="form-login-password" class="form-group">
-            <label for="password" class="float-label">Password</label>
-            <input id="passwd" class="form-control" name="password" type="password" size="18" alt="password"
-              formControlName="password" required>
-            <span class="form-highlight"></span>
-            <span class="form-bar"></span>
-          </div>
-          <div>
-            <button class="btn btn-block btn-info ripple-effect"
-             name="Submit" alt="sign in" (click)="signIn(loginForm.value)">Sign
-              in</button>
-          </div>
+        <div id="form-login-username" class="form-group">
+          <label for="username" class="float-label">User Name</label>
+          <input id="username" class="form-control" name="username" type="text" size="18" alt="login"
+            formControlName="userName" required />
+          <span class="form-highlight"></span>
+          <span class="form-bar"></span>
+        </div>
+        <div id="form-login-password" class="form-group">
+          <label for="password" class="float-label">Password</label>
+          <input id="passwd" class="form-control" name="password" type="password" size="18" alt="password"
+            formControlName="password" required>
+          <span class="form-highlight"></span>
+          <span class="form-bar"></span>
+        </div>
+        <div>
+          <button class="btn btn-block btn-info ripple-effect" name="Submit" alt="sign in"
+            (click)="signIn(loginForm.value)">Sign
+            in</button>
+        </div>
       </form>
     </div>
   </div>
-</div>
-
-<div class="container bg-dark p-2">
-  <div class="text-light ml-2"> Easy Navigation (Temp)</div>
-  <span [routerLink]="['/local-body']" routerLinkActive="router-link-active"  class="btn btn-warning m-1"> Local body</span>
-  <span [routerLink]="['/so']" routerLinkActive="router-link-active"  class="btn btn-warning m-1"> SO</span>
-  <span [routerLink]="['/scheme']" routerLinkActive="router-link-active"  class="btn btn-warning m-1">Scheme</span>
-  <span [routerLink]="['/staff']" routerLinkAcztive="router-link-active"  class="btn btn-warning m-1">staff</span>
-  <span [routerLink]="['/person']" routerLinkActive="router-link-active"  class="btn btn-warning m-1">person</span>
-  <span [routerLink]="['/position']" routerLinkActive="router-link-active"  class="btn btn-warning m-1">position</span>
-  <span [routerLink]="['/batch']" routerLinkActive="router-link-active"  class="btn btn-warning m-1">batch</span>
 </div>

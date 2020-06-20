@@ -213,7 +213,6 @@ export class InputComponent implements OnInit {
 
     //staff data
     plusData['staff'] = JSON.stringify(this.staffs); //enter data here
-    console.log(plusData);
     this.contractService.createContract(plusData).subscribe(data1 => {
       this.loading = false;
       if (data1['success'] === true) {

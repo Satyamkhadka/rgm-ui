@@ -26,6 +26,7 @@ export class SchemeComponent implements OnInit {
     schemeCode: 'schemeCode',
     name: 'name',
     nameNP: 'nameNP',
+    wardNo: 'wardNo',
     active: 'active',
     createdBy: 'createdBy',
     createdOn: 'createdOn',
@@ -41,6 +42,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.schemeCode]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
+      [this.formControlNames.wardNo]: '',
       [this.formControlNames.active]: '',
       [this.formControlNames.createdBy]: '',
       [this.formControlNames.createdOn]: '',
@@ -52,6 +54,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.schemeCode]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
+      [this.formControlNames.wardNo]: '',
     });
     this.filterForm = this.formBuilder.group({
       so: 'all'
@@ -147,6 +150,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.schemeCode]: this.setEdit['schemeCode'],
       [this.formControlNames.name]: this.setEdit['name'],
       [this.formControlNames.nameNP]: this.setEdit['nameNP'],
+      [this.formControlNames.wardNo]: this.setEdit['wardNo'],
     });
   }
 
@@ -165,15 +169,15 @@ export class SchemeComponent implements OnInit {
 
   getSchemeBySo(id) {
     if (id === 'all') { this.activeFilter = 'all'; this.populateList(); }
-    return; //no api made
-    this.schemeService.getSchemeBySoId(id).subscribe(data => {
-      if (data['success'] === true) {
-        this.allScheme = [];
-        this.activeFilter = id;
-        this.allScheme = data['data'];
-      }
-    });
-
+    else {
+      this.schemeService.getSchemeBySoId(id).subscribe(data => {
+        if (data['success'] === true) {
+          this.allScheme = [];
+          this.activeFilter = id;
+          this.allScheme = data['data'];
+        }
+      });
+    }
   }
 
 }

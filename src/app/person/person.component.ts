@@ -146,6 +146,7 @@ export class PersonComponent implements OnInit {
   create(data) {
     console.log(data);
     let plusData = data;
+    plusData[this.formControlNames.personCode] = plusData['firstName'].substring(0, 3).toUpperCase() + plusData['citizenshipNo'];
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
     plusData[this.formControlNames.active] = true;
@@ -229,10 +230,10 @@ export class PersonComponent implements OnInit {
     this.change1(this.setEdit['districtId'], 'update');
     this.updatePersonForm = this.formBuilder.group({
       [this.formControlNames.personId]: this.setEdit['personId'],
-      [this.formControlNames.personCode]: this.setEdit['personCode'],
-      [this.formControlNames.firstName]: this.setEdit['firstName'],
-      [this.formControlNames.middleName]: this.setEdit['middleName'],
-      [this.formControlNames.lastName]: this.setEdit['lastName'],
+      [this.formControlNames.personCode]: { value: this.setEdit['personCode'], disabled: true },
+      [this.formControlNames.firstName]: { value: this.setEdit['firstName'], disabled: true },
+      [this.formControlNames.middleName]: { value: this.setEdit['middleName'], disabled: true },
+      [this.formControlNames.lastName]: { value: this.setEdit['lastName'], disabled: true },
       [this.formControlNames.firstNameNP]: this.setEdit['firstNameNP'],
       [this.formControlNames.middleNameNP]: this.setEdit['middleNameNP'],
       [this.formControlNames.lastNameNP]: this.setEdit['lastNameNP'],
@@ -253,6 +254,11 @@ export class PersonComponent implements OnInit {
   }
 
   doEdit(data) {
+    delete data['personCode'];
+    delete data['citizenshipNumber'];
+    delete data['firstName'];
+    delete data['middleName'];
+    delete data['lastName'];
     this.personService.updatePerson(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');

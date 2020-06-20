@@ -1,4 +1,6 @@
+import { data } from './../../environments/data';
 import { Component, OnInit } from '@angular/core';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,70 +9,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   active = true;
+  listItems = data.listItems;
 
-  listItems =
-    [
-      {
-        name: 'Home',
-        icon: 'home',
-        urlTo: '/menu'
-      },
-      {
-        name: 'Local Body',
-        icon: 'map-marker',
-        urlTo: '/local-body'
-      },
-      {
-        name: 'SO',
-        icon: 'building',
-        urlTo: '/so'
-      },
-      {
-        name: 'Scheme',
-        icon: 'briefcase',
-        urlTo: '/scheme'
-      },
-      {
-        name: 'Staffs',
-        icon: 'users',
-        urlTo: '/staff'
-      },
-      {
-        name: 'Person',
-        icon: 'user',
-        urlTo: '/person'
-      }, {
-        name: 'Project Manager',
-        icon: 'user-tie',
-        urlTo: '/pm'
-      },
-      {
-        name: 'Batch',
-        icon: 'calendar',
-        urlTo: '/batch'
-      },
-      {
-        name: 'Assign',
-        icon: 'download',
-        urlTo: '/'
-      },
-      {
-        name: 'Contracts',
-        icon: 'eye',
-        urlTo: '/contract'
-      }, {
-        name: 'Miscellelious',
-        icon: 'dollar',
-        urlTo: '/misc'
-      },
-
-    ];
+  userInfo: User;
   constructor() { }
 
   ngOnInit() {
+    this.getUserInfo();
   }
 
+  getUserInfo() {
+    this.userInfo = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser'));
+    console.log(this.userInfo)
+
+  }
   toggleClass(event: any) {
     this.active = !this.active;
   }
+
+  getDecodedAccessToken(token: string): User {
+    try {
+      return jwt_decode(token);
+    }
+    catch (Error) {
+      return null;
+    }
+  }
+  logout() {
+    localStorage.clear();
+    this.getUserInfo();
+  }
+}
+
+class User {
+  success: boolean;
+  userId: number;
+  userName: string;
+  authentiated: boolean;
+  role: string;
+  rolePriority: string;
+  active: string;
+  iat: any;
+  exp: any;
 }

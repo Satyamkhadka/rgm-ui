@@ -1,1 +1,23 @@
-<p>menu works!</p>
+<div class="container mt-5">
+
+    <div class="row h-100 align-items-center mt-4">
+
+        <div class="col-3 text-center mt-4" *ngFor="let item of listItems">
+            <div class="card" [routerLink]="[item.urlTo]">
+                <div class="card-body">
+                    <div class="p-2">
+                        <a><i [className]="'fa fa-3x fa-'+item.icon"> </i></a>
+                    </div>
+                    <div class="card-head">
+                        {{item.name}}
+                    </div>
+                    <div class="text-secondary">
+                        {{item.briefing}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

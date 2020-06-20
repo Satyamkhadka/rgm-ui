@@ -1,31 +1,33 @@
-<style>
-  @media print {
-    .noprint {
-      visibility: hidden;
-    }
-  }
-</style>
-<div class="noprint">
+<div *ngIf="userInfo.authenticated">
+  <div class="noprint">
 
 
-  <div id="wrapper" [className]="active? 'toggled' : ''">
+    <div id="wrapper" [className]="active? 'toggled' : ''">
 
-    <aside id="sidebar-wrapper">
-      <!-- <div class="sidebar-brand">
+      <aside id="sidebar-wrapper">
+        <!-- <div class="sidebar-brand">
         <span class="h2 text-light" ><i class="fa fa-bars"></i></span>
       </div> -->
-      <ul class="sidebar-nav">
-        <li class="active mb-5" (click)="toggleClass($event)">
-          <a><i class="fa fa-bars"></i>Menu</a>
-        </li>
-        <li *ngFor="let item of listItems" [routerLink]="[item.urlTo]" routerLinkActive="router-link-active"
-          data-toggle="popover" title="{{item.name}}">
-          <a><i [className]="'fa fa-'+item.icon"></i>{{item.name}}</a>
-        </li>
-      </ul>
-    </aside>
+        <ul class="sidebar-nav">
 
-    <!-- <div id="navbar-wrapper">
+          <li class="mb-4">
+            <a><i class="fa fa-user"></i>{{userInfo.userName}}</a>
+            <span class="text-muted ml-5 pl-2">-{{userInfo.role}} </span>
+            <span *ngIf="userInfo.authenticated" class="btn btn-secondary" [routerLink]="['/login']"
+              routerLinkActive="router-link-active" (click)="logout()">Logout</span>
+          </li>
+
+          <li class="active mb-5" (click)="toggleClass($event)">
+            <a><i class="fa fa-bars"></i>Quick Menu</a>
+          </li>
+          <li *ngFor="let item of listItems" [routerLink]="[item.urlTo]" routerLinkActive="router-link-active"
+            data-toggle="popover" title="{{item.briefing}}">
+            <a><i [className]="'fa fa-'+item.icon"></i>{{item.name}}</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- <div id="navbar-wrapper">
       <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <div class="navbar-header" (click)="toggleClass($event)">
@@ -35,7 +37,7 @@
       </nav>
     </div> -->
 
-    <!-- <section id="content-wrapper">
+      <!-- <section id="content-wrapper">
         <div class="row">
           <div class="col-lg-12">
             <h2 class="content-title">Test</h2>
@@ -44,6 +46,7 @@
         </div>
     </section> -->
 
-  </div>
+    </div>
 
+  </div>
 </div>
