@@ -3,7 +3,7 @@ import { ContractService } from './../input/_service/contract.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
-import NumberToWords from 'number-to-words';
+import { NgxNepaliNumberToWordsService } from 'ngx-nepali-number-to-words';
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
@@ -34,6 +34,7 @@ export class ContractComponent implements OnInit {
     private route: ActivatedRoute,
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
+    private nepaliService: NgxNepaliNumberToWordsService
   ) { }
 
   ngOnInit() {
@@ -123,7 +124,9 @@ export class ContractComponent implements OnInit {
     this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost'];
     this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
     this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
-    this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
+    // this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
+    this.calculatedData['grandTotalWR'] = this.nepaliService.toWords(this.calculatedData['grandTotal'].toFixed(2), 'money');
+    // this.NgxNepaliNumberToWordsService.toWords(10025, 'money')
 
     this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['hrSubTotal'];
     this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['hrSubTotal'];

@@ -17,7 +17,7 @@
               routerLinkActive="router-link-active" (click)="logout()">Logout</span>
           </li>
 
-          <li class="active mb-5" (click)="toggleClass($event)">
+          <li class="active mb-1" (click)="toggleClass($event)">
             <a><i class="fa fa-bars"></i>Quick Menu</a>
           </li>
           <li *ngFor="let item of listItems" [routerLink]="[item.urlTo]" routerLinkActive="router-link-active"

@@ -199,6 +199,58 @@
       </div>
     </div>
 
+    <!-- //staffs -->
+    <div class="form-row">
+      <!-- <div class="form-group col-6">
+      <div class="form-row">
+        <label for="staff">Select Staffs</label>
+        <select required id="staff" class="form-control" formControlName="staff"
+          (change)="getPersonUnderSoAndStaff(contractForm.value.staff)">
+          <option selected value='none'>Choose...</option>
+          <option *ngFor="let item of staffs;let i = index;" [value]="i">{{item['name']}}</option>
+
+        </select>
+        <label for="person">Select Person</label>
+        <select required id="person" class="form-control" formControlName="person" change>
+          <option selected value='none'>Choose...</option>
+          <option *ngFor="let item of persons;let i = index;" [value]="i">
+            {{item.personCode+' || '+item.firstName+' '+item.middleName+' '+item.lastName}}</option>
+
+        </select>
+      </div>
+      <div class="form-row mt-2">
+        <button class="btn btn-primary" (click)="addStaff(contractForm.value.staff,contractForm.value.person)">Select
+          -></button>
+      </div>
+    </div> -->
+      <div class="form-group col-12">
+        <div class="card border border-info category-card">
+          <h5 class="card-title text-center mx-2 mt-2 bg-light">Selected Staffs</h5>
+          <div class="card-body mb-2">
+            <div class="custom-height">
+              <div class="float-left mx-1">
+                <div class="card-title text-center">
+                  <h6 *ngFor="let item of staffs;let i = index;" class="btn btn-success mr-2" data-toggle="tooltip"
+                    data-placement="top">
+                    <span>
+                      {{item.name}} :
+                    </span>
+                    <span>
+                      {{item.personCode+' || '+item.firstName+' '+item.middleName+' '+item.lastName}}
+                    </span>
+                    <span class="text-warning">
+                      {{ item.workingDays}}
+                    </span>
+
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- //schemes -->
     <div class="form-row">
       <div class="form-group col-6">
@@ -233,60 +285,7 @@
     </div>
 
 
-    <!-- //staffs -->
-    <div class="form-row">
-      <div class="form-group col-6">
-        <div class="form-row">
-          <label for="staff">Select Staffs</label>
-          <select required id="staff" class="form-control" formControlName="staff"
-            (change)="getPersonUnderSoAndStaff(contractForm.value.staff)">
-            <option selected value='none'>Choose...</option>
-            <option *ngFor="let item of staffs;let i = index;" [value]="i">{{item['name']}}</option>
 
-          </select>
-          <label for="person">Select Person</label>
-          <select required id="person" class="form-control" formControlName="person" change>
-            <option selected value='none'>Choose...</option>
-            <option *ngFor="let item of persons;let i = index;" [value]="i">
-              {{item.personCode+' || '+item.firstName+' '+item.middleName+' '+item.lastName}}</option>
-
-          </select>
-        </div>
-        <div class="form-row mt-2">
-          <button class="btn btn-primary" (click)="addStaff(contractForm.value.staff,contractForm.value.person)">Select
-            -></button>
-        </div>
-      </div>
-      <div class="form-group col-6">
-        <div class="card border border-info category-card">
-          <h5 class="card-title text-center mx-2 mt-2 bg-light">Selected Staffs</h5>
-          <div class="card-body mb-2">
-            <div class="custom-height">
-              <div class="float-left mx-1">
-                <div class="card-title text-center">
-                  <h6 *ngFor="let item of staffs;let i = index;" class="btn btn-success mr-2" data-toggle="tooltip"
-                    data-placement="top" title="Click to delete" (click)="removeScheme(i)">
-                    <span>
-                      {{item.name}} :
-                    </span>
-                    <span *ngIf="item.person">
-                      {{item.person.personCode+' || '+item.person.firstName+' '+item.person.middleName+' '+item.person.lastName}}
-                    </span>
-                    <span *ngIf="!item.person" class="text-danger">
-                      : Assign Person :
-                    </span>
-                    <span class="text-warning">
-                      {{ item.workingDays}}
-                    </span>
-
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
 
     <input required type="submit" routerLinkActive="router-link-active" class="btn btn-primary btn-lg"

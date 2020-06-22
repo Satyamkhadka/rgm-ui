@@ -358,17 +358,17 @@ export class SoComponent implements OnInit {
     });
   }
 
-  getPersonAssignedUnderStaff(staffId) { //assigned under staff and so
-    const filter = { staffId, 'soId': this.selectedSo }
-    this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
-      if (data['success'] === true) {
-        if (data['data'].length > 0) {
-          this.personUnderAssignedStaff = data['data'];
-          console.log(this.personUnderAssignedStaff)
-        }
-      }
-    });
-  }
+  // getPersonAssignedUnderStaff(staffId) { //assigned under staff and so
+  //   const filter = { staffId, 'soId': this.selectedSo }
+  //   this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
+  //     if (data['success'] === true) {
+  //       if (data['data'].length > 0) {
+  //         this.personUnderAssignedStaff = data['data'];
+  //         console.log(this.personUnderAssignedStaff)
+  //       }
+  //     }
+  //   });
+  // }
   removePersonAssignedUnderStaff(staffAllocateId) {
     swal.fire({
       title: 'Are you sure?',

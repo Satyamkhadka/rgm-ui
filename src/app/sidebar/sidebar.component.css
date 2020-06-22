@@ -112,7 +112,7 @@
     margin-right: -250px;
   }
   
-  @media (min-width: 992px) {
+  /* @media (min-width: 992px) {
     #wrapper {
       padding-left: 250px;
     }
@@ -158,8 +158,8 @@
       margin-right: 60px;
     }
   }
-  
-  @media (min-width: 768px) and (max-width: 991px) {
+   */
+  /* @media (min-width: 768px) and (max-width: 991px) { */
     #wrapper {
       padding-left: 60px;
     }
@@ -196,8 +196,8 @@
       position: relative;
       margin-right: 250px;
     }
-  }
-  
+  /* } */
+/*   
   @media (max-width: 767px) {
     #wrapper {
       padding-left: 0;
@@ -238,4 +238,4 @@
       position: relative;
       margin-right: 250px;
     }
-  }
+  } */

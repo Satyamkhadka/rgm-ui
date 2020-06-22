@@ -230,8 +230,9 @@ export class InputComponent implements OnInit {
   //upper
   getStaffBySoId(soId) {
     this.selectedSo = soId;
-    this.soService.getStaffUnderSo(soId).subscribe(data => { //get staff under so
+    this.soService.getStaffUnderSo(soId).subscribe(data => { //get staff and person  under so
       if (data['success'] === true) {
+        console.log("got alll staff by soid ")
         console.log(data);
         this.staffs = data['data'];
       } else if (data['success'] === false) {
@@ -241,15 +242,15 @@ export class InputComponent implements OnInit {
   }
 
   //lower
-  getPersonUnderSoAndStaff(staffIndex) {
-    //assigned under staff and so
-    const filter = { staffId: this.staffs[staffIndex]['staffId'], 'soId': this.selectedSo }
-    this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
-      if (data['success'] === true) {
-        this.persons = data['data'];
-      }
-    });
-  }
+  // getPersonUnderSoAndStaff(staffIndex) {
+  //   //assigned under staff and so
+  //   const filter = { staffId: this.staffs[staffIndex]['staffId'], 'soId': this.selectedSo };
+  //   this.soService.getPersonUnderSoandStaff(filter).subscribe(data => {
+  //     if (data['success'] === true) {
+  //       this.persons = data['data'];
+  //     }
+  //   });
+  // }
 
   addStaff(staffIndex, personIndex) {
 

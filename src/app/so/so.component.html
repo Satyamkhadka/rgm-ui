@@ -454,9 +454,8 @@
 
                 <div class="accordion" id="accordionExample">
                     <div class="card" *ngFor="let item of staffUnderSo; let i = index;">
-                        <div class="card-header" (click)="getPersonAssignedUnderStaff(item.staffId,i)" id="headingOne"
-                            data-toggle="collapse" [attr.data-target]="'#acc'+i" aria-expanded="false"
-                            aria-controls="collapseOne">
+                        <div class="card-header" id="{{'headingOne'+i}}" data-toggle="collapse"
+                            [attr.data-target]="'#acc'+i" aria-expanded="false" aria-controls="collapseOne">
                             <h5 class="mb-0">
 
                                 {{item.name}}
@@ -464,13 +463,13 @@
                             </h5>
                         </div>
 
-                        <div [id]="'acc'+i" class="collapse" aria-labelledby="headingOne"
+                        <div [id]="'acc'+i" class="collapse" [attr.aria-labelledby]="'headingOne'+i"
                             data-parent="#accordionExample">
                             <div class="card-body">
-                                <span class="btn btn-success w-100" *ngFor="let element of personUnderAssignedStaff">
-                                    {{ element['personCode']+' || '+ element['firstName']+ element['middleName']+element['lastName']   }}
+                                <span class="btn btn-success w-100">
+                                    {{ item['personCode']+' || '+ item['firstName']+ item['middleName']+item['lastName']   }}
                                     <span class="btn btn-danger rounded-circle float-right"
-                                        (click)="removePersonAssignedUnderStaff(element.staffAllocateId)"> <i
+                                        (click)="removePersonAssignedUnderStaff(item.staffAllocateId)"> <i
                                             class="fa fa-trash"></i></span>
 
                                 </span>
