@@ -149,7 +149,7 @@ export class PmComponent implements OnInit {
       }
     });
   }
-  private create(data) {
+  create(data) {
     let plusData = data;
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -157,6 +157,7 @@ export class PmComponent implements OnInit {
     this.pmService.createPm(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', 'PM didnt exists so created new PM', 'success');
+        this.getProjectManagerSettings()
         this.edit();
       } else if (data['success'] === false) {
         swal.fire('Oops', data['message'], 'error');
@@ -182,9 +183,10 @@ export class PmComponent implements OnInit {
         console.log(data)
         if (data['data'][0]) {
           this.managerInfo = data['data'][0];
+          this.edit();
         } else {
           console.log('creatin')
-          this.create({ staffCode: 'PM/PM', projectManager: true, name: 'Project Manager', nameNP: 'Project Manager', monthlyPay: '0' })
+          this.create({ staffCode: 'PM/PM', projectManager: true, name: 'Project Manager', nameNP: 'Project Manager', monthlyPay: '0', workingDays: 0 })
         }
 
       }
@@ -266,9 +268,10 @@ export class PmComponent implements OnInit {
   }
   //pm part
   getSOUnderPM(personId) {
-    this.pmService.getSOUnderPM(personId).subscribe(data => {
+    console.log(personId)
+    this.pmService.getSOUnderPM(personId[0]).subscribe(data => {
       if (data['success'] === true) {
-        this.selectedPm = personId;
+        this.selectedPm = personId[0];
         this.SOUnderPM = data['data'];
         this.selectBatch(this.selectedBatch);
       }
@@ -290,7 +293,7 @@ export class PmComponent implements OnInit {
     this.pmService.addSOUnderPM(plusData).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
-        this.getSOUnderPM(this.selectedPm);
+        this.getSOUnderPM([this.selectedPm]);
       } else if (data['success'] === false) {
         swal.fire('Oops', data['message'], 'error');
       }
@@ -311,7 +314,7 @@ export class PmComponent implements OnInit {
         this.pmService.removeSOUnderPM(pmAllocateId).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
-            this.getSOUnderPM(this.selectedPm);
+            this.getSOUnderPM([this.selectedPm]);
           } else if (data['success'] === false) {
             swal.fire('oops', data['message'], 'error');
           }

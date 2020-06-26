@@ -35,7 +35,8 @@ export class SidebarComponent implements OnInit {
       return null;
     }
   }
-  logout() {
+  logout(event: any) {
+    this.toggleClass(event);
     localStorage.clear();
     this.getUserInfo();
   }
@@ -45,7 +46,7 @@ class User {
   success: boolean;
   userId: number;
   userName: string;
-  authentiated: boolean;
+  authenticated: boolean;
   role: string;
   rolePriority: string;
   active: string;
