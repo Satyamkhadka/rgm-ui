@@ -1,0 +1,42 @@
+
+    @media print {
+        .noprint {
+            visibility: hidden;
+        }
+    }
+
+    @page {
+        size: 21cm 29.7cm;
+    }
+
+     table {
+        width: 100%;
+    }
+    
+    .showBorder tr td
+     {
+        border: 2pt solid black;
+        border-collapse: collapse;
+    }
+    .borderAround {
+        border: 2pt solid black;
+
+    }
+    .border-upd{
+        border-top: 2pt solid black;
+        border-bottom: 2pt solid black;
+
+    }
+/* 
+    .align-right {
+        text-align: right;
+    }
+
+    .showBorder {
+        margin-bottom: 1rem;
+    }
+
+
+    .custom-text-center {
+        text-align: center;
+    } */

@@ -269,9 +269,9 @@ export class PmComponent implements OnInit {
   //pm part
   getSOUnderPM(personId) {
     console.log(personId)
-    this.pmService.getSOUnderPM(personId[0]).subscribe(data => {
+    this.pmService.getSOUnderPM(personId).subscribe(data => {
       if (data['success'] === true) {
-        this.selectedPm = personId[0];
+        this.selectedPm = personId;
         this.SOUnderPM = data['data'];
         this.selectBatch(this.selectedBatch);
       }

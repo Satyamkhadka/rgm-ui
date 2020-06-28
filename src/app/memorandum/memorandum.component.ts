@@ -4,12 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
 import NumberToWords from 'number-to-words';
+
+import { NgxNepaliNumberToWordsService } from 'ngx-nepali-number-to-words';
 @Component({
-  selector: 'app-cost-breakdown',
-  templateUrl: './cost-breakdown.component.html',
-  styleUrls: ['./cost-breakdown.component.css']
+  selector: 'app-memorandum',
+  templateUrl: './memorandum.component.html',
+  styleUrls: ['./memorandum.component.css']
 })
-export class CostBreakdownComponent implements OnInit {
+export class MemorandumComponent implements OnInit {
+
 
   contractId;
   contractDetails = {};
@@ -26,7 +29,6 @@ export class CostBreakdownComponent implements OnInit {
   overhead = 15;
   vat = 13;
 
-  hrListing = [];
   //dates 
   startDate;
   endDate;
@@ -35,6 +37,7 @@ export class CostBreakdownComponent implements OnInit {
     private route: ActivatedRoute,
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
+    private nepaliService: NgxNepaliNumberToWordsService
   ) { }
 
   ngOnInit() {
@@ -154,7 +157,14 @@ export class CostBreakdownComponent implements OnInit {
     this.calculatedData['vat30'] = this.vat / 100 * this.calculatedData['total30'];
 
     this.calculatedData['firstPaymentTotal'] = this.calculatedData['total70'] + this.calculatedData['vat70'];
+    this.calculatedData['firstPaymentTotalWR'] = NumberToWords.toWords(this.calculatedData['firstPaymentTotal']);
+
     this.calculatedData['secondPaymentTotal'] = this.calculatedData['total30'] + this.calculatedData['vat30'];
+    this.calculatedData['secondPaymentTotalWR'] = NumberToWords.toWords(this.calculatedData['secondPaymentTotal']);
+
+    this.calculatedData['paymentMadeTilldate'] = 'on development';
+    this.calculatedData['paymentRemaining'] = 'on development';
+
 
 
     console.log(this.calculatedData)

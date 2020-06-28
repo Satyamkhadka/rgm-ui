@@ -1,3 +1,4 @@
+import { MemorandumComponent } from './memorandum/memorandum.component';
 import { MenuComponent } from './menu/menu.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { PmComponent } from './pm/pm.component';
@@ -22,7 +23,6 @@ import { MiscComponent } from './misc/misc.component';
 const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: InputComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'contract/:contractId', canActivate: [AuthGuard], component: ContractComponent },
   { path: 'superadmin', canActivate: [AuthGuard], component: SuperadminComponent },
   // { path: 'admin',canActivate: [AuthGuard], component: AdminComponent },
   { path: 'so', canActivate: [AuthGuard], component: SoComponent },
@@ -36,7 +36,9 @@ const routes: Routes = [
   { path: 'contract', canActivate: [AuthGuard], component: AllcontractComponent },
   { path: 'misc', canActivate: [AuthGuard], component: MiscComponent },
   { path: 'menu', canActivate: [AuthGuard], component: MenuComponent },
+  { path: 'contract/:contractId', canActivate: [AuthGuard], component: ContractComponent },
   { path: 'contract/cost/:contractId', canActivate: [AuthGuard], component: CostBreakdownComponent },
+  { path: 'contract/memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
 
 
 ];
