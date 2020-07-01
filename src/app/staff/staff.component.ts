@@ -249,10 +249,15 @@ export class StaffComponent implements OnInit {
   }
 
   getPersonsUnderStaff(staffId) {
+    console.log(staffId)
     this.staffService.getPersonsUnderStaff(staffId).subscribe(data => {
-      if (data['success'] === true) {
+      console.log(staffId)
+      if (data['success'] == true) {
         this.selectedStaff = staffId;
+        console.log(this.selectedStaff)
         this.personUnderStaff = data['data'];
+      } else {
+        swal.fire('Error', 'Fatal error while fetching data', 'error');
       }
     });
   }

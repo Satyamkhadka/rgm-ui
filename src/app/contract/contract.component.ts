@@ -101,7 +101,8 @@ export class ContractComponent implements OnInit {
     this.staff.forEach(e => {
       this.calculatedData[e.name] = {};
       this.calculatedData[e.name]['fairPay'] = ((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes;
-      this.calculatedData[e.name]['person'] = e['person'];
+      this.calculatedData[e.name]['person'] = e;
+      console.log(e.name)
       this.calculatedData[e.name]['workingDays'] = e['workingDays'] * this.numberOfSchemes;
       this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['fairPay'];
     })

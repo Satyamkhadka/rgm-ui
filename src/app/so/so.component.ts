@@ -316,7 +316,7 @@ export class SoComponent implements OnInit {
       if (data['success'] === true) {
         this.allStaff = data['data'];
         this.allStaff = this.allStaff.filter(e => {
-          if (e['projectManager']) {
+          if (e['projectManager'] || e['name'] == 'Executive Director') {
             return false;
           } else return true;
         })
@@ -326,15 +326,19 @@ export class SoComponent implements OnInit {
   selectSo(soId) {
     console.log('seelct')
     this.selectedSo = soId;
+    console.log(soId)
     this.staffUnderSo = [];
     this.soService.getStaffUnderSo(this.selectedSo).subscribe(data => { //get staff under so
       if (data['success'] === true) {
+        console.log(data)
         this.staffUnderSo = data['data'];
+
       }
     });
   }
   getPersonUnderStaff(staffId) { //for dropdown
     this.staffService.getPersonsUnderStaff(staffId).subscribe(data => {
+      console.log(data)
       if (data['success'] === true) {
         this.personUnderStaff = data['data'];
       }
@@ -342,8 +346,9 @@ export class SoComponent implements OnInit {
   }
 
   assignStaffUnderSo(data) {
-
+    console.log(data);
     let plusData = data;
+    plusData['personId'] = data['personId'][0];
     plusData['soId'] = this.selectedSo;
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');

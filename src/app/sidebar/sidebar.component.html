@@ -14,7 +14,7 @@
             <a><i class="fa fa-user"></i>{{userInfo.userName}}</a>
             <span class="text-muted ml-5 pl-2">-{{userInfo.role}} </span>
             <span *ngIf="userInfo.authenticated" class="btn btn-secondary" [routerLink]="['/login']"
-              routerLinkActive="router-link-active" (click)="logout()">Logout</span>
+              routerLinkActive="router-link-active" (click)="logout($event)">Logout</span>
           </li>
 
           <li class="active mb-1" (click)="toggleClass($event)">

@@ -30,6 +30,7 @@ import { AllcontractComponent } from './allcontract/allcontract.component';
 import { MiscComponent } from './misc/misc.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { MenuComponent } from './menu/menu.component';
+import { MemorandumComponent } from './memorandum/memorandum.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MenuComponent } from './menu/menu.component';
     AllcontractComponent,
     MiscComponent,
     CostBreakdownComponent,
-    MenuComponent
+    MenuComponent,
+    MemorandumComponent
   ],
   imports: [
     BrowserModule,

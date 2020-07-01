@@ -85,6 +85,7 @@ export class InputComponent implements OnInit {
     }
   }
   getSoUnderPM(personId) {
+    console.log(personId)
     this.loading = true;
     this.staffService.getSOUnderPM(personId).subscribe(data => {
       this.loading = false;
@@ -96,6 +97,7 @@ export class InputComponent implements OnInit {
             return true;
           }
         })
+        console.log(this.soUnderPM);
       }
     });
   }
@@ -230,6 +232,8 @@ export class InputComponent implements OnInit {
   //upper
   getStaffBySoId(soId) {
     this.selectedSo = soId;
+
+    console.log(soId)
     this.soService.getStaffUnderSo(soId).subscribe(data => { //get staff and person  under so
       if (data['success'] === true) {
         console.log("got alll staff by soid ")

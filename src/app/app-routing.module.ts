@@ -1,3 +1,4 @@
+import { MemorandumComponent } from './memorandum/memorandum.component';
 import { MenuComponent } from './menu/menu.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { PmComponent } from './pm/pm.component';
@@ -19,25 +20,25 @@ import { BatchComponent } from './batch/batch.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
 import { MiscComponent } from './misc/misc.component';
 
-
 const routes: Routes = [
-  { path: '', component: InputComponent },
+  { path: '', canActivate: [AuthGuard], component: InputComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'contract/:contractId', component: ContractComponent },
-  { path: 'superadmin', component: SuperadminComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'so', component: SoComponent },
-  { path: 'scheme', component: SchemeComponent },
-  { path: 'local-body', component: LocalBodyComponent },
-  { path: 'person', component: PersonComponent },
-  { path: 'staff', component: StaffComponent },
-  { path: 'position', component: PositionComponent },
-  { path: 'batch', component: BatchComponent },
-  { path: 'pm', component: PmComponent },
-  { path: 'contract', component: AllcontractComponent },
-  { path: 'misc', component: MiscComponent },
-  { path: 'menu', component: MenuComponent },
-  { path: 'contract/cost/:contractId', component: CostBreakdownComponent },
+  { path: 'superadmin', canActivate: [AuthGuard], component: SuperadminComponent },
+  // { path: 'admin',canActivate: [AuthGuard], component: AdminComponent },
+  { path: 'so', canActivate: [AuthGuard], component: SoComponent },
+  { path: 'scheme', canActivate: [AuthGuard], component: SchemeComponent },
+  { path: 'local-body', canActivate: [AuthGuard], component: LocalBodyComponent },
+  { path: 'person', canActivate: [AuthGuard], component: PersonComponent },
+  { path: 'staff', canActivate: [AuthGuard], component: StaffComponent },
+  // { path: 'position',canActivate: [AuthGuard], component: PositionComponent },
+  { path: 'batch', canActivate: [AuthGuard], component: BatchComponent },
+  { path: 'pm', canActivate: [AuthGuard], component: PmComponent },
+  { path: 'contract', canActivate: [AuthGuard], component: AllcontractComponent },
+  { path: 'misc', canActivate: [AuthGuard], component: MiscComponent },
+  { path: 'menu', canActivate: [AuthGuard], component: MenuComponent },
+  { path: 'contract/:contractId', canActivate: [AuthGuard], component: ContractComponent },
+  { path: 'contract/cost/:contractId', canActivate: [AuthGuard], component: CostBreakdownComponent },
+  { path: 'contract/memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
 
 
 ];
