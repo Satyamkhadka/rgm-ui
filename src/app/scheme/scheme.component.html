@@ -103,10 +103,29 @@
                                 [formControlName]="formControlNames.schemeCode">
                         </div>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="ward">Ward No.</label>
-                        <input type="text" class="form-control" id="ward" placeholder="Ward No"
-                            [formControlName]="formControlNames.wardNo">
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="ward">District</label>
+                            <select id="dis" class="form-control" formControlName="districtId"
+                                (change)="getLocalBodyByDistrict(schemeForm.value.districtId)">
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="ward">Local Body</label>
+                            <select id="lb" class="form-control" formControlName="localBodyId">
+                                <option *ngFor="let item of localbodies" [value]="item['localBodyId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="ward">Ward No.</label>
+                            <select id="wd" class="form-control" [formControlName]="formControlNames.wardNo">
+                                <option *ngFor="let item of [].constructor(10); let i = index" [value]="i+1">{{i+1}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
 
                 </form>
@@ -148,10 +167,29 @@
                                 [formControlName]="formControlNames.schemeCode">
                         </div>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="uward">Ward No.</label>
-                        <input type="text" class="form-control" id="uward" placeholder="Ward No"
-                            [formControlName]="formControlNames.wardNo">
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="ward">District</label>
+                            <select id="udis" class="form-control" formControlName="districtId"
+                                (change)="getLocalBodyByDistrict(updateSchemeForm.value.districtId)">
+                                <option *ngFor="let item of allDistricts" [value]="item['districtId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="ward">Local Body</label>
+                            <select id="ulb" class="form-control" formControlName="localBodyId">
+                                <option *ngFor="let item of localbodies" [value]="item['localBodyId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="ward">Ward No.</label>
+                            <select id="uwd" class="form-control" [formControlName]="formControlNames.wardNo">
+                                <option *ngFor="let item of [].constructor(10); let i = index" [value]="i+1">{{i+1}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
 
                 </form>
@@ -163,4 +201,4 @@
             </div>
         </div>
     </div>
-</div>z
+</div>
