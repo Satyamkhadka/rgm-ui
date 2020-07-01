@@ -1,3 +1,4 @@
+import { AllmemoComponent } from './allmemo/allmemo.component';
 import { MemorandumComponent } from './memorandum/memorandum.component';
 import { MenuComponent } from './menu/menu.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
@@ -19,6 +20,7 @@ import { PositionComponent } from './position/position.component';
 import { BatchComponent } from './batch/batch.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
 import { MiscComponent } from './misc/misc.component';
+import { PaymentComponent } from './payment/payment.component';
 
 const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: InputComponent },
@@ -38,7 +40,9 @@ const routes: Routes = [
   { path: 'menu', canActivate: [AuthGuard], component: MenuComponent },
   { path: 'contract/:contractId', canActivate: [AuthGuard], component: ContractComponent },
   { path: 'contract/cost/:contractId', canActivate: [AuthGuard], component: CostBreakdownComponent },
-  { path: 'contract/memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
+  { path: 'memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
+  { path: 'allmemo/:phase', canActivate: [AuthGuard], component: AllmemoComponent },
+  { path: 'payment', canActivate: [AuthGuard], component: PaymentComponent },
 
 
 ];
