@@ -13,6 +13,8 @@ import jwt_decode from 'jwt-decode';
 export class SchemeComponent implements OnInit {
   allSO = [];
   allScheme = [];
+  allDistricts = [];
+  localbodies = [];
   activeFilter = "all";
   setEdit;
   loading = false;
@@ -26,6 +28,8 @@ export class SchemeComponent implements OnInit {
     schemeCode: 'schemeCode',
     name: 'name',
     nameNP: 'nameNP',
+    districtId: 'districtId',
+    localBodyId: 'localBodyId',
     wardNo: 'wardNo',
     active: 'active',
     createdBy: 'createdBy',
@@ -42,6 +46,9 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.schemeCode]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
+      [this.formControlNames.districtId]: '',
+      [this.formControlNames.localBodyId]: '',
+      [this.formControlNames.nameNP]: '',
       [this.formControlNames.wardNo]: '',
       [this.formControlNames.active]: '',
       [this.formControlNames.createdBy]: '',
@@ -54,6 +61,8 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.schemeCode]: '',
       [this.formControlNames.name]: '',
       [this.formControlNames.nameNP]: '',
+      [this.formControlNames.districtId]: '',
+      [this.formControlNames.localBodyId]: '',
       [this.formControlNames.wardNo]: '',
     });
     this.filterForm = this.formBuilder.group({
@@ -61,7 +70,7 @@ export class SchemeComponent implements OnInit {
     });
     this.getAllSo();
     this.populateList();
-
+    this.getDistricts();
 
   }
 
@@ -145,11 +154,14 @@ export class SchemeComponent implements OnInit {
 
   edit(data) {
     this.setEdit = data;
+    this.getLocalBodyByDistrict(this.setEdit['districtId']);
     this.updateSchemeForm = this.formBuilder.group({
       [this.formControlNames.schemeId]: this.setEdit['schemeId'],
       [this.formControlNames.schemeCode]: this.setEdit['schemeCode'],
       [this.formControlNames.name]: this.setEdit['name'],
       [this.formControlNames.nameNP]: this.setEdit['nameNP'],
+      [this.formControlNames.districtId]: this.setEdit['districtId'],
+      [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
       [this.formControlNames.wardNo]: this.setEdit['wardNo'],
     });
   }
@@ -180,4 +192,28 @@ export class SchemeComponent implements OnInit {
     }
   }
 
+
+
+
+
+  //later update
+
+  getDistricts() {
+    this.localService.getAllDistricts().subscribe(data => {
+      if (data['success'] === true) {
+        this.allDistricts = data['data'];
+        console.log(this.allDistricts)
+      }
+    });
+  }
+
+  getLocalBodyByDistrict(districtId) {
+    console.log(districtId)
+    this.localService.getLocalBodiesByDistrictId(districtId).subscribe(data => {
+      if (data['success'] === true) {
+        this.localbodies = [];
+        this.localbodies = data['data'];
+      }
+    })
+  }
 }
