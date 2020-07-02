@@ -42,7 +42,7 @@ const routes: Routes = [
   { path: 'contract/cost/:contractId', canActivate: [AuthGuard], component: CostBreakdownComponent },
   { path: 'memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
   { path: 'allmemo/:phase', canActivate: [AuthGuard], component: AllmemoComponent },
-  { path: 'payment', canActivate: [AuthGuard], component: PaymentComponent },
+  { path: 'payment/:phase', canActivate: [AuthGuard], component: PaymentComponent },
 
 
 ];
