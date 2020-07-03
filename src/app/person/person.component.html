@@ -148,7 +148,6 @@
                                 [formControlName]="formControlNames.lastName">
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="firstName">First NameNP</label>
@@ -167,11 +166,101 @@
                         </div>
                     </div>
 
+
+
+                    <!-- date -->
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="dobAD">Date of birth(AD)</label>
+                            <input id="dobAD" type="date" class="form-control" placeholder="Date of Birth"
+                                formControlName="dob" (change)="onDateChange(personForm.value,'create')">
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label for="yearNP">Date of birth (BS)</label>
+                            <input required id="yearNP" type="text" class="form-control" placeholder="Year(BS)"
+                                formControlName="yearNP" (change)="onDateChangeNP(personForm.value,'create')">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="monthNP">..</label>
+
+                            <select required id="monthNP" class="form-control" formControlName="monthNP"
+                                (change)="onDateChangeNP(personForm.value,'create')">
+                                <option value="0"> Baisakh</option>
+                                <option value="1"> Jeth</option>
+                                <option value="2"> Asar</option>
+                                <option value="3"> Shrawn</option>
+                                <option value="4"> Bhadra</option>
+                                <option value="5"> Ashoj</option>
+                                <option value="6"> Kartik</option>
+                                <option value="7"> Mangsir</option>
+                                <option value="8"> Paush</option>
+                                <option value="9"> Magh</option>
+                                <option value="10"> Falgun</option>
+                                <option value="11"> Chaitra</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="dayNP">..</label>
+
+                            <select required id="dayNP" class="form-control" formControlName="dayNP"
+                                (change)="onDateChangeNP(personForm.value,'create')">
+                                <option value="1"> 1</option>
+                                <option value="2"> 2</option>
+                                <option value="3"> 3</option>
+                                <option value="4"> 4</option>
+                                <option value="5"> 5</option>
+                                <option value="6"> 6</option>
+                                <option value="7"> 7</option>
+                                <option value="8"> 8</option>
+                                <option value="9"> 9</option>
+                                <option value="10"> 10</option>
+                                <option value="11"> 11</option>
+                                <option value="12"> 12</option>
+                                <option value="13"> 13</option>
+                                <option value="14"> 14</option>
+                                <option value="15"> 15</option>
+                                <option value="16"> 16</option>
+                                <option value="17"> 17</option>
+                                <option value="18"> 18</option>
+                                <option value="19"> 19</option>
+                                <option value="20"> 20</option>
+                                <option value="21"> 21</option>
+                                <option value="22"> 22</option>
+                                <option value="23"> 23</option>
+                                <option value="24"> 24</option>
+                                <option value="25"> 25</option>
+                                <option value="26"> 26</option>
+                                <option value="27"> 27</option>
+                                <option value="28"> 28</option>
+                                <option value="29"> 29</option>
+                                <option value="30"> 30</option>
+                                <option value="31"> 31</option>
+                                <option value="32"> 32</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <!-- end of date -->
+
+
+
+
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label for="lsi">LSI</label>
-                            <input type="text" class="form-control" id="lsi" placeholder="LSI"
+                            <select class="form-control" id="lsi" placeholder="LSI"
                                 [formControlName]="formControlNames.lsi">
+                                <option value="none" selected>- Select -</option>
+                                <option value="Upper Caste" selected> Upper Caste</option>
+                                <option value="Dalit"> Dalit</option>
+                                <option value="Advantage Janajati"> Advantage Janajati</option>
+                                <option value="Disadvantage Janajati"> Disadvantage Janajati</option>
+                                <option value="Others"> Others</option>
+                                <option value="Religious Minority"> Religious Minority</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-3">
@@ -296,7 +385,7 @@
                         <div class="form-group col-4">
                             <label for="code">Person Code</label>
                             <input type="text" class="form-control" id="code" placeholder="personCode"
-                                [formControlName]="formControlNames.personCode" disabled>
+                                [formControlName]="formControlNames.personCode">
                         </div>
                     </div>
 
@@ -304,16 +393,16 @@
                         <div class="form-group col-4">
                             <label for="ufirstName">First Name</label>
                             <input type="text" class="form-control" id="ufirstName" placeholder="First Name"
-                                [formControlName]="formControlNames.firstName" disabled> </div>
+                                [formControlName]="formControlNames.firstName"> </div>
                         <div class="form-group col-4">
                             <label for="umiddleName">Middle Name</label>
                             <input type="text" class="form-control" id="umiddleName" placeholder="Middle Name"
-                                [formControlName]="formControlNames.middleName" disabled>
+                                [formControlName]="formControlNames.middleName">
                         </div>
                         <div class="form-group col-4">
                             <label for="ulastName">Last Name</label>
                             <input type="text" class="form-control" id="ulastName" placeholder="Last Name"
-                                [formControlName]="formControlNames.lastName" disabled>
+                                [formControlName]="formControlNames.lastName">
                         </div>
                     </div>
 
@@ -335,11 +424,97 @@
                         </div>
                     </div>
 
+                    <!-- date -->
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="udobAD">Date of birth(AD)</label>
+                            <input id="udobAD" type="date" class="form-control" placeholder="Date of Birth"
+                                formControlName="dob" (change)="onDateChange(updatePersonForm.value,'update')">
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label for="uyearNP">Date of birth (BS)</label>
+                            <input required id="uyearNP" type="text" class="form-control" placeholder="Year(BS)"
+                                formControlName="yearNP" (change)="onDateChangeNP(updatePersonForm.value,'update')">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="umonthNP">..</label>
+
+                            <select required id="umonthNP" class="form-control" formControlName="monthNP"
+                                (change)="onDateChangeNP(updatePersonForm.value,'update')">
+                                <option value="0"> Baisakh</option>
+                                <option value="1"> Jeth</option>
+                                <option value="2"> Asar</option>
+                                <option value="3"> Shrawn</option>
+                                <option value="4"> Bhadra</option>
+                                <option value="5"> Ashoj</option>
+                                <option value="6"> Kartik</option>
+                                <option value="7"> Mangsir</option>
+                                <option value="8"> Paush</option>
+                                <option value="9"> Magh</option>
+                                <option value="10"> Falgun</option>
+                                <option value="11"> Chaitra</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="udayNP">..</label>
+
+                            <select required id="udayNP" class="form-control" formControlName="dayNP"
+                                (change)="onDateChangeNP(updatePersonForm.value,'update')">
+                                <option value="1"> 1</option>
+                                <option value="2"> 2</option>
+                                <option value="3"> 3</option>
+                                <option value="4"> 4</option>
+                                <option value="5"> 5</option>
+                                <option value="6"> 6</option>
+                                <option value="7"> 7</option>
+                                <option value="8"> 8</option>
+                                <option value="9"> 9</option>
+                                <option value="10"> 10</option>
+                                <option value="11"> 11</option>
+                                <option value="12"> 12</option>
+                                <option value="13"> 13</option>
+                                <option value="14"> 14</option>
+                                <option value="15"> 15</option>
+                                <option value="16"> 16</option>
+                                <option value="17"> 17</option>
+                                <option value="18"> 18</option>
+                                <option value="19"> 19</option>
+                                <option value="20"> 20</option>
+                                <option value="21"> 21</option>
+                                <option value="22"> 22</option>
+                                <option value="23"> 23</option>
+                                <option value="24"> 24</option>
+                                <option value="25"> 25</option>
+                                <option value="26"> 26</option>
+                                <option value="27"> 27</option>
+                                <option value="28"> 28</option>
+                                <option value="29"> 29</option>
+                                <option value="30"> 30</option>
+                                <option value="31"> 31</option>
+                                <option value="32"> 32</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <!-- end of date -->
+
+
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label for="ulsi">LSI</label>
-                            <input type="text" class="form-control" id="ulsi" placeholder="LSI"
+                            <select class="form-control" id="ulsi" placeholder="LSI"
                                 [formControlName]="formControlNames.lsi">
+                                <option value="none" selected>- Select -</option>
+                                <option value="Upper Caste" selected> Upper Caste</option>
+                                <option value="Dalit"> Dalit</option>
+                                <option value="Advantage Janajati"> Advantage Janajati</option>
+                                <option value="Disadvantage Janajati"> Disadvantage Janajati</option>
+                                <option value="Others"> Others</option>
+                                <option value="Religious Minority"> Religious Minority</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-3">
@@ -365,7 +540,7 @@
                         <div class="form-group col-3">
                             <label for="ucitizenshipNo">Citizenship No</label>
                             <input type="text" class="form-control" id="ucitizenshipNo" placeholder="Citizenship Number"
-                                [formControlName]="formControlNames.citizenshipNo" disabled>
+                                [formControlName]="formControlNames.citizenshipNo">
                         </div>
                     </div>
                     <div class="form-row">

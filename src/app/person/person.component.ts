@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonService } from './_service/person.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
+import NepaliDate from 'nepali-date/cjs';
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
@@ -43,6 +44,10 @@ export class PersonComponent implements OnInit {
     districtId: 'districtId',
     localBodyId: 'localBodyId',
     ward: 'ward',
+    dob: 'dob',
+    yearNP: 'yearNP',
+    monthNP: 'monthNP',
+    dayNP: 'dayNP',
     address: 'address',
     phone1: 'phone1',
     phone2: 'phone2',
@@ -59,7 +64,7 @@ export class PersonComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.personForm = this.formBuilder.group({
-      [this.formControlNames.personCode]: '',
+      [this.formControlNames.personCode]: { value: '', disabled: true },
       [this.formControlNames.firstName]: '',
       [this.formControlNames.middleName]: '',
       [this.formControlNames.lastName]: '',
@@ -73,6 +78,10 @@ export class PersonComponent implements OnInit {
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
       [this.formControlNames.ward]: '',
+      [this.formControlNames.dob]: '',
+      [this.formControlNames.yearNP]: '',
+      [this.formControlNames.monthNP]: '',
+      [this.formControlNames.dayNP]: '',
       [this.formControlNames.address]: '',
       [this.formControlNames.phone1]: '',
       [this.formControlNames.phone2]: '',
@@ -83,20 +92,24 @@ export class PersonComponent implements OnInit {
 
     this.updatePersonForm = this.formBuilder.group({
       [this.formControlNames.personId]: '',
-      [this.formControlNames.personCode]: '',
-      [this.formControlNames.firstName]: '',
-      [this.formControlNames.middleName]: '',
-      [this.formControlNames.lastName]: '',
-      [this.formControlNames.firstNameNP]: '',
-      [this.formControlNames.middleNameNP]: '',
-      [this.formControlNames.lastNameNP]: '',
+      [this.formControlNames.personCode]: { value: '', disabled: true },
+      [this.formControlNames.firstName]: { value: '', disabled: true },
+      [this.formControlNames.middleName]: { value: '', disabled: true },
+      [this.formControlNames.lastName]: { value: '', disabled: true },
+      [this.formControlNames.firstNameNP]: { value: '', disabled: true },
+      [this.formControlNames.middleNameNP]: { value: '', disabled: true },
+      [this.formControlNames.lastNameNP]: { value: '', disabled: true },
       [this.formControlNames.lsi]: '',
       [this.formControlNames.gender]: '',
       [this.formControlNames.mStatus]: '',
-      [this.formControlNames.citizenshipNo]: '',
+      [this.formControlNames.citizenshipNo]: { value: '', disabled: true },
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
       [this.formControlNames.ward]: '',
+      [this.formControlNames.dob]: '',
+      [this.formControlNames.yearNP]: '',
+      [this.formControlNames.monthNP]: '',
+      [this.formControlNames.dayNP]: '',
       [this.formControlNames.address]: '',
       [this.formControlNames.phone1]: '',
       [this.formControlNames.phone2]: '',
@@ -146,6 +159,9 @@ export class PersonComponent implements OnInit {
   create(data) {
     console.log(data);
     let plusData = data;
+    delete plusData['yearNP'];
+    delete plusData['monthNP'];
+    delete plusData['dayNP'];
     plusData[this.formControlNames.personCode] = plusData['firstName'].substring(0, 3).toUpperCase() + plusData['citizenshipNo'];
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -228,6 +244,10 @@ export class PersonComponent implements OnInit {
     this.setEdit = data;
     console.log(this.allSO);
     this.change1(this.setEdit['districtId'], 'update');
+    if (this.setEdit['dob']) {
+      this.setEdit['dob'] = this.setEdit['dob'].slice(0, 10);
+      // this.onDateChange(this.setEdit, 'update');
+    }
     this.updatePersonForm = this.formBuilder.group({
       [this.formControlNames.personId]: this.setEdit['personId'],
       [this.formControlNames.personCode]: { value: this.setEdit['personCode'], disabled: true },
@@ -240,10 +260,14 @@ export class PersonComponent implements OnInit {
       [this.formControlNames.lsi]: this.setEdit['lsi'],
       [this.formControlNames.gender]: this.setEdit['gender'],
       [this.formControlNames.mStatus]: this.setEdit['mStatus'],
-      [this.formControlNames.citizenshipNo]: this.setEdit['citizenshipNo'],
+      [this.formControlNames.citizenshipNo]: { value: this.setEdit['citizenshipNo'], disabled: true },
       [this.formControlNames.districtId]: this.setEdit['districtId'],
       [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
       [this.formControlNames.ward]: this.setEdit['ward'],
+      [this.formControlNames.dob]: this.setEdit['dob'],
+      [this.formControlNames.yearNP]: this.setEdit['yearNP'],
+      [this.formControlNames.monthNP]: this.setEdit['monthNP'],
+      [this.formControlNames.dayNP]: this.setEdit['dayNP'],
       [this.formControlNames.address]: this.setEdit['address'],
       [this.formControlNames.phone1]: this.setEdit['phone1'],
       [this.formControlNames.phone2]: this.setEdit['phone2'],
@@ -251,6 +275,10 @@ export class PersonComponent implements OnInit {
       [this.formControlNames.email]: this.setEdit['email'],
       [this.formControlNames.web]: this.setEdit['web'],
     });
+
+    if (this.setEdit['dob']) {
+      this.onDateChange(this.setEdit, 'update');
+    }
   }
 
   doEdit(data) {
@@ -259,6 +287,9 @@ export class PersonComponent implements OnInit {
     delete data['firstName'];
     delete data['middleName'];
     delete data['lastName'];
+    delete data['yearNP'];
+    delete data['monthNP'];
+    delete data['dayNP'];
     this.personService.updatePerson(data).subscribe(data => {
       if (data['success'] === true) {
         swal.fire('Success', data['message'], 'success');
@@ -289,4 +320,35 @@ export class PersonComponent implements OnInit {
     this.setLocalBodyByDistrict(event, source);
   }
 
+
+  onDateChange(data, type) {
+    let npdate = new NepaliDate(new Date(data.dob));
+    console.log(npdate)
+    if (type == 'create') {
+      this.personForm.controls.yearNP.setValue(npdate.getYear());
+      this.personForm.controls.monthNP.setValue(npdate.getMonth());
+      this.personForm.controls.dayNP.setValue(npdate.getDate());
+    } else {
+      //update
+      this.updatePersonForm.controls.yearNP.setValue(npdate.getYear());
+      this.updatePersonForm.controls.monthNP.setValue(npdate.getMonth());
+      this.updatePersonForm.controls.dayNP.setValue(npdate.getDate());
+    }
+  }
+  onDateChangeNP(data, type) {
+    if (data.yearNP && data.monthNP && data.dayNP) {
+      if (type == 'create') {
+        let npdate = new NepaliDate(data.yearNP + '-' + (++data.monthNP) + '-' + ++data.dayNP);
+        let endate = npdate.getEnglishDate().toISOString().slice(0, 10);
+        // data.yearNP + '-' + data.monthNP + '-' + data.dayNP;
+        this.personForm.controls.dob.setValue(endate);
+      } else {
+        //update
+        let npdate = new NepaliDate(data.yearNP + '-' + (++data.monthNP) + '-' + ++data.dayNP);
+        let endate = npdate.getEnglishDate().toISOString().slice(0, 10);
+        // data.yearNP + '-' + data.monthNP + '-' + data.dayNP;
+        this.updatePersonForm.controls.dob.setValue(endate);
+      }
+    }
+  }
 }
