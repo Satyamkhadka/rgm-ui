@@ -1,3 +1,6 @@
+import { BatchService } from './../batch/_service/batch.service';
+import { SoService } from './../so/_service/so.service';
+import { StaffService } from './../staff/_service/staff.service';
 import { PaymentService } from './_service/payment.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,14 +17,28 @@ export class PaymentComponent implements OnInit {
 
   public memoForm: FormGroup;
   phase;
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private paymentService: PaymentService) { }
+  allStaffs = [];
+  allSo = [];
+  allBatches = [];
+  contractId;
+  constructor(private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private paymentService: PaymentService,
+    private staffService: StaffService,
+    private soService: SoService,
+    private batchService: BatchService
+  ) { }
 
   ngOnInit() {
 
+    this.getAllSo();
+    this.getAllStaffs();
+    this.getAllBatches();
     this.route.paramMap.subscribe(params => {
       this.phase = params.get("phase");
       if (this.phase) {
         // this.getContractById(this.contractId);
+
         console.log(this.phase)
       }
     });
@@ -44,8 +61,13 @@ export class PaymentComponent implements OnInit {
   }
 
   onSubmit(formData) {
+    if (!this.contractId) {
+      swal.fire('oops', 'No contract for provided batch and SO found!', 'warning');
+      return;
+    }
     console.log(formData)
     let plusData = formData;
+    plusData['contractId'] = this.contractId;
     plusData['active'] = 1;
     plusData['phase'] = this.phase;
     plusData['createdOn'] = new Date();
@@ -78,4 +100,40 @@ export class PaymentComponent implements OnInit {
       return null;
     }
   }
+  getAllStaffs() {
+
+    this.staffService.getAllStaff().subscribe(data => {
+      if (data['success'] === true) {
+        this.allStaffs = data['data'];
+      }
+    });
+  }
+  getAllSo() {
+    this.soService.getAllSo().subscribe(data => {
+
+      if (data['success'] === true) {
+        this.allSo = data['data'];
+      }
+    });
+  }
+
+  getAllBatches() {
+    this.batchService.getAllBatch().subscribe(data => {
+      if (data['success'] === true) {
+        this.allBatches = data['data'];
+      }
+    });
+  }
+
+  getContractByBatchAndSo(formData) {
+    this.contractId = null;
+    if (formData.batch && formData.so) {
+      console.log('changes on the coontract pary ')
+      this.paymentService.getContractByBatchAndSo(formData.batch, formData.so).subscribe(data => {
+        this.contractId = data['data'][0]['contractId'];
+        console.log(this.contractId);
+      })
+    }
+  }
+
 }

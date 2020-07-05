@@ -316,7 +316,7 @@ export class SoComponent implements OnInit {
       if (data['success'] === true) {
         this.allStaff = data['data'];
         this.allStaff = this.allStaff.filter(e => {
-          if (e['projectManager'] || e['name'] == 'Executive Director') {
+          if (e['portfolioManager'] || e['projectManager'] || e['name'] == 'Executive Director') {
             return false;
           } else return true;
         })

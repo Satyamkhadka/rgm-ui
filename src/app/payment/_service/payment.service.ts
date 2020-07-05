@@ -20,4 +20,7 @@ export class PaymentService {
   updatePayment(data) {
     return this.httpClient.post(environment.url + 'payment/update', data);
   }
+  getContractByBatchAndSo(batch, so) {
+    return this.httpClient.get(environment.url + 'payment/contract/' + batch + '/' + so);
+  }
 }

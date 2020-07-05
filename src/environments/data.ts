@@ -72,12 +72,12 @@ export const data = {
             {
                 name: 'Create Payment',
                 icon: 'newspaper',
-                urlTo: '/payment',
+                urlTo: '/payment/first',
                 briefing: ' set miscellienous costs'
             }, {
                 name: 'Memorandum first',
                 icon: 'newspaper',
-                urlTo: '/allmemo/second',
+                urlTo: '/allmemo/first',
                 briefing: ' set miscellienous costs'
             }, {
                 name: 'Memorandum second',

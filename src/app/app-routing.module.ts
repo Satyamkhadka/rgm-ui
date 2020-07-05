@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'menu', canActivate: [AuthGuard], component: MenuComponent },
   { path: 'contract/:contractId', canActivate: [AuthGuard], component: ContractComponent },
   { path: 'contract/cost/:contractId', canActivate: [AuthGuard], component: CostBreakdownComponent },
-  { path: 'memo/:contractId', canActivate: [AuthGuard], component: MemorandumComponent },
+  { path: 'memo/:memoId', canActivate: [AuthGuard], component: MemorandumComponent },
   { path: 'allmemo/:phase', canActivate: [AuthGuard], component: AllmemoComponent },
   { path: 'payment/:phase', canActivate: [AuthGuard], component: PaymentComponent },
 
