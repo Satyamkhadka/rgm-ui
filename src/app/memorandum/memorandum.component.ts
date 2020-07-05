@@ -1,3 +1,5 @@
+import { PaymentService } from './../payment/_service/payment.service';
+import { MemoService } from './_service/memo.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import { ContractService } from './../input/_service/contract.service';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +17,8 @@ export class MemorandumComponent implements OnInit {
 
 
   contractId;
+  memoId;
+  memo;
   contractDetails = {};
   schemes = [];
   numberOfSchemes: number;
@@ -37,14 +41,18 @@ export class MemorandumComponent implements OnInit {
     private route: ActivatedRoute,
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
-    private nepaliService: NgxNepaliNumberToWordsService
+    private nepaliService: NgxNepaliNumberToWordsService,
+    private memoService: MemoService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.contractId = params.get("contractId");
-      if (this.contractId) {
-        this.getContractById(this.contractId);
+
+      this.memoId = params.get("memoId");
+
+      if (this.memoId) {
+        this.getMemoById(this.memoId);
       }
     });
   }
@@ -53,8 +61,20 @@ export class MemorandumComponent implements OnInit {
     window.print();
   }
 
+  getMemoById(memoId) {
+    this.memoService.getMemoById(memoId).subscribe(data => {
+      console.log(data)
+      if (data['success'] == true) {
+        this.memo = data['data'][0];
+
+        this.getContractById(this.memo.contractId);
+      }
+    })
+  }
+
   getContractById(contractId) {
     this.contractService.getContractById(contractId).subscribe(data => {
+      console.log('loading contract')
       console.log(data)
       if (data['success'] === true) {
         this.contractDetails = data['data'][0];

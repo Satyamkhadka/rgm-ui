@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  active = true;
+  active = false;
   listItems = data.listItems;
 
   userInfo: User;

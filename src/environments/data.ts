@@ -68,7 +68,25 @@ export const data = {
                 icon: 'eye',
                 urlTo: '/contract',
                 briefing: ' See all Contracts'
+            },
+            {
+                name: 'Create Payment',
+                icon: 'newspaper',
+                urlTo: '/payment/first',
+                briefing: ' set miscellienous costs'
             }, {
+                name: 'Memorandum first',
+                icon: 'newspaper',
+                urlTo: '/allmemo/first',
+                briefing: ' set miscellienous costs'
+            }, {
+                name: 'Memorandum second',
+                icon: 'newspaper',
+                urlTo: '/allmemo/second',
+                briefing: ' set miscellienous costs'
+            },
+
+            {
                 name: 'Miscellienous',
                 icon: 'dollar',
                 urlTo: '/misc',

@@ -1,0 +1,158 @@
+<!-- table part -->
+<div class="container mt-5">
+    <div class="container-flex">
+        <div class="row">
+            <div class="col-6">
+                <input type="text" [(ngModel)]="filter.so" placeholder="Search By SO">
+            </div>
+            <div class="col-6">
+                <span [routerLink]="['/payment/'+phase]" routerLinkActive="router-link-active"
+                    class="btn btn-success float-right">
+                    <i class="fa fa-plus"> </i> Create {{phase}} payment memo
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">SO</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of allmemo | filterBy:filter; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item.so}}</td>
+                <td>{{item.createdOn}}</td>
+                <td>
+                    <span [routerLink]="['/memo/'+item['memoId']]" routerLinkActive="router-link-active"
+                        class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
+                        <i class="fa fa-eye"> </i>
+                    </span>
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#edit" (click)="setEdit(item)">
+                        <i class="fa fa-pencil"> </i>
+                    </span>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm">
+                        <i class="fa fa-trash"> </i>
+
+                    </span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="budgetAllocation" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit {{phase}} payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-flex">
+                    <form class="form" [formGroup]="memoForm">
+
+                        <div class="mb-5">
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch">Batch</label>
+                                <input type="text" id="batch" class="form-control" formControlName="batch">
+                            </div>
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch">Date </label>
+                                <input type="date" id="batch" class="form-control" formControlName="date">
+                            </div>
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch">StaffIdFrom</label>
+                                <select type="text" id="batch" class="form-control" formControlName="staffIdFrom">
+                                    <option value="null">-Select-</option>
+                                </select>
+                            </div>
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch"> StaffIdTo</label>
+                                <select type="text" id="batch" class="form-control" formControlName="staffIdTo">
+                                    <option value="null">-Select-</option>
+                                </select>
+                            </div>
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch">StaffIdThrough</label>
+                                <select type="text" id="batch" class="form-control" formControlName="staffIdThrough">
+                                    <option value="null">-Select-</option>
+                                </select>
+                            </div>
+
+                            <div class="mt-3 form-row col-4">
+                                <label for="batch">SO</label>
+                                <select type="text" id="batch" class="form-control" formControlName="so">
+                                    <option value="null">-Select-</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="my-5">
+
+                            <div class="mt-3 form-row">
+                                <label for="">1. Request letter is submitted with all the required documents and it is
+                                    completed.
+                                </label>
+                                <input id="" type="text" class="form-control" formControlName="requestLetter">
+                            </div>
+
+                            <div class="mt-3 form-row">
+                                <label for="batch">2. Has SO submitted consent letter to Local Level. </label>
+                                <input id="batch" type="text" class="form-control" formControlName="consentLetter">
+                            </div>
+
+                            <div class="mt-3 form-row">
+                                <label for="batch">3. Has SO submitted field survey data with required outputs (both
+                                    soft copy and hard
+                                    copy). </label>
+                                <input id="batch" type="text" class="form-control" formControlName="survey">
+                            </div>
+
+                            <div class="mt-3 form-row">
+                                <label for="batch">4. SO has opened the SO Bank Account for the sole use of funds to be
+                                    received from
+                                    the
+                                    Fund Board. The evidence regarding this is submitted and acceptable. </label>
+                                <input id="batch" type="text" class="form-control" formControlName="bankAccount">
+                            </div>
+                            <div class="mt-3 form-row">
+                                <label for="batch">5. All staffs have been appointed as specified in the contract and it
+                                    is acceptable.
+                                    Evidence, in the form of copies of the appointment letters have been submitted which
+                                    are acceptable.
+                                </label>
+                                <input id="batch" type="text" class="form-control" formControlName="staffs">
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        (click)="onUpdate(memoForm.value)">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>

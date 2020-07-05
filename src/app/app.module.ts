@@ -30,6 +30,8 @@ import { MiscComponent } from './misc/misc.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
 import { MenuComponent } from './menu/menu.component';
 import { MemorandumComponent } from './memorandum/memorandum.component';
+import { PaymentComponent } from './payment/payment.component';
+import { AllmemoComponent } from './allmemo/allmemo.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { MemorandumComponent } from './memorandum/memorandum.component';
     MiscComponent,
     CostBreakdownComponent,
     MenuComponent,
-    MemorandumComponent
+    MemorandumComponent,
+    PaymentComponent,
+    AllmemoComponent
   ],
   imports: [
     BrowserModule,
