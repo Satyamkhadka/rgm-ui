@@ -11,7 +11,7 @@
                     <p><strong>To: </strong></p>
                 </td>
                 <td width="325">
-                    <p>ED/</p>
+                    <p> {{allStaffs[memo['staffIdTo']]['staffCode']}}</p>
                 </td>
                 <td width="126">
                     <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Batch No: {{contractDetails['batchNo']}}</strong></p>
@@ -25,14 +25,14 @@
                     <p><strong>Through: </strong></p>
                 </td>
                 <td width="325">
-                    <p>DED/</p>
+                    <p> {{allStaffs[memo['staffIdThrough']]['staffCode']}} </p>
                     <p><strong>&nbsp;</strong></p>
                 </td>
                 <td width="126">
                     <p><strong>Date:</strong></p>
                 </td>
                 <td width="133">
-                    <p>&nbsp;</p>
+                    <p> {{memo['date']}}&nbsp;</p>
                 </td>
             </tr>
             <tr>
@@ -40,10 +40,10 @@
                     <p><strong>From: </strong></p>
                 </td>
                 <td width="325">
-                    <p>Supervisor/</p>
+                    <p> {{allStaffs[memo['staffIdFrom']]['staffCode']}}/</p>
                 </td>
                 <td width="126">
-                    <p>&nbsp;</p>
+                    <p> &nbsp;</p>
                 </td>
                 <td width="133">
                     <p>&nbsp;</p>
@@ -53,7 +53,11 @@
     </table>
     <p>&nbsp;</p>
     <p><strong><strong>&nbsp;&nbsp;&nbsp;&nbsp;Subject: </strong></strong><strong><u><strong>Recommendation for
-                    1</strong></u></strong><strong><sup><strong>st</strong></sup></strong><strong><u><strong> payment
+                    <!-- 1</strong></u></strong> -->
+                    {{memo['phase']}}</strong></u></strong>
+        <!-- <strong><sup><strong>st</strong></sup></strong> -->
+
+        <strong><u><strong> payment
                     of Post Implementation Phase </strong></u></strong></p>
     <table>
         <tbody>
@@ -67,7 +71,7 @@
             </tr>
             <tr>
                 <td width="330">
-                    <p><strong><strong>District Name: </strong></strong></p>
+                    <p><strong><strong>District Name: {{district}}</strong></strong></p>
                 </td>
                 <td width="350">
                     <p>&nbsp;</p>
@@ -75,7 +79,8 @@
             </tr>
             <tr>
                 <td width="330">
-                    <p><strong><strong>Date of Contract : </strong></strong></p>
+                    <p><strong><strong>Date of Contract : {{contractDetails['createdOn'].slice(0,10)}}
+                            </strong></strong></p>
                 </td>
                 <td width="350">
                     <p>&nbsp;</p>
@@ -83,7 +88,8 @@
             </tr>
             <tr>
                 <td width="330">
-                    <p><strong><strong>Contract Duration: &nbsp;</strong></strong></p>
+                    <p><strong><strong>Contract Duration:
+                                {{contractDuration/(1000*60*60*24)}} days&nbsp;</strong></strong></p>
                     <p><strong><strong>&nbsp;</strong></strong></p>
                     <p><strong><strong>Latest Contract Amendment Date (if any): &nbsp;</strong></strong></p>
                     <p>&nbsp;</p>
@@ -149,10 +155,12 @@
                     <p>{{calculatedData['secondPaymentTotal']}}</p>
                 </td>
                 <td width="114">
-                    <p>{{calculatedData['paymentMadeTillDate']}}</p>
+                    <p *ngIf="memo['phase']=='first'">{{calculatedData['firstPaymentTotal']}}</p>
+                    <p *ngIf="memo['phase']=='second'">{{calculatedData['fairGrandTotal']}}</p>
                 </td>
                 <td width="132">
-                    <p>{{calculatedData['paymentRemaining']}}</p>
+                    <p *ngIf="memo['phase']=='first'">{{calculatedData['secondPaymentTotal']}}</p>
+                    <p *ngIf="memo['phase']=='second'">0</p>
                 </td>
             </tr>
         </tbody>
@@ -164,29 +172,34 @@
         <li><strong><strong>Request letter is submitted with all the required documents and it is completed.
                 </strong></strong></li>
     </ol>
-    <p>&nbsp; <input type="checkbox" /> Yes/ No</p>
+
+    <p> {{memo['requestLetter']}}</p>
     <ol start="2">
         <li><strong><strong>Has SO submitted consent letter to Local Level. </strong></strong></li>
     </ol>
-    <p> <input type="checkbox" />Yes/ No</p>
+
+    <p> {{memo['consentLetter']}}</p>
     <ol start="3">
         <li><strong><strong>Has SO submitted field survey data with required outputs (both soft copy and hard
                     copy).</strong></strong></li>
     </ol>
-    <p> <input type="checkbox" />Yes/ No</p>
+
+    <p> {{memo['survey']}}</p>
     <ol start="4">
         <li><strong><strong>SO has opened the SO Bank Account for the sole use of funds to be received from the Fund
                     Board.
                     The evidence regarding this is submitted and acceptable.</strong></strong></li>
     </ol>
-    <p>&nbsp; <input type="checkbox" />Yes/ No</p>
+
+    <p> {{memo['bankAccount']}}</p>
     <ol start="5">
         <li><strong><strong>All staffs have been appointed as specified in the contract and it is acceptable. Evidence,
                     in
                     the form of copies of the appointment letters have been submitted which are
                     acceptable.</strong></strong></li>
     </ol>
-    <p> <input type="checkbox" /> Yes/ No</p>
+
+    <p> {{memo['staffs']}}</p>
     <p>&nbsp;</p>
     <p class="border-upd">The Chief of the Program Development/HRD Division is
         consulted
@@ -201,9 +214,24 @@
         <p>&nbsp;</p>
         <p>&nbsp;</p>
     </div>
-    <p><strong><strong>&nbsp;Amount to be paid against first payment in NRs:
-                {{calculatedData['firstPaymentTotal']}}</strong></strong></p>
-    <p>In Word: {{calculatedData['firstPaymentTotalWR']}} &nbsp;</p>
+    <p><strong><strong>&nbsp;Amount to be paid against {{memo['phase']}} payment in NRs:
+                <span *ngIf="memo['phase']=='first'">
+                    {{calculatedData['firstPaymentTotal']}}
+                </span>
+                <span *ngIf="memo['phase']=='second'">
+                    {{calculatedData['secondPaymentTotal']}}
+                </span>
+
+            </strong></strong></p>
+    <p>In Word:
+        <span *ngIf="memo['phase']=='first'">
+            {{calculatedData['firstPaymentTotalWR']}}
+        </span>
+        <span *ngIf="memo['phase']=='second'">
+            {{calculatedData['secondPaymentTotalWR']}}
+        </span>
+
+        &nbsp;</p>
     <table>
         <tbody>
             <tr>
@@ -255,13 +283,24 @@
                         <tbody>
                             <tr>
                                 <td width="291">
-                                    <p>Date of Payment:</p>
+                                    <p>Date of Payment: {{memo['date']}} </p>
                                 </td>
                                 <td width="162">
-                                    <p><strong><strong>Payment Amount NRs: </strong></strong></p>
+                                    <p><strong><strong>Payment Amount NRs:
+
+                                            </strong></strong></p>
                                 </td>
                                 <td width="181">
-                                    <p><strong><strong>____________.00</strong></strong></p>
+                                    <p><strong><strong>
+                                                <u>
+                                                    <span *ngIf="memo['phase']=='first'">
+                                                        {{calculatedData['firstPaymentTotal']}}
+                                                    </span>
+
+                                                    <span *ngIf="memo['phase']=='second'">
+                                                        {{calculatedData['secondPaymentTotal']}}
+                                                    </span>
+                                                </u></strong></strong></p>
                                 </td>
                             </tr>
                             <tr>
@@ -311,5 +350,9 @@
     </table>
     <p>&nbsp;</p>
 
+
+    <div class="noprint mb-5">
+        <button (click)="printPage()"> Print </button>
+    </div>
 
 </div>

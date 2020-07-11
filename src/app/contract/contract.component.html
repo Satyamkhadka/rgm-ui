@@ -86,9 +86,9 @@
                 <tr *ngFor="let item of schemes">
                     <td>{{item['schemeCode']}}</td>
                     <td>{{item['nameNP']}}</td>
-                    <td>{{district}}</td>
+                    <td>{{item['district']}}</td>
                     <td>{{localBody}}</td>
-                    <td>{{ '-'}}</td>
+                    <td>{{item['wardNo']}}</td>
                 </tr>
 
             </tbody>
@@ -714,8 +714,8 @@
                 <div class="col-6">
                     <p><strong>दस्तखत :</strong></p>
                     <p><span style="font-weight: 400;">नाम : चोक प्रसाद धिताल </span></p>
-                    <p><span style="font-weight: 400;">पद : </span></p>
-                    <p><span style="font-weight: 400;">ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति सहयोगी
+                    <p><span style="font-weight: 400;">पद : कार्यकारी निर्देशक </span></p>
+                    <p><span style="font-weight: 400;">ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति
                             :</span></p>
                     <p><span style="font-weight: 400;">मिति : {{createdDate}}</span></p>
                     <p><span style="font-weight: 400;">छाप : </span></p>
@@ -725,8 +725,8 @@
                     <p><span style="font-weight: 400;">नाम :
                             {{contractDetails['firstNameNP']+' '+contractDetails['middleNameNP']+' '+contractDetails['lastNameNP']}}</span>
                     </p>
-                    <p><span style="font-weight: 400;"> कार्यकारी निर्देशक पद : अध्यक्ष</span></p>
-                    <p><span style="font-weight: 400;"> संस्थाको नाम : {{contractDetails['nameNP']}}</span></p>
+                    <p><span style="font-weight: 400;"> पद : अध्यक्ष</span></p>
+                    <p><span style="font-weight: 400;"> सहयोगी संस्थाको नाम : {{contractDetails['nameNP']}}</span></p>
                     <p><span style="font-weight: 400;"> मिति : {{createdDate}}</span></p>
                     <p><span style="font-weight: 400;"> छाप :</span></p>
                 </div>

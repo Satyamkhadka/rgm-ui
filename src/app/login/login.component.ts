@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit {
         this.auth.sendToken(data['token']);
         if (userData === null) { swal.fire('Oops', 'Illegal actions', 'error') } else {
           if (userData['role'] === 'superadmin') {
-            this.router.navigate(['/superadmin']);
+            this.router.navigate(['/menu']);
           } else if (userData['role'] === 'admin') {
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/menu']);
 
           } else if (userData['role'] === 'user') {
-            this.router.navigate(['/']);
+            this.router.navigate(['/menu']);
 
           }
         }

@@ -1,3 +1,4 @@
+import { StaffService } from './../staff/_service/staff.service';
 import { PaymentService } from './../payment/_service/payment.service';
 import { MemoService } from './_service/memo.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
@@ -23,6 +24,7 @@ export class MemorandumComponent implements OnInit {
   schemes = [];
   numberOfSchemes: number;
   staff = [];
+  allStaffs = {};
   calculatedData = {};
   district = '';
   localBody = '';
@@ -36,6 +38,9 @@ export class MemorandumComponent implements OnInit {
   //dates 
   startDate;
   endDate;
+  startDateEN;
+  endDateEN;
+  contractDuration: number;
   createdDate;
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +48,12 @@ export class MemorandumComponent implements OnInit {
     private localBodyService: LocalBodyService,
     private nepaliService: NgxNepaliNumberToWordsService,
     private memoService: MemoService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private staffService: StaffService
   ) { }
 
   ngOnInit() {
+    this.getAllStaffs();
     this.route.paramMap.subscribe(params => {
 
       this.memoId = params.get("memoId");
@@ -61,16 +68,29 @@ export class MemorandumComponent implements OnInit {
     window.print();
   }
 
+  getAllStaffs() {
+    this.staffService.getAllStaff().subscribe(data => {
+      if (data['success'] === true) {
+        data['data'].forEach(element => {
+          this.allStaffs[element['staffId']] = element;
+
+        });
+      }
+    });
+  }
+
+
   getMemoById(memoId) {
     this.memoService.getMemoById(memoId).subscribe(data => {
       console.log(data)
       if (data['success'] == true) {
         this.memo = data['data'][0];
-
+        this.memo['date'] = this.memo['date'].slice(0, 10);
         this.getContractById(this.memo.contractId);
       }
     })
   }
+
 
   getContractById(contractId) {
     this.contractService.getContractById(contractId).subscribe(data => {
@@ -83,26 +103,28 @@ export class MemorandumComponent implements OnInit {
         this.staff = this.contractDetails['staff'];
         this.calculateData();
 
-        this.getDistrictById(this.contractDetails['districtId']);
-        this.getLocalBodyById(this.contractDetails['localBodyId']);
+        this.getDistrictById(this.contractDetails['districtId']); //district is not got by contract
+        // this.getLocalBodyById(this.contractDetails['localBodyId']);
+
+
       }
     })
   }
 
 
-  getLocalBodyById(localBodyId) {
-    this.localBodyService.getLocalBodyById(localBodyId).subscribe(data => { //get staff under so
-      if (data['success'] === true) {
-        this.localBody = data['data'][0]['nameNP'];
-      }
-    });
-  }
+  // getLocalBodyById(localBodyId) {
+  //   this.localBodyService.getLocalBodyById(localBodyId).subscribe(data => { //get staff under so
+  //     if (data['success'] === true) {
+  //       this.localBody = data['data'][0]['nameNP'];
+  //     }
+  //   });
+  // }
 
 
   getDistrictById(districtId) {
     this.localBodyService.getDistrictById(districtId).subscribe(data => { //get staff under so
       if (data['success'] === true) {
-        this.district = data['data'][0]['nameNP'];
+        this.district = data['data'][0]['name'];
       }
     });
   }
@@ -113,6 +135,13 @@ export class MemorandumComponent implements OnInit {
     //ummm.... dates 
     this.startDate = new NepaliDate(this.contractDetails['startDate']); //start nepali date
     this.endDate = new NepaliDate(this.contractDetails['endDate']); //end nepali date
+
+    this.startDateEN = this.startDate.getEnglishDate();
+    this.endDateEN = this.endDate.getEnglishDate();
+
+    this.contractDuration = this.endDateEN - this.startDateEN;
+    console.log(this.startDate + '---' + this.endDate + '---' + this.contractDuration);
+
     this.startDate = this.startDate.format('yyyy-mmmm-dd , ddd');
     this.endDate = this.endDate.format('yyyy-mmmm-dd , ddd');
     this.createdDate = new NepaliDate(this.contractDetails['createdOn']);

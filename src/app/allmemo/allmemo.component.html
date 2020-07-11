@@ -26,8 +26,8 @@
         <tbody>
             <tr *ngFor="let item of allmemo | filterBy:filter; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{item.so}}</td>
-                <td>{{item.createdOn}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.createdOn[0]}}</td>
                 <td>
                     <span [routerLink]="['/memo/'+item['memoId']]" routerLinkActive="router-link-active"
                         class="btn btn-warning rounded-circle rounded-circle-sm mr-2">
@@ -37,10 +37,10 @@
                         data-target="#edit" (click)="setEdit(item)">
                         <i class="fa fa-pencil"> </i>
                     </span>
-                    <span class="btn btn-danger rounded-circle rounded-circle-sm">
+                    <!-- <span class="btn btn-danger rounded-circle rounded-circle-sm">
                         <i class="fa fa-trash"> </i>
 
-                    </span>
+                    </span> -->
                 </td>
             </tr>
 
@@ -61,13 +61,20 @@
             </div>
             <div class="modal-body">
                 <div class="container-flex">
+
                     <form class="form" [formGroup]="memoForm">
 
                         <div class="mb-5">
 
                             <div class="mt-3 form-row col-4">
                                 <label for="batch">Batch</label>
-                                <input type="text" id="batch" class="form-control" formControlName="batch">
+                                <select type="text" id="batch" class="form-control" formControlName="batch">
+                                    <option value="">-Select-</option>
+                                    <option *ngFor="let item of allBatches" [value]="item.batchId">
+                                        {{item.batchId}}
+                                    </option>
+
+                                </select>
                             </div>
 
                             <div class="mt-3 form-row col-4">
@@ -78,28 +85,37 @@
                             <div class="mt-3 form-row col-4">
                                 <label for="batch">StaffIdFrom</label>
                                 <select type="text" id="batch" class="form-control" formControlName="staffIdFrom">
-                                    <option value="null">-Select-</option>
+                                    <option value="">-Select-</option>
+                                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+
                                 </select>
                             </div>
 
                             <div class="mt-3 form-row col-4">
                                 <label for="batch"> StaffIdTo</label>
                                 <select type="text" id="batch" class="form-control" formControlName="staffIdTo">
-                                    <option value="null">-Select-</option>
+                                    <option value="">-Select-</option>
+                                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+
                                 </select>
                             </div>
 
                             <div class="mt-3 form-row col-4">
                                 <label for="batch">StaffIdThrough</label>
                                 <select type="text" id="batch" class="form-control" formControlName="staffIdThrough">
-                                    <option value="null">-Select-</option>
+                                    <option value="">-Select-</option>
+                                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+
                                 </select>
                             </div>
 
                             <div class="mt-3 form-row col-4">
                                 <label for="batch">SO</label>
                                 <select type="text" id="batch" class="form-control" formControlName="so">
-                                    <option value="null">-Select-</option>
+                                    <option value="">-Select-</option>
+                                    <option *ngFor="let item of allSo" [value]="item.soId">{{item.name}}</option>
+
+
                                 </select>
                             </div>
 
@@ -142,14 +158,16 @@
                                 </label>
                                 <input id="batch" type="text" class="form-control" formControlName="staffs">
                             </div>
-
+                            <!-- <div class="mt-12 form-row">
+                                <input class="btn btn-success mt-5" type="submit" (click)="onSubmit(memoForm.value)">
+                            </div> -->
 
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        (click)="onUpdate(memoForm.value)">Update</button>
+                        (click)="onSubmit(memoForm.value)">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </div>

@@ -348,7 +348,7 @@ export class SoComponent implements OnInit {
   assignStaffUnderSo(data) {
     console.log(data);
     let plusData = data;
-    plusData['personId'] = data['personId'][0];
+    plusData['personId'] = data['personId'];
     plusData['soId'] = this.selectedSo;
     plusData[this.formControlNames.createdBy] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
     plusData[this.formControlNames.createdOn] = new Date().toISOString().slice(0, 19).replace('T', ' ');

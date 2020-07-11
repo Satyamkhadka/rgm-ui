@@ -2,7 +2,7 @@ import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_userServices/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
 import * as jwt_decode from "jwt-decode";
 import { Router } from '@angular/router';
 
@@ -26,22 +26,22 @@ export class SuperadminComponent implements OnInit {
       password2: '',
       role: ''
     });
-    if(this.authorized()) {
+    if (this.authorized()) {
       this.getAllUser();
 
     } else {
-this.router.navigate(['/login']);
+      this.router.navigate(['/menu']);
     }
-    
+
   }
 
   ngOnInit() {
   }
   getAllUser() {
     this.userService.getAllUsers().subscribe(data => {
-     if(data['success']===true){
-       this.users = data['data'];
-     } 
+      if (data['success'] === true) {
+        this.users = data['data'];
+      }
     });
   }
 
@@ -50,7 +50,8 @@ this.router.navigate(['/login']);
       delete data.password2;
       const md5 = new Md5();
       data.password = md5.appendStr(data.password).end();
-      data['active'] = 'active';
+      data['active'] = '1';
+      data['createdOn'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
       this.userService.createUser(data).subscribe(data => {
         if (data['success'] === true) {
           this.getAllUser();
@@ -75,35 +76,35 @@ this.router.navigate(['/login']);
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        
+
 
         this.userService.deleteUser({ userId, role }).subscribe(cb => {
-          if(cb['success'] === true){
+          if (cb['success'] === true) {
             this.getAllUser();
             swal.fire('Success', cb['message'], 'success');
-          } else if (cb['success']=== false){
+          } else if (cb['success'] === false) {
             swal.fire('oops', cb['message'], 'error');
           }
         });
 
 
-      } 
+      }
     })
 
 
 
-    
+
   }
   authorized() {
 
     let token = localStorage.getItem('LoggedInUser');
-      token = jwt_decode(token);
-      console.log(token)
-      if(token['role']==='superadmin'){
-        return true;
-      } else return false;
+    token = jwt_decode(token);
+    console.log(token)
+    if (token['role'] === 'superadmin') {
+      return true;
+    } else return false;
 
-     
-   
+
+
   }
 }

@@ -1,5 +1,5 @@
-<div *ngIf="userInfo.authenticated">
-  <div class="noprint">
+<div class="noprint" *ngIf="userInfo">
+  <div *ngIf="userInfo.authenticated" class="noprint">
 
 
     <div id="wrapper" [className]="active? 'toggled' : ''">
@@ -22,7 +22,7 @@
           </li>
           <li *ngFor="let item of listItems" [routerLink]="[item.urlTo]" routerLinkActive="router-link-active"
             data-toggle="popover" title="{{item.briefing}}">
-            <a><i [className]="'fa fa-'+item.icon"></i>{{item.name}}</a>
+            <a *ngIf="item.sidebar"><i [className]="'fa fa-'+item.icon"></i>{{item.name}}</a>
           </li>
         </ul>
       </aside>

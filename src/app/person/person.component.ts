@@ -93,16 +93,16 @@ export class PersonComponent implements OnInit {
     this.updatePersonForm = this.formBuilder.group({
       [this.formControlNames.personId]: '',
       [this.formControlNames.personCode]: { value: '', disabled: true },
-      [this.formControlNames.firstName]: { value: '', disabled: true },
-      [this.formControlNames.middleName]: { value: '', disabled: true },
-      [this.formControlNames.lastName]: { value: '', disabled: true },
-      [this.formControlNames.firstNameNP]: { value: '', disabled: true },
-      [this.formControlNames.middleNameNP]: { value: '', disabled: true },
-      [this.formControlNames.lastNameNP]: { value: '', disabled: true },
+      [this.formControlNames.firstName]: { value: '' },
+      [this.formControlNames.middleName]: { value: '' },
+      [this.formControlNames.lastName]: { value: '' },
+      [this.formControlNames.firstNameNP]: { value: '' },
+      [this.formControlNames.middleNameNP]: { value: '' },
+      [this.formControlNames.lastNameNP]: { value: '' },
       [this.formControlNames.lsi]: '',
       [this.formControlNames.gender]: '',
       [this.formControlNames.mStatus]: '',
-      [this.formControlNames.citizenshipNo]: { value: '', disabled: true },
+      [this.formControlNames.citizenshipNo]: { value: '' },
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
       [this.formControlNames.ward]: '',
@@ -168,6 +168,7 @@ export class PersonComponent implements OnInit {
     plusData[this.formControlNames.active] = true;
     this.personService.createPerson(plusData).subscribe(data => {
       if (data['success'] === true) {
+        this.personForm.reset();
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
       } else if (data['success'] === false) {
@@ -292,6 +293,7 @@ export class PersonComponent implements OnInit {
     delete data['dayNP'];
     this.personService.updatePerson(data).subscribe(data => {
       if (data['success'] === true) {
+        this.updatePersonForm.reset();
         swal.fire('Success', data['message'], 'success');
         this.diffrentialLoding();
       } else if (data['success'] === false) {

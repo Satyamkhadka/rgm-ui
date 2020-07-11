@@ -60,8 +60,23 @@ export class ContractComponent implements OnInit {
         this.staff = this.contractDetails['staff'];
         this.calculateData();
 
-        this.getDistrictById(this.contractDetails['districtId']);
-        this.getLocalBodyById(this.contractDetails['localBodyId']);
+        for (let i = 0; i < this.schemes.length; i++) {
+          this.schemes[i]['district'] = '-';
+
+          this.localBodyService.getDistrictById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
+            if (data['success'] === true) {
+              this.schemes[i]['district'] = data['data'][0]['nameNP'];
+
+            }
+          });
+          this.getLocalBodyById(this.contractDetails['localBodyId']);
+
+          this.localBodyService.getLocalBodyById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
+            if (data['success'] === true) {
+              this.schemes[i]['localbody'] = data['data'][0]['nameNP'];
+            }
+          });
+        }
       }
     })
   }
@@ -75,14 +90,6 @@ export class ContractComponent implements OnInit {
     });
   }
 
-
-  getDistrictById(districtId) {
-    this.localBodyService.getDistrictById(districtId).subscribe(data => { //get staff under so
-      if (data['success'] === true) {
-        this.district = data['data'][0]['nameNP'];
-      }
-    });
-  }
 
 
   calculateData() {
