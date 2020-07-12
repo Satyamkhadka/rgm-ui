@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
 import swal from 'sweetalert2';
 import * as jwt_decode from "jwt-decode";
-import { AuthService } from '../auth.service';
+import { AuthService } from '../_guards/auth.service';
 
 @Component({
   selector: 'app-login',

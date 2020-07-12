@@ -11,7 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { ContractComponent } from './contract/contract.component';
 import { SuperadminComponent } from './superadmin/superadmin.component';
 import { AdminComponent } from './admin/admin.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './_guards/auth/auth.guard';
 import { SoComponent } from './so/so.component';
 import { LocalBodyComponent } from './local-body/local-body.component';
 import { PersonComponent } from './person/person.component';
@@ -21,6 +21,7 @@ import { BatchComponent } from './batch/batch.component';
 import { AllcontractComponent } from './allcontract/allcontract.component';
 import { MiscComponent } from './misc/misc.component';
 import { PaymentComponent } from './payment/payment.component';
+import { SuperadminGuard } from './_guards/superadmin/superadmin.guard';
 
 const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: InputComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
   // { path: 'admin',canActivate: [AuthGuard], component: AdminComponent },
   { path: 'so', canActivate: [AuthGuard], component: SoComponent },
   { path: 'scheme', canActivate: [AuthGuard], component: SchemeComponent },
-  { path: 'local-body', canActivate: [AuthGuard], component: LocalBodyComponent },
+  { path: 'local-body', canActivate: [AuthGuard, SuperadminGuard], component: LocalBodyComponent },
   { path: 'person', canActivate: [AuthGuard], component: PersonComponent },
   { path: 'staff', canActivate: [AuthGuard], component: StaffComponent },
   // { path: 'position',canActivate: [AuthGuard], component: PositionComponent },
