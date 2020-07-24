@@ -32,6 +32,7 @@ import { MenuComponent } from './menu/menu.component';
 import { MemorandumComponent } from './memorandum/memorandum.component';
 import { PaymentComponent } from './payment/payment.component';
 import { AllmemoComponent } from './allmemo/allmemo.component';
+import { RwssStaffComponent } from './rwss-staff/rwss-staff.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AllmemoComponent } from './allmemo/allmemo.component';
     MenuComponent,
     MemorandumComponent,
     PaymentComponent,
-    AllmemoComponent
+    AllmemoComponent,
+    RwssStaffComponent
   ],
   imports: [
     BrowserModule,

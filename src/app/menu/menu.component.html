@@ -3,7 +3,7 @@
     <div class="row h-100 align-items-center mt-4 d-flex">
         <ng-container *ngFor="let item of listItems">
 
-            <div class="col-3 text-center mt-4" *ngIf="item.menu">
+            <div class="col-3 text-center mt-4" *ngIf="item.menu && userAccess+1  > item.access">
                 <div class="card" [routerLink]="[item.urlTo]">
                     <div class="card-body">
                         <div class="p-2">

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
 import { NgxNepaliNumberToWordsService } from 'ngx-nepali-number-to-words';
+import { StaffService } from '../staff/_service/staff.service';
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
@@ -13,6 +14,7 @@ export class ContractComponent implements OnInit {
 
   contractId;
   contractDetails = {};
+  ed = {};
   schemes = [];
   numberOfSchemes: number;
   staff = [];
@@ -34,7 +36,8 @@ export class ContractComponent implements OnInit {
     private route: ActivatedRoute,
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
-    private nepaliService: NgxNepaliNumberToWordsService
+    private nepaliService: NgxNepaliNumberToWordsService,
+    private staffService: StaffService
   ) { }
 
   ngOnInit() {
@@ -42,6 +45,7 @@ export class ContractComponent implements OnInit {
       this.contractId = params.get("contractId");
       if (this.contractId) {
         this.getContractById(this.contractId);
+        this.getSpecialStaffs();
       }
     });
   }
@@ -62,20 +66,25 @@ export class ContractComponent implements OnInit {
 
         for (let i = 0; i < this.schemes.length; i++) {
           this.schemes[i]['district'] = '-';
+          this.schemes[i]['localBody'] = '-';
+          console.log(this.schemes[i])
+          if (this.schemes[i]['districtId']) {
+            this.localBodyService.getDistrictById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
 
-          this.localBodyService.getDistrictById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
-            if (data['success'] === true) {
-              this.schemes[i]['district'] = data['data'][0]['nameNP'];
+              if (data['success'] === true) {
+                this.schemes[i]['district'] = data['data'][0]['nameNP'];
+              }
+            });
+          }
+          if (this.schemes[i]['localBodyId']) {
 
-            }
-          });
-          this.getLocalBodyById(this.contractDetails['localBodyId']);
-
-          this.localBodyService.getLocalBodyById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
-            if (data['success'] === true) {
-              this.schemes[i]['localbody'] = data['data'][0]['nameNP'];
-            }
-          });
+            this.getLocalBodyById(this.contractDetails['localBodyId']);
+            this.localBodyService.getLocalBodyById(this.schemes[i]['localBodyId']).subscribe(data => { //get staff under so
+              if (data['success'] === true) {
+                this.schemes[i]['localBody'] = data['data'][0]['nameNP'];
+              }
+            });
+          }
         }
       }
     })
@@ -90,7 +99,21 @@ export class ContractComponent implements OnInit {
     });
   }
 
+  getSpecialStaffs() {
+    console.log('special staff')
+    this.staffService.getSpecialStaffs().subscribe(data => {
+      console.log(data)
+      if (data['success']) {
+        this.ed = data['data'].filter(e => {
+          if (e['staffName'] === 'Executive Director' || e['staffName'] === 'executive director') {
+            return e;
+          }
+        });
+        this.ed = this.ed[0] ? this.ed[0] : null;
 
+      }
+    })
+  }
 
   calculateData() {
 
@@ -107,37 +130,38 @@ export class ContractComponent implements OnInit {
     this.calculatedData['hrSubTotal'] = 0;
     this.staff.forEach(e => {
       this.calculatedData[e.name] = {};
-      this.calculatedData[e.name]['fairPay'] = ((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes;
+      this.calculatedData[e.name]['fairPay'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
       this.calculatedData[e.name]['person'] = e;
       console.log(e.name)
-      this.calculatedData[e.name]['workingDays'] = e['workingDays'] * this.numberOfSchemes;
-      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['fairPay'];
+      this.calculatedData[e.name]['workingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+      this.calculatedData['hrSubTotal'] += +(this.calculatedData[e.name]['fairPay']).toFixed(2);
     })
-    this.calculatedData['hrOverhead'] = this.overhead / 100 * this.calculatedData['hrSubTotal'];
-    this.calculatedData['hrTotal'] = this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead'];
+    this.calculatedData['hrOverhead'] = +(this.overhead / 100 * this.calculatedData['hrSubTotal']).toFixed(2);
+    this.calculatedData['hrTotal'] = +(this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead']).toFixed(2);
 
 
     // misc part
-    this.miscData['transportationCost'] = this.contractDetails['transportationCost'] * this.numberOfSchemes;
-    this.miscData['communicationCost'] = this.contractDetails['communicationCost'] * this.numberOfSchemes;
-    this.miscData['reportingCost'] = this.contractDetails['reportingCost'] * this.numberOfSchemes;
-    this.miscData['jointMonitoringCost'] = this.contractDetails['jointMonitoringCost'] * this.numberOfSchemes;
+    this.miscData['transportationCost'] = +(this.contractDetails['transportationCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['communicationCost'] = +(this.contractDetails['communicationCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['reportingCost'] = +(this.contractDetails['reportingCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['jointMonitoringCost'] = +(this.contractDetails['jointMonitoringCost'] * this.numberOfSchemes).toFixed(2);
+    this.calculatedData['orientationCost'] = +(this.contractDetails['orientationCost'] * this.numberOfSchemes).toFixed(2);
 
-    this.calculatedData['orientationCost'] = this.contractDetails['orientationCost'] * this.numberOfSchemes;
+
     this.calculatedData['miscTotal'] = 0;
     for (let item in this.miscData) {
       this.calculatedData[item] = this.miscData[item];
       this.calculatedData['miscTotal'] += this.miscData[item];
     }
-    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost'];
-    this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
-    this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
+    this.calculatedData['total'] = +(this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost']).toFixed(2);
+    this.calculatedData['vat'] = +(this.vat / 100 * this.calculatedData['total']).toFixed(2);
+    this.calculatedData['grandTotal'] = +(this.calculatedData['total'] + this.calculatedData['vat']).toFixed(2);
     // this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
-    this.calculatedData['grandTotalWR'] = this.nepaliService.toWords(this.calculatedData['grandTotal'].toFixed(2), 'money');
+    this.calculatedData['grandTotalWR'] = this.nepaliService.toWords(+this.calculatedData['grandTotal'], 'money');
     // this.NgxNepaliNumberToWordsService.toWords(10025, 'money')
 
-    this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['hrSubTotal'];
-    this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['hrSubTotal'];
+    this.calculatedData['hrSubTotal70'] = +(0.70 * this.calculatedData['hrSubTotal']).toFixed(2);
+    this.calculatedData['hrSubTotal30'] = +(0.30 * this.calculatedData['hrSubTotal']).toFixed(2);
 
     console.log(this.calculatedData)
   }

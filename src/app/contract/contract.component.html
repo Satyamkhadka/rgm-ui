@@ -87,7 +87,7 @@
                     <td>{{item['schemeCode']}}</td>
                     <td>{{item['nameNP']}}</td>
                     <td>{{item['district']}}</td>
-                    <td>{{localBody}}</td>
+                    <td>{{item['localBody']}}</td>
                     <td>{{item['wardNo']}}</td>
                 </tr>
 
@@ -713,7 +713,8 @@
             <div class="row">
                 <div class="col-6">
                     <p><strong>दस्तखत :</strong></p>
-                    <p><span style="font-weight: 400;">नाम : चोक प्रसाद धिताल </span></p>
+                    <p><span style="font-weight: 400;">नाम :
+                            {{ed['firstNameNP'] +' '+ed['middleNameNP']+' '+ed['lastNameNP']}} </span></p>
                     <p><span style="font-weight: 400;">पद : कार्यकारी निर्देशक </span></p>
                     <p><span style="font-weight: 400;">ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति
                             :</span></p>

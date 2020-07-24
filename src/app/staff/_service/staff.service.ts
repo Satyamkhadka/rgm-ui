@@ -8,37 +8,40 @@ export class StaffService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createStaff(data){
-    return this.httpClient.post(environment.url+'staff',data);
+  createStaff(data) {
+    return this.httpClient.post(environment.url + 'staff', data);
   }
-  getAllStaff(){
-    return this.httpClient.get(environment.url+'staffs');
+  getAllStaff() {
+    return this.httpClient.get(environment.url + 'staffs');
   }
-  deleteStaff(id){
-    return this.httpClient.post(environment.url+'staff/delete',{staffId:id});
+  deleteStaff(id) {
+    return this.httpClient.post(environment.url + 'staff/delete', { staffId: id });
   }
-  updateStaff(data){
-    return this.httpClient.post(environment.url+'staff/update',data);
+  updateStaff(data) {
+    return this.httpClient.post(environment.url + 'staff/update', data);
   }
-  getPersonsUnderStaff(id){
-    return this.httpClient.get(environment.url+'staff/persons/'+id);
+  getPersonsUnderStaff(id) {
+    return this.httpClient.get(environment.url + 'staff/persons/' + id);
   }
-  addPersonUnderStaff(data){
-    return this.httpClient.post(environment.url+'staff/addPerson',data);
+  addPersonUnderStaff(data) {
+    return this.httpClient.post(environment.url + 'staff/addPerson', data);
   }
-  removePersonUnderStaff(staffAllocateId){
-    return this.httpClient.post(environment.url+'staff/removePerson',{staffAllocateId});
+  removePersonUnderStaff(staffAllocateId) {
+    return this.httpClient.post(environment.url + 'staff/removePerson', { staffAllocateId });
   }
-  getProjectManagers(){
-    return this.httpClient.get(environment.url+'staff/projectmanager');
+  getProjectManagers() {
+    return this.httpClient.get(environment.url + 'staff/projectmanager');
   }
-  getSOUnderPM(id){
-    return this.httpClient.get(environment.url+'staff/so/'+id);
+  getSOUnderPM(id) {
+    return this.httpClient.get(environment.url + 'staff/so/' + id);
   }
-  addSOUnderPM(data){
-    return this.httpClient.post(environment.url+'staff/addSo',data);
+  addSOUnderPM(data) {
+    return this.httpClient.post(environment.url + 'staff/addSo', data);
   }
-  removeSOUnderPM(pmAllocateId){
-    return this.httpClient.post(environment.url+'staff/removeSo',{pmAllocateId});
+  removeSOUnderPM(pmAllocateId) {
+    return this.httpClient.post(environment.url + 'staff/removeSo', { pmAllocateId });
+  }
+  getSpecialStaffs() {
+    return this.httpClient.get(environment.url + 'staff/special');
   }
 }

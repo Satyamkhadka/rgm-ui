@@ -10,7 +10,7 @@ export class AuthService {
     localStorage.setItem("LoggedInUser", token)
   }
   getToken() {
-    return localStorage.getItem("LoggedInUser")
+    return localStorage.getItem("LoggedInUser");
   }
   isLoggedIn() {
     return this.getToken() !== null;
@@ -27,6 +27,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("LoggedInUser");
-    this.myRoute.navigate(["Login"]);
+    this.myRoute.navigate(["login"]);
   }
 }

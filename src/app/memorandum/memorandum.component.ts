@@ -152,30 +152,29 @@ export class MemorandumComponent implements OnInit {
     this.staff.forEach(e => {
       this.calculatedData[e.name] = {};
       this.calculatedData[e.name]['monthlyPay'] = e['monthlyPay'];
-      this.calculatedData[e.name]['fairMonthlyPay'] = (e['monthlyPay'] / 30) * e['workingDays'];
-      this.calculatedData[e.name]['payable'] = ((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes;
+      this.calculatedData[e.name]['fairMonthlyPay'] = +((e['monthlyPay'] / 30) * e['workingDays']).toFixed(2);
+      this.calculatedData[e.name]['payable'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
       this.calculatedData[e.name]['person'] = e['person'];
       this.calculatedData[e.name]['workingDays'] = e['workingDays'];
-      this.calculatedData[e.name]['fairWorkingDays'] = e['workingDays'] * this.numberOfSchemes;
+      this.calculatedData[e.name]['fairWorkingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
       //totals
-      this.calculatedData['hrSubTotal'] += this.calculatedData[e.name]['fairMonthlyPay'];
-      this.calculatedData['fairHrSubTotal'] += this.calculatedData[e.name]['payable'];
+      this.calculatedData['hrSubTotal'] += +(this.calculatedData[e.name]['fairMonthlyPay']).toFixed(2);
+      this.calculatedData['fairHrSubTotal'] += +(this.calculatedData[e.name]['payable']).toFixed(2);
     });
     //overheads
-    this.calculatedData['hrOverhead'] = this.overhead / 100 * this.calculatedData['hrSubTotal'];
-    this.calculatedData['hrTotal'] = this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead'];
-    this.calculatedData['fairHrOverhead'] = this.overhead / 100 * this.calculatedData['fairHrSubTotal'];
-    this.calculatedData['fairHrTotal'] = this.calculatedData['fairHrSubTotal'] + this.calculatedData['fairHrOverhead'];
+    this.calculatedData['hrOverhead'] = +(this.overhead / 100 * this.calculatedData['hrSubTotal']).toFixed(2);
+    this.calculatedData['hrTotal'] = +(this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead']).toFixed(2);
+    this.calculatedData['fairHrOverhead'] = +(this.overhead / 100 * this.calculatedData['fairHrSubTotal']).toFixed(2);
+    this.calculatedData['fairHrTotal'] = +(this.calculatedData['fairHrSubTotal'] + this.calculatedData['fairHrOverhead']).toFixed(2);
 
 
     // misc part
-    this.miscData['transportationCost'] = this.contractDetails['transportationCost'] * this.numberOfSchemes;
-    this.miscData['communicationCost'] = this.contractDetails['communicationCost'] * this.numberOfSchemes;
-    this.miscData['reportingCost'] = this.contractDetails['reportingCost'] * this.numberOfSchemes;
-    this.miscData['jointMonitoringCost'] = this.contractDetails['jointMonitoringCost'] * this.numberOfSchemes;
-
-    this.calculatedData['orientationCost'] = this.contractDetails['orientationCost'];
-    this.calculatedData['fairOrientationCost'] = this.contractDetails['orientationCost'] * this.numberOfSchemes;
+    this.miscData['transportationCost'] = +(this.contractDetails['transportationCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['communicationCost'] = +(this.contractDetails['communicationCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['reportingCost'] = +(this.contractDetails['reportingCost'] * this.numberOfSchemes).toFixed(2);
+    this.miscData['jointMonitoringCost'] = +(this.contractDetails['jointMonitoringCost'] * this.numberOfSchemes).toFixed(2);
+    this.calculatedData['orientationCost'] = +(this.contractDetails['orientationCost']).toFixed(2);
+    this.calculatedData['fairOrientationCost'] = +(this.contractDetails['orientationCost'] * this.numberOfSchemes).toFixed(2);
 
     this.calculatedData['miscTotal'] = 0;
     this.calculatedData['fairMiscTotal'] = 0;
@@ -185,34 +184,32 @@ export class MemorandumComponent implements OnInit {
       this.calculatedData['miscTotal'] += this.contractDetails[item];
     }
 
-    this.calculatedData['total'] = this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost'];
-    this.calculatedData['fairTotal'] = this.calculatedData['fairHrTotal'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost'];
+    this.calculatedData['total'] = +(this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost']).toFixed(2);
+    this.calculatedData['fairTotal'] = +(this.calculatedData['fairHrTotal'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost']).toFixed(2);
 
-    this.calculatedData['vat'] = this.vat / 100 * this.calculatedData['total'];
-    this.calculatedData['fairVat'] = this.vat / 100 * this.calculatedData['fairTotal'];
+    this.calculatedData['vat'] = +(this.vat / 100 * this.calculatedData['total']).toFixed(2);
+    this.calculatedData['fairVat'] = +(this.vat / 100 * this.calculatedData['fairTotal']).toFixed(2);
 
-    this.calculatedData['grandTotal'] = this.calculatedData['total'] + this.calculatedData['vat'];
-    this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal'].toFixed());
-    this.calculatedData['fairGrandTotal'] = this.calculatedData['fairTotal'] + this.calculatedData['fairVat'];
-    this.calculatedData['fairGrandTotalWR'] = NumberToWords.toWords(this.calculatedData['fairGrandTotal'].toFixed());
+    this.calculatedData['grandTotal'] = +(this.calculatedData['total'] + this.calculatedData['vat']).toFixed(2);
+    this.calculatedData['grandTotalWR'] = NumberToWords.toWords(this.calculatedData['grandTotal']);
+    this.calculatedData['fairGrandTotal'] = +(this.calculatedData['fairTotal'] + this.calculatedData['fairVat']).toFixed(2);
+    this.calculatedData['fairGrandTotalWR'] = NumberToWords.toWords(this.calculatedData['fairGrandTotal']);
 
 
-    this.calculatedData['hrSubTotal70'] = 0.70 * this.calculatedData['fairHrSubTotal'];
-    this.calculatedData['total70'] = this.calculatedData['hrSubTotal70'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost']
-    this.calculatedData['vat70'] = this.vat / 100 * this.calculatedData['total70'];
+    this.calculatedData['hrSubTotal70'] = +(0.70 * this.calculatedData['fairHrSubTotal']).toFixed(2);
+    this.calculatedData['total70'] = + (this.calculatedData['hrSubTotal70'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost']).toFixed(2);
+    this.calculatedData['vat70'] = +(this.vat / 100 * this.calculatedData['total70']).toFixed(2);
 
-    this.calculatedData['hrSubTotal30'] = 0.30 * this.calculatedData['fairHrSubTotal'];
-    this.calculatedData['total30'] = this.calculatedData['hrSubTotal30'] + this.calculatedData['fairHrOverhead'];
-    this.calculatedData['vat30'] = this.vat / 100 * this.calculatedData['total30'];
+    this.calculatedData['hrSubTotal30'] = +(0.30 * this.calculatedData['fairHrSubTotal']).toFixed(2);
+    this.calculatedData['total30'] = +(this.calculatedData['hrSubTotal30'] + this.calculatedData['fairHrOverhead']).toFixed(2);
+    this.calculatedData['vat30'] = +(this.vat / 100 * this.calculatedData['total30']).toFixed(2);
 
-    this.calculatedData['firstPaymentTotal'] = this.calculatedData['total70'] + this.calculatedData['vat70'];
-    this.calculatedData['firstPaymentTotalWR'] = NumberToWords.toWords(this.calculatedData['firstPaymentTotal']);
+    this.calculatedData['firstPaymentTotal'] = +(this.calculatedData['total70'] + this.calculatedData['vat70']).toFixed(2);
+    this.calculatedData['secondPaymentTotal'] = +(this.calculatedData['total30'] + this.calculatedData['vat30']).toFixed(2);
 
-    this.calculatedData['secondPaymentTotal'] = this.calculatedData['total30'] + this.calculatedData['vat30'];
-    this.calculatedData['secondPaymentTotalWR'] = NumberToWords.toWords(this.calculatedData['secondPaymentTotal']);
 
-    this.calculatedData['paymentMadeTilldate'] = 'on development';
-    this.calculatedData['paymentRemaining'] = 'on development';
+    // this.calculatedData['paymentMadeTilldate'] = 'on development';
+    // this.calculatedData['paymentRemaining'] = 'on development';
 
 
 

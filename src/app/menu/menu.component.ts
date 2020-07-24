@@ -1,5 +1,6 @@
 import { data } from './../../environments/data';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_guards/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
   listItems = data.listItems;
-  constructor() { }
+  userAccess = 0;
+  constructor(private authService: AuthService) {
+
+    this.userAccess = this.authService.getDecodedAccessToken()['rolePriority'];
+    console.log(this.userAccess)
+
+  }
 
   ngOnInit() {
+
   }
 
 }

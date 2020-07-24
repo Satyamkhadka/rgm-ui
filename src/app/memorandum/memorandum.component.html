@@ -155,12 +155,14 @@
                     <p>{{calculatedData['secondPaymentTotal']}}</p>
                 </td>
                 <td width="114">
-                    <p *ngIf="memo['phase']=='first'">{{calculatedData['firstPaymentTotal']}}</p>
-                    <p *ngIf="memo['phase']=='second'">{{calculatedData['fairGrandTotal']}}</p>
+                    <!-- <p *ngIf="memo['phase']=='first'">{{calculatedData['firstPaymentTotal']}}</p>
+                    <p *ngIf="memo['phase']=='second'">{{calculatedData['fairGrandTotal']}}</p> -->
+                    <p *ngIf="memo['phase']=='first'">{{0}}</p>
+                    <p *ngIf="memo['phase']=='second'">{{calculatedData['firstPaymentTotal']}}</p>
                 </td>
                 <td width="132">
-                    <p *ngIf="memo['phase']=='first'">{{calculatedData['secondPaymentTotal']}}</p>
-                    <p *ngIf="memo['phase']=='second'">0</p>
+                    <p *ngIf="memo['phase']=='first'">{{calculatedData['fairGrandTotal']}}</p>
+                    <p *ngIf="memo['phase']=='second'">{{calculatedData['secondPaymentTotal']}}</p>
                 </td>
             </tr>
         </tbody>
@@ -180,20 +182,23 @@
 
     <p> {{memo['consentLetter']}}</p>
     <ol start="3">
-        <li><strong><strong>Has SO submitted field survey data with required outputs (both soft copy and hard
+        <li><strong><strong>Has SO submitted field survey data with required outputs (both soft copy and
+                    hard
                     copy).</strong></strong></li>
     </ol>
 
     <p> {{memo['survey']}}</p>
     <ol start="4">
-        <li><strong><strong>SO has opened the SO Bank Account for the sole use of funds to be received from the Fund
+        <li><strong><strong>SO has opened the SO Bank Account for the sole use of funds to be received
+                    from the Fund
                     Board.
                     The evidence regarding this is submitted and acceptable.</strong></strong></li>
     </ol>
 
     <p> {{memo['bankAccount']}}</p>
     <ol start="5">
-        <li><strong><strong>All staffs have been appointed as specified in the contract and it is acceptable. Evidence,
+        <li><strong><strong>All staffs have been appointed as specified in the contract and it is
+                    acceptable. Evidence,
                     in
                     the form of copies of the appointment letters have been submitted which are
                     acceptable.</strong></strong></li>

@@ -15,18 +15,21 @@ export class SuperadminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.auth.isLoggedIn()) {
 
-      if (this.auth.getDecodedAccessToken) {
-        if (this.auth.getDecodedAccessToken['role'] === 'superadmin') {
+      if (this.auth.getDecodedAccessToken()) {
+        if (this.auth.getDecodedAccessToken()['role'] === 'superadmin') {
           return true;
         } else {
+          alert('No Access ');
           this.myRoute.navigate(["menu"]);
 
         }
       } else {
+        alert('No Access token')
         this.myRoute.navigate(["menu"]);
 
       }
     } else {
+      alert('please login')
       this.myRoute.navigate(["login"]);
       return false;
     }

@@ -15,8 +15,8 @@ export class UserGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.auth.isLoggedIn()) {
 
-      if (this.auth.getDecodedAccessToken) {
-        if (this.auth.getDecodedAccessToken['role'] === 'user') {
+      if (this.auth.getDecodedAccessToken()) {
+        if (this.auth.getDecodedAccessToken()['role'] === 'user' || this.auth.getDecodedAccessToken()['role'] === 'admin' || this.auth.getDecodedAccessToken()['role'] === 'superadmin') {
           return true;
         } else {
           this.myRoute.navigate(["menu"]);

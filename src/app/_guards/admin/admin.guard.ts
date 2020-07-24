@@ -15,8 +15,9 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.auth.isLoggedIn()) {
 
-      if (this.auth.getDecodedAccessToken) {
-        if (this.auth.getDecodedAccessToken['role'] === 'admin') {
+      if (this.auth.getDecodedAccessToken()) {
+        if (this.auth.getDecodedAccessToken()['role'] === 'admin' || this.auth.getDecodedAccessToken()['role'] === 'superadmin') {
+          console.log(this.auth.getDecodedAccessToken())
           return true;
         } else {
           this.myRoute.navigate(["menu"]);

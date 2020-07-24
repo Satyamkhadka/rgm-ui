@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
 import { ContractService } from '../input/_service/contract.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-allcontract',
   templateUrl: './allcontract.component.html',
@@ -46,6 +47,17 @@ export class AllcontractComponent implements OnInit {
     catch (Error) {
       return null;
     }
+  }
+
+  deleteContract(contractId) {
+    this.contractService.deleteContract(contractId).subscribe(data => {
+      if (data['success']) {
+        this.populateList();
+        Swal.fire('Success', 'Deleted Successfully', 'info');
+      } else {
+        Swal.fire('Error', data['message'], 'error')
+      }
+    })
   }
 
 }
