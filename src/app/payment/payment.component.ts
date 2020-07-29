@@ -1,6 +1,6 @@
+import { RwssStaffService } from './../rwss-staff/_service/rwss-staff.service';
 import { BatchService } from './../batch/_service/batch.service';
 import { SoService } from './../so/_service/so.service';
-import { StaffService } from './../staff/_service/staff.service';
 import { PaymentService } from './_service/payment.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private paymentService: PaymentService,
-    private staffService: StaffService,
+    private rwssStaffService: RwssStaffService,
     private soService: SoService,
     private batchService: BatchService
   ) { }
@@ -56,6 +56,8 @@ export class PaymentComponent implements OnInit {
       survey: ['', Validators.required],
       bankAccount: ['', Validators.required],
       staffs: ['', Validators.required],
+      firstAmendment: 0,
+      secondAmendment: 0,
 
     });
   }
@@ -102,7 +104,7 @@ export class PaymentComponent implements OnInit {
   }
   getAllStaffs() {
 
-    this.staffService.getAllStaff().subscribe(data => {
+    this.rwssStaffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
         this.allStaffs = data['data'];
       }
@@ -130,8 +132,10 @@ export class PaymentComponent implements OnInit {
     if (formData.batch && formData.so) {
       console.log('changes on the coontract pary ')
       this.paymentService.getContractByBatchAndSo(formData.batch, formData.so).subscribe(data => {
-        this.contractId = data['data'][0]['contractId'];
-        console.log(this.contractId);
+        console.log(data);
+        if (data['data'].length > 0) {
+          this.contractId = data['data'][0]['contractId'];
+        }
       })
     }
   }

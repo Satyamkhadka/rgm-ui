@@ -20,7 +20,6 @@ export class SidebarComponent implements OnInit {
 
   getUserInfo() {
     this.userInfo = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser'));
-    console.log(this.userInfo)
 
   }
   toggleClass(event: any) {

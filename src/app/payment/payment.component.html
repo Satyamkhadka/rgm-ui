@@ -28,7 +28,7 @@
                 <label for="batch">StaffIdFrom</label>
                 <select type="text" id="batch" class="form-control" formControlName="staffIdFrom">
                     <option value="">-Select-</option>
-                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+                    <option *ngFor="let item of allStaffs" [value]="item.rwssStaffId">{{item.name}}</option>
 
                 </select>
             </div>
@@ -37,7 +37,7 @@
                 <label for="batch"> StaffIdTo</label>
                 <select type="text" id="batch" class="form-control" formControlName="staffIdTo">
                     <option value="">-Select-</option>
-                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+                    <option *ngFor="let item of allStaffs" [value]="item.rwssStaffId">{{item.name}}</option>
 
                 </select>
             </div>
@@ -46,7 +46,7 @@
                 <label for="batch">StaffIdThrough</label>
                 <select type="text" id="batch" class="form-control" formControlName="staffIdThrough">
                     <option value="">-Select-</option>
-                    <option *ngFor="let item of allStaffs" [value]="item.staffId">{{item.name}}</option>
+                    <option *ngFor="let item of allStaffs" [value]="item.rwssStaffId">{{item.name}}</option>
 
                 </select>
             </div>
@@ -62,7 +62,19 @@
                 </select>
             </div>
 
+            <div class="mt-3 form-row col-4">
+                <div class="mt-3 form-row">
+                    <label for="amendment">
+                        {{phase+' '+'Amendment'}}
+                    </label>
+                    <input id="amendment" type="number" class="form-control" formControlName="{{phase+'Amendment'}}">
+                </div>
+            </div>
+
         </div>
+
+
+
 
 
         <div class="my-5">

@@ -94,6 +94,7 @@ export class StaffComponent implements OnInit {
     this.staffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
         this.allStaff = data['data'];
+        console.log(this.allStaff)
       }
     });
   }

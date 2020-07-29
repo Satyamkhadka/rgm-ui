@@ -61,6 +61,15 @@ export const data = {
                 sidebar: true
             },
             {
+                name: 'RWSS-Staffs',
+                icon: 'user-tie',
+                urlTo: '/rwss-staff',
+                briefing: 'RWSS staff operations,create rwss staffs, assign SO to PM',
+                access: 1,
+                menu: true,
+                sidebar: true
+            },
+            {
                 name: 'Person',
                 icon: 'user',
                 urlTo: '/person',
@@ -69,16 +78,17 @@ export const data = {
                 sidebar: true,
                 access: 0
 
-            }, {
-                name: 'Project Manager',
-                icon: 'user-tie',
-                urlTo: '/pm',
-                briefing: 'project manager operations, assign SO to PM'
-                , menu: true,
-                sidebar: true,
-                access: 1
-
             },
+            // {
+            //     name: 'Project Manager',
+            //     icon: 'user-tie',
+            //     urlTo: '/pm',
+            //     briefing: 'project manager operations, assign SO to PM'
+            //     , menu: true,
+            //     sidebar: true,
+            //     access: 1
+
+            // },
             {
                 name: 'Batch',
                 icon: 'calendar',

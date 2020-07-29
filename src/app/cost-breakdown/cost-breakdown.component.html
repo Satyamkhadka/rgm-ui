@@ -22,16 +22,16 @@
                 <td> 1.</td>
                 <td class="row-headings" colspan="6"> Human Resources</td>
             </tr>
-            <tr>
-                <td>1.1</td>
-                <td> Team Leader</td>
-                <td>{{ calculatedData['Team Leader']['fairWorkingDays']}}</td>
-                <td>{{ calculatedData['Team Leader']['monthlyPay']}}</td>
-                <td>{{ calculatedData['Team Leader']['fairMonthlyPay']}}</td>
-                <td>{{ calculatedData['Team Leader']['payable']}}</td>
+            <tr *ngFor="let item of calculatedData['staffs']; let i = index;">
+                <td>1.{{i+1}}</td>
+                <td> {{item['name']}}</td>
+                <td>{{ item['fairWorkingDays']}}</td>
+                <td>{{ item['monthlyPay']}}</td>
+                <td>{{ item['fairMonthlyPay']}}</td>
+                <td>{{ item['payable']}}</td>
                 <td> - </td>
             </tr>
-
+            <!-- 
             <tr>
                 <td>1.2</td>
                 <td> Technical Officer</td>
@@ -60,7 +60,7 @@
                 <td>{{ calculatedData['Wash Technician']['fairMonthlyPay']}}</td>
                 <td>{{ calculatedData['Wash Technician']['payable']}}</td>
                 <td> - </td>
-            </tr>
+            </tr> -->
             <!-- end of hr -->
 
             <!-- totaling stuffs -->

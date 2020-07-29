@@ -127,7 +127,16 @@
                             </select>
                         </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="so">Support Organization (SO)</label>
+                            <select id="so" class="form-control" formControlName="soId"
+                                (change)="getLocalBodyByDistrict(schemeForm.value.soId)">
+                                <option *ngFor="let item of allSO" [value]="item['soId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -191,7 +200,16 @@
                             </select>
                         </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="uso">Support Organization (SO)</label>
+                            <select id="uso" class="form-control" formControlName="soId"
+                                (change)="getLocalBodyByDistrict(schemeForm.value.soId)">
+                                <option *ngFor="let item of allSO" [value]="item['soId']">{{item['name']}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

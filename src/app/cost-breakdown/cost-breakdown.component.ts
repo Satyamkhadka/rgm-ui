@@ -16,7 +16,7 @@ export class CostBreakdownComponent implements OnInit {
   schemes = [];
   numberOfSchemes: number;
   staff = [];
-  calculatedData = {};
+  calculatedData = { staffs: [] };
   district = '';
   localBody = '';
 
@@ -97,18 +97,32 @@ export class CostBreakdownComponent implements OnInit {
     //hr part 
     this.calculatedData['hrSubTotal'] = 0;
     this.calculatedData['fairHrSubTotal'] = 0;
+    this.calculatedData['staffs'] = [];
+    let temp = {};
+
     this.staff.forEach(e => {
-      this.calculatedData[e.name] = {};
-      this.calculatedData[e.name]['monthlyPay'] = e['monthlyPay'];
-      this.calculatedData[e.name]['fairMonthlyPay'] = +((e['monthlyPay'] / 30) * e['workingDays']).toFixed(2);
-      this.calculatedData[e.name]['payable'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
-      this.calculatedData[e.name]['person'] = e['person'];
-      this.calculatedData[e.name]['workingDays'] = e['workingDays'];
-      this.calculatedData[e.name]['fairWorkingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+      temp = { name: e.name, nameNP: e.nameNP };
+      temp['fairPay'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
+      temp['person'] = e;
+      temp['workingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+
+
+      temp['monthlyPay'] = e['monthlyPay'];
+      temp['fairMonthlyPay'] = +((e['monthlyPay'] / 30) * e['workingDays']).toFixed(2);
+      temp['payable'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
+      temp['person'] = e['person'];
+      temp['workingDays'] = e['workingDays'];
+      temp['fairWorkingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
       //totals
-      this.calculatedData['hrSubTotal'] += +(this.calculatedData[e.name]['fairMonthlyPay']).toFixed(2);
-      this.calculatedData['fairHrSubTotal'] += +(this.calculatedData[e.name]['payable']).toFixed(2);
+      this.calculatedData['hrSubTotal'] += +(temp['fairMonthlyPay']).toFixed(2);
+      this.calculatedData['fairHrSubTotal'] += +(temp['payable']).toFixed(2);
+      this.calculatedData['staffs'].push(temp);
     });
+
+    this.calculatedData['hrSubTotal'] = +this.calculatedData['hrSubTotal'].toFixed(2);
+    this.calculatedData['fairHrSubTotal'] = +this.calculatedData['fairHrSubTotal'].toFixed(2);
+
+
     //overheads
     this.calculatedData['hrOverhead'] = +(this.overhead / 100 * this.calculatedData['hrSubTotal']).toFixed(2);
     this.calculatedData['hrTotal'] = +(this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead']).toFixed(2);
@@ -131,6 +145,7 @@ export class CostBreakdownComponent implements OnInit {
       this.calculatedData['fairMiscTotal'] += this.miscData[item];
       this.calculatedData['miscTotal'] += this.contractDetails[item];
     }
+    this.calculatedData['miscTotal'] = +this.calculatedData['miscTotal'].toFixed(2);
 
     this.calculatedData['total'] = +(this.calculatedData['hrTotal'] + this.calculatedData['miscTotal'] + this.calculatedData['orientationCost']).toFixed(2);
     this.calculatedData['fairTotal'] = +(this.calculatedData['fairHrTotal'] + this.calculatedData['fairMiscTotal'] + this.calculatedData['fairOrientationCost']).toFixed(2);

@@ -59,24 +59,28 @@ export class AllmemoComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.phase = params.get("phase");
       if (this.phase) {
-        this.paymentService.getAllPayment(this.phase).subscribe(data => {
-          console.log(data)
-          if (data['success']) {
-            this.allmemo = data['data'];
-
-            this.getAllSo();
-            this.getAllStaffs();
-            this.getAllBatches();
-
-
-
-          }
-        })
-        console.log(this.phase)
+        this.diffrentialLoading()
       }
     });
 
 
+  }
+
+  diffrentialLoading() {
+    this.paymentService.getAllPayment(this.phase).subscribe(data => {
+      console.log(data)
+      if (data['success']) {
+        this.allmemo = data['data'];
+
+        this.getAllSo();
+        this.getAllStaffs();
+        this.getAllBatches();
+
+
+
+      }
+    })
+    console.log(this.phase)
   }
 
   setEdit(memo) {
@@ -162,6 +166,30 @@ export class AllmemoComponent implements OnInit {
     });
   }
 
+  delete(memoId) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
 
+        this.paymentService.deletePayment(memoId).subscribe(data => {
+          if (data['success'] === true) {
+            swal.fire('Deleted', data['message'], 'info');
+            this.diffrentialLoading();
+          } else if (data['success'] === false) {
+            swal.fire('oops', data['message'], 'error');
+          }
+        });
+
+
+      }
+    })
+  }
 }
 

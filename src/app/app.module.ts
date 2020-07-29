@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { NgxNepaliNumberToWordsModule } from 'ngx-nepali-number-to-words';
+import { NgxNepaliUnicodeModule } from 'ngx-nepali-unicode';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,6 +70,7 @@ import { RwssStaffComponent } from './rwss-staff/rwss-staff.component';
     RouterModule,
     FilterPipeModule,
     NgxNepaliNumberToWordsModule.forRoot(),
+    NgxNepaliUnicodeModule.forRoot(),
   ],
   providers: [
     AuthGuard,

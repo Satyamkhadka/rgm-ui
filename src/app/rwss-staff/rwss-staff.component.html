@@ -1,1 +1,297 @@
-<p>rwss-staff works!</p>
+<!-- table part -->
+<div class="container mt-5">
+    <div class="container-flex">
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                <span class="btn btn-success float-right" data-toggle="modal" data-target="#create">
+                    <i class="fa fa-plus"> </i> Add RWSS Staff
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Staff</th>
+                <th scope="col">Staff NP</th>
+                <th scope="col">Name</th>
+                <th scope="col">Name NP</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of allStaff; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item[formControlNames.staffCode]}}</td>
+                <td>
+                    {{item[formControlNames.name]}}
+                </td>
+                <td>{{item[formControlNames.nameNP]}}</td>
+                <td>{{item[formControlNames.fullname]}}</td>
+                <td>{{item[formControlNames.fullnameNP]}}</td>
+                <td>
+                    <span *ngIf="item['isPM']" class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
+                        data-toggle="modal" data-target="#addPeople"
+                        (click)="getSOUnderPM(item[formControlNames.rwssStaffId])">
+                        <i class="fa fa-building"> </i>
+
+                    </span>
+
+                    <!-- <span  class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                    data-target="#addSO" (click)="getSOUnderPM(item[formControlNames.staffId])">
+                    <i class="fa fa-envelope"> </i> 
+
+                </span>
+-->
+                    <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2" data-toggle="modal"
+                        data-target="#update" (click)="edit(i)">
+                        <i class="fa fa-pencil"> </i>
+
+                    </span>
+                    <span class="btn btn-danger rounded-circle rounded-circle-sm"
+                        (click)="delete(item[formControlNames.rwssStaffId])">
+                        <i class="fa fa-trash"> </i>
+
+                    </span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- create Modal -->
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="create" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <form [formGroup]="staffForm">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="code">Staff Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="staffCode"
+                                [formControlName]="formControlNames.staffCode">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="name">Staff</label>
+                            <input type="text" class="form-control" id="name" placeholder="Eg. Executive Director"
+                                [formControlName]="formControlNames.name">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="nameNP">StaffNP</label>
+                            <input type="text" class="form-control" id="nameNP" placeholder="Eg. कार्यकारी निर्देशक"
+                                [formControlName]="formControlNames.nameNP">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" class="form-control" id="fullname" placeholder="Full Name"
+                                [formControlName]="formControlNames.fullname">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="fullnameNP">Full Name NP </label>
+                            <input type="text" class="form-control" id="fullnameNP" placeholder="Full Name NP "
+                                [formControlName]="formControlNames.fullnameNP">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group ">
+                            <label for="isPM">Portfolio Manager?</label>
+                            <input type="checkbox" class="form-control" id="isPM"
+                                [formControlName]="formControlNames.isPM">
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="create(staffForm.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- update modal -->
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="update" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <form [formGroup]="updateStaffForm">
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="ucode">Staff Code</label>
+                            <input type="text" class="form-control" id="ucode" placeholder="staffCode"
+                                [formControlName]="formControlNames.staffCode">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="uname">Staff</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Eg. Executive Director"
+                                [formControlName]="formControlNames.name">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="unameNP">StaffNP</label>
+                            <input type="text" class="form-control" id="unameNP" placeholder="Eg. कार्यकारी निर्देशक"
+                                [formControlName]="formControlNames.nameNP">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="ufullname">Full Name</label>
+                            <input type="text" class="form-control" id="ufullname" placeholder="Full Name"
+                                [formControlName]="formControlNames.fullname">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="ufullnameNP">Full Name NP </label>
+                            <input type="text" class="form-control" id="ufullnameNP" placeholder="Full Name NP "
+                                [formControlName]="formControlNames.fullnameNP">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group ">
+                            <label for="uisPM">Portfolio Manager?</label>
+                            <input type="checkbox" class="form-control" id="uisPM"
+                                [formControlName]="formControlNames.isPM">
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                    (click)="doEdit(updateStaffForm.value)">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- assign so to pm modal -->
+<div class="modal fade" id="addPeople" tabindex="-1" role="dialog" aria-labelledby="addPeople" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign SO to Portfolio manager</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="row">
+                    <div class="form-group col-6">
+                        <input type="text" [(ngModel)]="filter.name" placeholder="Search">
+
+                        <form [formGroup]="updateStaffForm">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Actions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of allSo | filterBy: filter; let i = index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item['staffCode']}}</td>
+                                        <td>
+                                            <span>{{item['name']}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="btn btn-primary rounded-circle rounded-circle-sm mr-2"
+                                                (click)="addSOUnderPM(item['soId'])">
+                                                <i class="fa fa-plus"> </i>
+
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="card category-card">
+                            <h5 class="card-title text-center mx-2 mt-3 bg-light">Assigned SO</h5>
+                            <div class="card-body mb-2 bg-light">
+                                <div class="custom-height">
+                                    <div class="float-left mx-1">
+                                        <div class="card-title text-center">
+                                            <h6 *ngFor="let item of SOUnderPM;let i = index;"
+                                                class="btn btn-success mr-2">
+                                                <span>{{item['soCode'] + ' || '}}
+                                                </span>
+                                                <span *ngIf="item['name']">{{item['name']}}
+                                                </span>
+
+                                                <span class="btn btn-danger rounded-circle"
+                                                    (click)="removeSOUnderPM(item['soId'])">
+                                                    <i class="fa fa-trash"></i>
+                                                </span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,8 +12,7 @@
       <div class="form-group col-6">
         <!-- select SO organization -->
         <label for="batch">Select Batch</label>
-        <select required id="batch" class="form-control" formControlName="batchId"
-          (change)="changeSoFilter(0,contractForm.value.batchId)">
+        <select required id="batch" class="form-control" formControlName="batchId">
           <option value='none'>Choose...</option>
           <option *ngFor="let item of allBatch" [value]="item['batchId']">{{item['batchNo']}}</option>
         </select>
@@ -21,13 +20,11 @@
 
       <div class="form-group col-6">
         <label for="pm">Select PM</label>
-        <select required id="pm" class="form-control" formControlName="personId"
-          (change)="changeSoFilter(1,contractForm.value.personId)">
+        <select required id="pm" class="form-control" formControlName="rwssStaffId"
+          (change)="getSOUnderPM(contractForm.value.rwssStaffId)">
           <option value='none'>Choose...</option>
-          <option *ngFor="let item of allProjectManager" [value]="item['personId']">
-            <span *ngIf="item['firstName']">{{item['firstName']}} </span>
-            <span *ngIf="item['middleName']">{{item['middleName']}} </span>
-            <span *ngIf="item['lastName']">{{item['lastName']}} </span>
+          <option *ngFor="let item of allProjectManager" [value]="item['rwssStaffId']">
+            <span>{{item['staffCode']+' || '+item['fullname']}} </span>
 
           </option>
         </select>
@@ -59,18 +56,18 @@
         <label for="">..</label>
 
         <select required id="startMonth" class="form-control" formControlName="startMonth">
-          <option value="0"> Baisakh</option>
-          <option value="1"> Jeth</option>
-          <option value="2"> Asar</option>
-          <option value="3"> Shrawn</option>
-          <option value="4"> Bhadra</option>
-          <option value="5"> Ashoj</option>
-          <option value="6"> Kartik</option>
-          <option value="7"> Mangsir</option>
-          <option value="8"> Paush</option>
-          <option value="9"> Magh</option>
-          <option value="10"> Falgun</option>
-          <option value="11"> Chaitra</option>
+          <option value="1"> Baisakh</option>
+          <option value="2"> Jeth</option>
+          <option value="3"> Asar</option>
+          <option value="4"> Shrawn</option>
+          <option value="5"> Bhadra</option>
+          <option value="6"> Ashoj</option>
+          <option value="7"> Kartik</option>
+          <option value="8"> Mangsir</option>
+          <option value="9"> Paush</option>
+          <option value="10"> Magh</option>
+          <option value="11"> Falgun</option>
+          <option value="12"> Chaitra</option>
         </select>
       </div>
       <div class="form-group col-2">
@@ -120,18 +117,18 @@
         <label for="">..</label>
 
         <select required id="endMonth" class="form-control" formControlName="endMonth">
-          <option value="0"> Baisakh</option>
-          <option value="1"> Jeth</option>
-          <option value="2"> Asar</option>
-          <option value="3"> Shrawn</option>
-          <option value="4"> Bhadra</option>
-          <option value="5"> Ashoj</option>
-          <option value="6"> Kartik</option>
-          <option value="7"> Mangsir</option>
-          <option value="8"> Paush</option>
-          <option value="9"> Magh</option>
-          <option value="10"> Falgun</option>
-          <option value="11"> Chaitra</option>
+          <option value="1"> Baisakh</option>
+          <option value="2"> Jeth</option>
+          <option value="3"> Asar</option>
+          <option value="4"> Shrawn</option>
+          <option value="5"> Bhadra</option>
+          <option value="6"> Ashoj</option>
+          <option value="7"> Kartik</option>
+          <option value="8"> Mangsir</option>
+          <option value="9"> Paush</option>
+          <option value="10"> Magh</option>
+          <option value="11"> Falgun</option>
+          <option value="12"> Chaitra</option>
 
         </select>
       </div>
@@ -178,26 +175,26 @@
     </div>
     <!-- end of date -->
 
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <!-- select district -->
-        <label for="district">Select District </label>
+    <!-- <div class="form-row">
+      <div class="form-group col-md-6"> -->
+    <!-- select district -->
+    <!-- <label for="district">Select District </label>
         <select required id="district" class="form-control" formControlName="districtId"
           (change)="selectDistrict(contractForm.value.districtId)">
           <option value='none'>Choose...</option>
           <option *ngFor="let item of allDistrict" [value]="item['districtId']">{{item['name']}} </option>
         </select>
       </div>
-      <div class="form-group col-md-6">
-        <!-- select Municipality or VDC -->
-        <label for="muni">Select Local Body</label>
+      <div class="form-group col-md-6"> -->
+    <!-- select Municipality or VDC -->
+    <!-- <label for="muni">Select Local Body</label>
         <select required id="muni" class="form-control" formControlName="localBodyId">
           <option selected value='none'>Choose...</option>
           <option *ngFor="let item of localUnderDistrict" [value]="item['localBodyId']">{{item['name']}}</option>
 
         </select>
       </div>
-    </div>
+    </div> -->
 
     <!-- //staffs -->
     <div class="form-row">

@@ -1,4 +1,4 @@
-import { StaffService } from './../staff/_service/staff.service';
+import { RwssStaffService } from './../rwss-staff/_service/rwss-staff.service';
 import { PaymentService } from './../payment/_service/payment.service';
 import { MemoService } from './_service/memo.service';
 import { LocalBodyService } from './../local-body/_service/local-body.service';
@@ -49,7 +49,7 @@ export class MemorandumComponent implements OnInit {
     private nepaliService: NgxNepaliNumberToWordsService,
     private memoService: MemoService,
     private paymentService: PaymentService,
-    private staffService: StaffService
+    private rwssStaffService: RwssStaffService
   ) { }
 
   ngOnInit() {
@@ -69,12 +69,13 @@ export class MemorandumComponent implements OnInit {
   }
 
   getAllStaffs() {
-    this.staffService.getAllStaff().subscribe(data => {
+    this.rwssStaffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
+        console.log(data)
         data['data'].forEach(element => {
-          this.allStaffs[element['staffId']] = element;
-
+          this.allStaffs[element['rwssStaffId']] = element;
         });
+        console.log(this.allStaffs)
       }
     });
   }
@@ -86,6 +87,7 @@ export class MemorandumComponent implements OnInit {
       if (data['success'] == true) {
         this.memo = data['data'][0];
         this.memo['date'] = this.memo['date'].slice(0, 10);
+        console.log(this.memo)
         this.getContractById(this.memo.contractId);
       }
     })
@@ -149,17 +151,26 @@ export class MemorandumComponent implements OnInit {
     //hr part 
     this.calculatedData['hrSubTotal'] = 0;
     this.calculatedData['fairHrSubTotal'] = 0;
+    this.calculatedData['staffs'] = [];
+    let temp = {};
+
     this.staff.forEach(e => {
-      this.calculatedData[e.name] = {};
-      this.calculatedData[e.name]['monthlyPay'] = e['monthlyPay'];
-      this.calculatedData[e.name]['fairMonthlyPay'] = +((e['monthlyPay'] / 30) * e['workingDays']).toFixed(2);
-      this.calculatedData[e.name]['payable'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
-      this.calculatedData[e.name]['person'] = e['person'];
-      this.calculatedData[e.name]['workingDays'] = e['workingDays'];
-      this.calculatedData[e.name]['fairWorkingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+      temp = { name: e.name, nameNP: e.nameNP };
+      temp['fairPay'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
+      temp['person'] = e;
+      temp['workingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+
+
+      temp['monthlyPay'] = e['monthlyPay'];
+      temp['fairMonthlyPay'] = +((e['monthlyPay'] / 30) * e['workingDays']).toFixed(2);
+      temp['payable'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
+      temp['person'] = e['person'];
+      temp['workingDays'] = e['workingDays'];
+      temp['fairWorkingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
       //totals
-      this.calculatedData['hrSubTotal'] += +(this.calculatedData[e.name]['fairMonthlyPay']).toFixed(2);
-      this.calculatedData['fairHrSubTotal'] += +(this.calculatedData[e.name]['payable']).toFixed(2);
+      this.calculatedData['hrSubTotal'] += +(temp['fairMonthlyPay']).toFixed(2);
+      this.calculatedData['fairHrSubTotal'] += +(temp['payable']).toFixed(2);
+      this.calculatedData['staffs'].push(temp);
     });
     //overheads
     this.calculatedData['hrOverhead'] = +(this.overhead / 100 * this.calculatedData['hrSubTotal']).toFixed(2);

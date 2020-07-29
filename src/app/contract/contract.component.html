@@ -62,7 +62,7 @@
                 <p> निर्माण चरण पश्चातको कार्यका लागि </p>
                 <p> ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति र </p>
                 <!--  DATA  batch Number -->
-                <p>सहयोगी संस्था बीच गरिएको सम्झौतापत्र ({{contractDetails['batchNo']}}) </p>
+                <p>सहयोगी संस्था बीच गरिएको सम्झौतापत्र ({{contractDetails['batchNo'] }}) </p>
             </b>
         </h4>
 
@@ -84,11 +84,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of schemes">
-                    <td>{{item['schemeCode']}}</td>
+                    <td>{{nep(item['schemeCode'])}}</td>
                     <td>{{item['nameNP']}}</td>
                     <td>{{item['district']}}</td>
                     <td>{{item['localBody']}}</td>
-                    <td>{{item['wardNo']}}</td>
+                    <td>{{nep(item['wardNo'])}}</td>
                 </tr>
 
             </tbody>
@@ -132,7 +132,7 @@
         <div class="showBorder">
 
             <p><span style="font-weight: 400;">निर्माण चरण पश्चातका लागि सम्झौताको कुल रकमः रु
-                    {{calculatedData['grandTotal']}}
+                    {{format(calculatedData['grandTotal'])}}
 
                     <br />(अक्षरेपी {{calculatedData['grandTotalWR']}} मात्र)</span></p>
         </div>
@@ -171,6 +171,21 @@
                     <td>&nbsp;</td>
                 </tr>
 
+
+                <tr *ngFor="let item of calculatedData['staffs']; let i = index;">
+                    <td>
+                        <p><span style="font-weight: 400;">१.{{nep(i+1)}}</span></p>
+                    </td>
+                    <td>
+                        <p><span style="font-weight: 400;">{{item['nameNP']}}</span></p>
+                    </td>
+                    <td *ngIf="item['fairPay']; else ifnot">
+                        {{ format(item['fairPay']) }} </td>
+                    <ng-template #ifnot>
+                        <td>&nbsp; -</td>
+                    </ng-template>
+                </tr>
+                <!--                 
                 <tr>
                     <td>
                         <p><span style="font-weight: 400;">१.१</span></p>
@@ -179,7 +194,7 @@
                         <p><span style="font-weight: 400;">टिम लिडर</span></p>
                     </td>
                     <td *ngIf="calculatedData['Team Leader']['fairPay']; else ifnot">
-                        {{ calculatedData['Team Leader']['fairPay'] }} </td>
+                        {{ format(calculatedData['Team Leader']['fairPay']) }} </td>
                     <ng-template #ifnot>
                         <td>&nbsp; -</td>
                     </ng-template>
@@ -193,7 +208,7 @@
                         <p><span style="font-weight: 400;">प्राविधिक अधिकृत</span></p>
                     </td>
                     <td *ngIf="calculatedData['Technical Officer']['fairPay']; else ifnot">
-                        {{ calculatedData['Technical Officer']['fairPay'] }} </td>
+                        {{ format(calculatedData['Technical Officer']['fairPay']) }} </td>
                 </tr>
 
                 <tr>
@@ -204,7 +219,7 @@
                         <p><span style="font-weight: 400;">लेखापाल</span></p>
                     </td>
                     <td *ngIf="calculatedData['Accountant']['fairPay']; else ifnot">
-                        {{ calculatedData['Accountant']['fairPay'] }} </td>
+                        {{ format(calculatedData['Accountant']['fairPay']) }} </td>
                 </tr>
 
                 <tr>
@@ -215,17 +230,17 @@
                         <p><span style="font-weight: 400;">वास टेक्निसियन</span></p>
                     </td>
                     <td *ngIf="calculatedData['Wash Technician']['fairPay']; else ifnot">
-                        {{ calculatedData['Wash Technician']['fairPay'] }}
+                        {{ format(calculatedData['Wash Technician']['fairPay']) }}
                     </td>
 
-                </tr>
+                </tr> -->
 
                 <tr>
                     <td>&nbsp;</td>
                     <td class="align-right">
                         <p><span style="font-weight: 400;">जम्मा </span></p>
                     </td>
-                    <td>{{calculatedData['hrSubTotal']}}</td>
+                    <td>{{format(calculatedData['hrSubTotal'])}}</td>
                 </tr>
 
                 <tr>
@@ -243,7 +258,7 @@
                     <td class="align-right">
                         <p><span style="font-weight: 400;">जम्मा</span></p>
                     </td>
-                    <td>{{calculatedData['hrOverhead']}}</td>
+                    <td>{{format(calculatedData['hrOverhead'])}}</td>
 
                 </tr>
                 <tr>
@@ -251,7 +266,7 @@
                     <td class="align-right">
                         <p><span style="font-weight: 400;">कर्मचारीको तलब, शिरोभार तथा मू.अ. करको जम्मा </span></p>
                     </td>
-                    <td>{{calculatedData['hrTotal']}}</td>
+                    <td>{{format(calculatedData['hrTotal'])}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -269,7 +284,7 @@
                     <td>
                         <p><span style="font-weight: 400;">यातायात खर्च</span></p>
                     </td>
-                    <td>{{miscData['transportationCost']}}</td>
+                    <td>{{format(miscData['transportationCost'])}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -278,7 +293,7 @@
                     <td>
                         <p><span style="font-weight: 400;">सञ्&zwj;चार खर्च</span></p>
                     </td>
-                    <td>{{miscData['communicationCost']}}</td>
+                    <td>{{format(miscData['communicationCost'])}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -287,7 +302,7 @@
                     <td>
                         <p><span style="font-weight: 400;">रिपोर्टिङ खर्च</span></p>
                     </td>
-                    <td>{{miscData['reportingCost']}}</td>
+                    <td>{{format(miscData['reportingCost'])}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -297,14 +312,14 @@
                         <p><span style="font-weight: 400;">संयुक्त अनुगमन(उपभोक्ता समिति, स्थानीय तह तथा सहयोगी
                                 संस्था)</span></p>
                     </td>
-                    <td>{{miscData['jointMonitoringCost']}}</td>
+                    <td>{{format(miscData['jointMonitoringCost'])}}</td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
                     <td class="align-right">
                         <p><strong>मसलन्द (Miscellaneous) खर्चको जम्मा</strong></p>
                     </td>
-                    <td>{{calculatedData['miscTotal']}}</td>
+                    <td>{{format(calculatedData['miscTotal'])}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -313,7 +328,7 @@
                     <td>
                         <p><span style="font-weight: 400;">समुदाय स्तरको तालिम</span></p>
                     </td>
-                    <td>{{calculatedData['orientationCost']}}</td>
+                    <td>{{format(calculatedData['orientationCost'])}}</td>
                 </tr>
 
                 <tr>
@@ -323,7 +338,7 @@
                     <td class="align-right">
                         <p><span style="font-weight: 400;">जम्मा (क्र.सं. १, २ तथा ३)</span></p>
                     </td>
-                    <td>{{calculatedData['total']}}</td>
+                    <td>{{format(calculatedData['total'])}}</td>
                 </tr>
 
                 <tr>
@@ -333,7 +348,7 @@
                     <td class="align-right">
                         <p><span style="font-weight: 400;">मूल्य अभिवृद्धि कर (१३%)</span></p>
                     </td>
-                    <td>{{calculatedData['vat']}}</td>
+                    <td>{{format(calculatedData['vat'])}}</td>
                 </tr>
 
                 <tr>
@@ -343,7 +358,7 @@
                     <td class="align-right">
                         <p><span style="font-weight: 400;">कुल जम्मा (४+५)</span></p>
                     </td>
-                    <td>{{calculatedData['grandTotal']}}</td>
+                    <td>{{format(calculatedData['grandTotal'])}}</td>
                 </tr>
 
             </tbody>
@@ -386,11 +401,11 @@
                     <td>
                         <p><span style="font-weight: 400;">कर्मचारीको तलब, शिरोभार तथा मू. अ. कर&nbsp;</span></p>
                     </td>
-                    <td>{{calculatedData['hrSubTotal70']}}</td>
+                    <td>{{format(calculatedData['hrSubTotal70'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">७०</span></p>
                     </td>
-                    <td>{{calculatedData['hrSubTotal30']}}</td>
+                    <td>{{format(calculatedData['hrSubTotal30'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">३०</span></p>
                     </td>
@@ -403,7 +418,7 @@
                     <td>
                         <p><span style="font-weight: 400;">मसलन्द खर्चहरू&nbsp;</span></p>
                     </td>
-                    <td>{{calculatedData['miscTotal']}}</td>
+                    <td>{{format(calculatedData['miscTotal'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">१००</span></p>
                     </td>
@@ -418,7 +433,7 @@
                     <td>
                         <p><span style="font-weight: 400;">समुदाय स्तरको तालिम</span></p>
                     </td>
-                    <td>{{calculatedData['orientationCost']}}</td>
+                    <td>{{format(calculatedData['orientationCost'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">१००</span></p>
                     </td>
@@ -435,7 +450,7 @@
                     </td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>{{calculatedData['hrOverhead']}}</td>
+                    <td>{{format(calculatedData['hrOverhead'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">१००</span></p>
                     </td>
@@ -477,7 +492,7 @@
                 खटाउनु पर्नेछ।</span></p>
         <p><span style="font-weight: 400;">यो सम्झौताको कार्यशर्तहरूको अधीनमा रही सहयोगी संस्थाले देहाय अनुसारका
                 कर्मचारीहरू नियुक्त गर्नु पर्नेछ। यसरी नियुक्त भएका कर्मचारीहरूले कोष विकास समितिले तोके अनुसारका कार्य
-                विवरण </span><strong>(Job Discripition)</strong><span style="font-weight: 400;"> तथा सम्झौताको कार्य
+                विवरण </span><strong>(Job Descripition)</strong><span style="font-weight: 400;"> तथा सम्झौताको कार्य
                 शर्त अनुसार सम्बन्धित आयोजनाको काम गर्नुपर्नेछ।</span></p>
         <p><strong>सहयोगी संस्थाका कर्मचारीहरूको विवरण</strong></p>
         <table>
@@ -496,6 +511,22 @@
                         <p><strong>कार्यक्षेत्र</strong></p>
                     </td>
                 </tr>
+
+                <tr *ngFor="let item of calculatedData['staffs']">
+                    <td>
+                        <p><span style="font-weight: 400;"> {{item['nameNP']}}</span></p>
+                    </td>
+                    <td>
+                        {{item['person']['firstNameNP']+' '+item['person']['middleNameNP']+' '+item['person']['lastNameNP']}}
+                    </td>
+                    <td>
+                        {{nep(item['workingDays'])}}</td>
+                    <td>
+                        <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
+                    </td>
+                </tr>
+
+                <!-- 
                 <tr>
                     <td>
                         <p><span style="font-weight: 400;">टिम लिडर</span></p>
@@ -504,7 +535,7 @@
                         {{calculatedData['Team Leader']['person']['firstNameNP']+' '+calculatedData['Team Leader']['person']['middleNameNP']+' '+calculatedData['Team Leader']['person']['lastNameNP']}}
                     </td>
                     <td *ngIf="calculatedData['Team Leader']['workingDays']; else ifnot">
-                        {{calculatedData['Team Leader']['workingDays']}}</td>
+                        {{nep(calculatedData['Team Leader']['workingDays'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
                     </td>
@@ -517,7 +548,7 @@
                         {{calculatedData['Technical Officer']['person']['firstNameNP']+' '+calculatedData['Technical Officer']['person']['middleNameNP']+' '+calculatedData['Technical Officer']['person']['lastNameNP']}}
                     </td>
                     <td *ngIf="calculatedData['Technical Officer']['workingDays']; else ifnot">
-                        {{calculatedData['Technical Officer']['workingDays']}}</td>
+                        {{nep(calculatedData['Technical Officer']['workingDays'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
                     </td>
@@ -530,7 +561,7 @@
                         {{calculatedData['Accountant']['person']['firstNameNP']+' '+calculatedData['Accountant']['person']['middleNameNP']+' '+calculatedData['Accountant']['person']['lastNameNP']}}
                     </td>
                     <td *ngIf="calculatedData['Accountant']['workingDays']; else ifnot">
-                        {{calculatedData['Accountant']['workingDays']}}</td>
+                        {{nep(calculatedData['Accountant']['workingDays'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
                     </td>
@@ -543,11 +574,14 @@
                         {{calculatedData['Wash Technician']['person']['firstNameNP']+' '+calculatedData['Wash Technician']['person']['middleNameNP']+' '+calculatedData['Wash Technician']['person']['lastNameNP']}}
                     </td>
                     <td *ngIf="calculatedData['Wash Technician']['workingDays']; else ifnot">
-                        {{calculatedData['Wash Technician']['workingDays']}}</td>
+                        {{nep(calculatedData['Wash Technician']['workingDays'])}}</td>
                     <td>
                         <p><span style="font-weight: 400;">आयोजना क्षेत्र</span></p>
                     </td>
                 </tr>
+ -->
+
+
             </tbody>
         </table>
     </div>
@@ -714,21 +748,21 @@
                 <div class="col-6">
                     <p><strong>दस्तखत :</strong></p>
                     <p><span style="font-weight: 400;">नाम :
-                            {{ed['firstNameNP'] +' '+ed['middleNameNP']+' '+ed['lastNameNP']}} </span></p>
+                            {{ed['fullnameNP']}} </span></p>
                     <p><span style="font-weight: 400;">पद : कार्यकारी निर्देशक </span></p>
                     <p><span style="font-weight: 400;">ग्रामीण खानेपानी तथा सरसफाइ कोष विकास समिति
                             :</span></p>
-                    <p><span style="font-weight: 400;">मिति : {{createdDate}}</span></p>
+                    <p><span style="font-weight: 400;">मिति : {{nep(createdDate)}}</span></p>
                     <p><span style="font-weight: 400;">छाप : </span></p>
                 </div>
                 <div class="col-6">
                     <p><strong>दस्तखत :</strong></p>
                     <p><span style="font-weight: 400;">नाम :
-                            {{contractDetails['firstNameNP']+' '+contractDetails['middleNameNP']+' '+contractDetails['lastNameNP']}}</span>
+                            {{contractDetails['directorFullnameNP']}}</span>
                     </p>
                     <p><span style="font-weight: 400;"> पद : अध्यक्ष</span></p>
                     <p><span style="font-weight: 400;"> सहयोगी संस्थाको नाम : {{contractDetails['nameNP']}}</span></p>
-                    <p><span style="font-weight: 400;"> मिति : {{createdDate}}</span></p>
+                    <p><span style="font-weight: 400;"> मिति : {{nep(createdDate)}}</span></p>
                     <p><span style="font-weight: 400;"> छाप :</span></p>
                 </div>
             </div>

@@ -15,7 +15,7 @@ export class PaymentService {
     return this.httpClient.get(environment.url + 'payments/' + phase);
   }
   deletePayment(id) {
-    return this.httpClient.post(environment.url + 'payment/delete', { paymentId: id });
+    return this.httpClient.post(environment.url + 'payment/delete', { memoId: id });
   }
   updatePayment(data) {
     return this.httpClient.post(environment.url + 'payment/update', data);

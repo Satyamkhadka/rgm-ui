@@ -30,6 +30,7 @@ export class SchemeComponent implements OnInit {
     nameNP: 'nameNP',
     districtId: 'districtId',
     localBodyId: 'localBodyId',
+    soId: 'soId',
     wardNo: 'wardNo',
     active: 'active',
     createdBy: 'createdBy',
@@ -48,6 +49,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
+      [this.formControlNames.soId]: '',
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.wardNo]: '',
       [this.formControlNames.active]: '',
@@ -63,6 +65,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.nameNP]: '',
       [this.formControlNames.districtId]: '',
       [this.formControlNames.localBodyId]: '',
+      [this.formControlNames.soId]: '',
       [this.formControlNames.wardNo]: '',
     });
     this.filterForm = this.formBuilder.group({
@@ -162,6 +165,7 @@ export class SchemeComponent implements OnInit {
       [this.formControlNames.nameNP]: this.setEdit['nameNP'],
       [this.formControlNames.districtId]: this.setEdit['districtId'],
       [this.formControlNames.localBodyId]: this.setEdit['localBodyId'],
+      [this.formControlNames.soId]: this.setEdit['soId'],
       [this.formControlNames.wardNo]: this.setEdit['wardNo'],
     });
   }

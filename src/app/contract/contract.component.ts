@@ -5,6 +5,11 @@ import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
 import { NgxNepaliNumberToWordsService } from 'ngx-nepali-number-to-words';
 import { StaffService } from '../staff/_service/staff.service';
+import {
+  englishNumberFormat, englishToNepaliNumber,
+} from "nepali-number";
+import { RwssStaffService } from '../rwss-staff/_service/rwss-staff.service';
+
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
@@ -37,7 +42,8 @@ export class ContractComponent implements OnInit {
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
     private nepaliService: NgxNepaliNumberToWordsService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private rwssStaffService: RwssStaffService
   ) { }
 
   ngOnInit() {
@@ -45,7 +51,7 @@ export class ContractComponent implements OnInit {
       this.contractId = params.get("contractId");
       if (this.contractId) {
         this.getContractById(this.contractId);
-        this.getSpecialStaffs();
+        this.getRwssStaffs();
       }
     });
   }
@@ -67,7 +73,7 @@ export class ContractComponent implements OnInit {
         for (let i = 0; i < this.schemes.length; i++) {
           this.schemes[i]['district'] = '-';
           this.schemes[i]['localBody'] = '-';
-          console.log(this.schemes[i])
+          // console.log(this.schemes[i])
           if (this.schemes[i]['districtId']) {
             this.localBodyService.getDistrictById(this.schemes[i]['districtId']).subscribe(data => { //get staff under so
 
@@ -99,13 +105,13 @@ export class ContractComponent implements OnInit {
     });
   }
 
-  getSpecialStaffs() {
+  getRwssStaffs() {
     console.log('special staff')
-    this.staffService.getSpecialStaffs().subscribe(data => {
+    this.rwssStaffService.getAllStaff().subscribe(data => {
       console.log(data)
       if (data['success']) {
         this.ed = data['data'].filter(e => {
-          if (e['staffName'] === 'Executive Director' || e['staffName'] === 'executive director') {
+          if (e['name'] === 'Executive Director' || e['name'] === 'executive director') {
             return e;
           }
         });
@@ -128,14 +134,22 @@ export class ContractComponent implements OnInit {
     console.log(this.createdDate.format('yyyy-mm-dd'))
     //hr part 
     this.calculatedData['hrSubTotal'] = 0;
+
+    this.calculatedData['staffs'] = [];
+    let temp = {};
+
     this.staff.forEach(e => {
-      this.calculatedData[e.name] = {};
-      this.calculatedData[e.name]['fairPay'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
-      this.calculatedData[e.name]['person'] = e;
-      console.log(e.name)
-      this.calculatedData[e.name]['workingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
-      this.calculatedData['hrSubTotal'] += +(this.calculatedData[e.name]['fairPay']).toFixed(2);
-    })
+      temp = { name: e.name, nameNP: e.nameNP };
+      temp['fairPay'] = +(((e['monthlyPay'] / 30) * e['workingDays']) * this.numberOfSchemes).toFixed(2);
+      temp['person'] = e;
+      temp['workingDays'] = +(e['workingDays'] * this.numberOfSchemes).toFixed(2);
+
+      this.calculatedData['hrSubTotal'] += +(temp['fairPay']).toFixed(2);
+      this.calculatedData['staffs'].push(temp);
+    });
+
+
+
     this.calculatedData['hrOverhead'] = +(this.overhead / 100 * this.calculatedData['hrSubTotal']).toFixed(2);
     this.calculatedData['hrTotal'] = +(this.calculatedData['hrSubTotal'] + this.calculatedData['hrOverhead']).toFixed(2);
 
@@ -164,5 +178,16 @@ export class ContractComponent implements OnInit {
     this.calculatedData['hrSubTotal30'] = +(0.30 * this.calculatedData['hrSubTotal']).toFixed(2);
 
     console.log(this.calculatedData)
+  }
+
+
+  format(data) {
+    let returnvalue = englishNumberFormat(data, 'ne');
+    return returnvalue;
+  }
+
+  nep(data) {
+    let returnvalue = englishToNepaliNumber(data);
+    return returnvalue;
   }
 }

@@ -1,7 +1,5 @@
 import swal from 'sweetalert2';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { LocalBodyService } from './../local-body/_service/local-body.service';
 import jwt_decode from 'jwt-decode';
 import { ContractService } from '../input/_service/contract.service';
 import Swal from 'sweetalert2';
@@ -16,22 +14,20 @@ export class AllcontractComponent implements OnInit {
   allContract = [];
   filter: any = { name: '' }
   constructor(
-    private localService: LocalBodyService,
     private contractService: ContractService,
-    private formBuilder: FormBuilder
   ) {
-    this.populateList();
 
   }
 
   ngOnInit() {
+    this.populateList();
   }
 
   populateList() {
     this.allContract = [];
     this.contractService.getAllContract().subscribe(data => {
       if (data['success'] === true) {
-        console.log('called')
+        console.log('getting all the ocntractsss righ now ')
         this.allContract = data['data'];
         console.log(data)
       }

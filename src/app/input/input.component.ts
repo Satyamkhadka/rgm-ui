@@ -7,8 +7,8 @@ import { LocalBodyService } from '../local-body/_service/local-body.service';
 import { SoService } from '../so/_service/so.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SchemeService } from '../scheme/_service/scheme.service';
-import { StaffService } from '../staff/_service/staff.service';
 import jwt_decode from 'jwt-decode';
+import { RwssStaffService } from '../rwss-staff/_service/rwss-staff.service';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -27,7 +27,7 @@ export class InputComponent implements OnInit {
   staffs = [];
   persons = [];
   selectedSo;
-  soFilterArray = ['none', 'none']; // first is batch and second is PM (personId)
+  // soFilterArray = ['none', 'none']; // first is batch and second is PM (personId)
   loading = false;
   showNotification = false;
   contractForm: FormGroup;
@@ -35,7 +35,7 @@ export class InputComponent implements OnInit {
     private localService: LocalBodyService,
     private soService: SoService,
     private batchService: BatchService,
-    private staffService: StaffService,
+    private rwssStaffService: RwssStaffService,
     private contractService: ContractService,
     private formBuilder: FormBuilder,
     private schemeService: SchemeService,
@@ -50,9 +50,9 @@ export class InputComponent implements OnInit {
     this.contractForm = this.formBuilder.group({
       batchId: 'none',
       soId: 'none',
-      personId: 'none',
-      districtId: 'none',
-      localBodyId: 'none',
+      rwssStaffId: 'none',
+      // districtId: 'none',
+      // localBodyId: 'none',
       schemeId: 'none',
       staff: 'none',
       person: 'none',
@@ -84,19 +84,13 @@ export class InputComponent implements OnInit {
       this.selectedSchemes.splice(i, 1);
     }
   }
-  getSoUnderPM(personId) {
-    console.log(personId)
+  getSOUnderPM(rwssStaffId) {
     this.loading = true;
-    this.staffService.getSOUnderPM(personId).subscribe(data => {
+    this.rwssStaffService.getSOUnderPM(rwssStaffId).subscribe(data => {
       this.loading = false;
       if (data['success'] === true) {
         this.soUnderPM = [];
         this.soUnderPM = data['data'];
-        this.soUnderPM = this.soUnderPM.filter(el => {
-          if (el['batchId'] == this.soFilterArray[0]) {
-            return true;
-          }
-        })
         console.log(this.soUnderPM);
       }
     });
@@ -149,7 +143,7 @@ export class InputComponent implements OnInit {
   }
 
   getProjectManagers() {
-    this.staffService.getProjectManagers().subscribe(data => {
+    this.rwssStaffService.getProjectManagers().subscribe(data => {
       if (data['success'] === true) {
         this.allProjectManager = data['data'];
       }
@@ -162,15 +156,6 @@ export class InputComponent implements OnInit {
     this.getLocalBodyByDistrict(i);
   }
 
-  changeSoFilter(index, id) {
-    this.soFilterArray[index] = id;
-    if (this.soFilterArray[0] !== 'none' && this.soFilterArray[1] !== 'none') {
-      this.showNotification = false;
-      this.getSoUnderPM(this.soFilterArray[1]);
-    } else {
-      this.showNotification = true;
-    }
-  }
 
   generateContract(data) {
     if (!this.miscCosts) {
@@ -215,6 +200,9 @@ export class InputComponent implements OnInit {
 
     //staff data
     plusData['staff'] = JSON.stringify(this.staffs); //enter data here
+
+    console.log(plusData)
+
     this.contractService.createContract(plusData).subscribe(data1 => {
       this.loading = false;
       if (data1['success'] === true) {
