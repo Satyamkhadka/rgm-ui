@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 import NepaliDate from 'nepali-date/cjs';
 import NumberToWords from 'number-to-words';
 
-import { NgxNepaliNumberToWordsService } from 'ngx-nepali-number-to-words';
 @Component({
   selector: 'app-memorandum',
   templateUrl: './memorandum.component.html',
@@ -46,9 +45,7 @@ export class MemorandumComponent implements OnInit {
     private route: ActivatedRoute,
     private contractService: ContractService,
     private localBodyService: LocalBodyService,
-    private nepaliService: NgxNepaliNumberToWordsService,
     private memoService: MemoService,
-    private paymentService: PaymentService,
     private rwssStaffService: RwssStaffService
   ) { }
 
@@ -217,6 +214,12 @@ export class MemorandumComponent implements OnInit {
 
     this.calculatedData['firstPaymentTotal'] = +(this.calculatedData['total70'] + this.calculatedData['vat70']).toFixed(2);
     this.calculatedData['secondPaymentTotal'] = +(this.calculatedData['total30'] + this.calculatedData['vat30']).toFixed(2);
+
+    this.calculatedData['firstpaymentTotalAfterAmendment'] = +(this.calculatedData['firstPaymentTotal'] - this.memo['firstAmendment']).toFixed(2);
+    this.calculatedData['secondpaymentTotalAfterAmendment'] = +(this.calculatedData['secondPaymentTotal'] - this.memo['secondAmendment']).toFixed(2);
+    this.calculatedData['firstpaymentTotalAfterAmendmentWR'] = NumberToWords.toWords(this.calculatedData['firstpaymentTotalAfterAmendment']);
+    this.calculatedData['secondpaymentTotalAfterAmendmentWR'] = NumberToWords.toWords(this.calculatedData['secondpaymentTotalAfterAmendment']);
+
 
 
     // this.calculatedData['paymentMadeTilldate'] = 'on development';

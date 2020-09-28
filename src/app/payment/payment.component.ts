@@ -72,7 +72,8 @@ export class PaymentComponent implements OnInit {
     plusData['contractId'] = this.contractId;
     plusData['active'] = 1;
     plusData['phase'] = this.phase;
-    plusData['createdOn'] = new Date();
+    plusData['createdOn'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(plusData.createdOn)
     plusData['createdBy'] = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser')).userId;
 
     if (this.memoForm.valid) {

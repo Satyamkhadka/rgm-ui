@@ -9,37 +9,37 @@ export class SoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createSo(data){
-    return this.httpClient.post(environment.url+'so',data);
+  createSo(data) {
+    return this.httpClient.post(environment.url + 'so', data);
   }
-  getAllSo(){
-    return this.httpClient.get(environment.url+'so');
+  getAllSo() {
+    return this.httpClient.get(environment.url + 'so');
   }
-  getSoByDistrictId(districtId){
-    return this.httpClient.get(environment.url+'so/districtId/'+districtId);
+  getSoByDistrictId(districtId) {
+    return this.httpClient.get(environment.url + 'so/districtId/' + districtId);
   }
-  getSoByLocalBodyId(localBodyId){
-    return this.httpClient.get(environment.url+'so/localBodyId/'+localBodyId);
+  getSoByLocalBodyId(localBodyId) {
+    return this.httpClient.get(environment.url + 'so/localBodyId/' + localBodyId);
   }
-  deleteSo(id){
-    return this.httpClient.post(environment.url+'so/delete',{soId:id})
+  deleteSo(id) {
+    return this.httpClient.post(environment.url + 'so/delete', { soId: id })
   }
-  updateSo(data){
-    return this.httpClient.post(environment.url+'so/update',data);
+  updateSo(data) {
+    return this.httpClient.post(environment.url + 'so/update', data);
   }
-  assignStaffUnderSo(data){
-    return this.httpClient.post(environment.url+'so/addStaff',data);
+  assignStaffUnderSo(data) {
+    return this.httpClient.post(environment.url + 'so/addStaff', data);
   }
-  getStaffUnderSo(soId){
-    return this.httpClient.get(environment.url+'so/staffs/'+soId);
+  getStaffUnderSo(soId) {
+    return this.httpClient.get(environment.url + 'so/staffs/' + soId);
   }
 
-  getPersonUnderSoandStaff(filter){
-    return this.httpClient.post(environment.url+'so/staffs/add/person',filter);
+  getPersonUnderSoandStaff(filter) {
+    return this.httpClient.post(environment.url + 'so/staffs/add/person', filter);
 
   }
-  removePersonUnderSoandStaff(staffAllocateId){
-    return this.httpClient.post(environment.url+'so/staffs/remove/person',{staffAllocateId});
+  removePersonUnderSoandStaff(staffAllocateId, soId) {
+    return this.httpClient.post(environment.url + 'so/staffs/remove/person', { staffAllocateId, soId });
 
   }
 }

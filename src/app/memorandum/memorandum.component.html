@@ -221,19 +221,19 @@
     </div>
     <p><strong><strong>&nbsp;Amount to be paid against {{memo['phase']}} payment in NRs:
                 <span *ngIf="memo['phase']=='first'">
-                    {{calculatedData['firstPaymentTotal']}}
+                    {{calculatedData['firstpaymentTotalAfterAmendment']}}
                 </span>
                 <span *ngIf="memo['phase']=='second'">
-                    {{calculatedData['secondPaymentTotal']}}
+                    {{calculatedData['secondpaymentTotalAfterAmendment']}}
                 </span>
 
             </strong></strong></p>
     <p>In Word:
         <span *ngIf="memo['phase']=='first'">
-            {{calculatedData['firstPaymentTotalWR']}}
+            {{calculatedData['firstpaymentTotalAfterAmendmentWR']}}
         </span>
         <span *ngIf="memo['phase']=='second'">
-            {{calculatedData['secondPaymentTotalWR']}}
+            {{calculatedData['secondpaymentTotalAfterAmendmentWR']}}
         </span>
 
         &nbsp;</p>
@@ -261,17 +261,7 @@
                     <p>&nbsp;</p>
                 </td>
                 <td width="14">
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
+
                 </td>
             </tr>
             <tr>
@@ -299,11 +289,11 @@
                                     <p><strong><strong>
                                                 <u>
                                                     <span *ngIf="memo['phase']=='first'">
-                                                        {{calculatedData['firstPaymentTotal']}}
+                                                        {{calculatedData['firstpaymentTotalAfterAmendment']}}
                                                     </span>
 
                                                     <span *ngIf="memo['phase']=='second'">
-                                                        {{calculatedData['secondPaymentTotal']}}
+                                                        {{calculatedData['secondpaymentTotalAfterAmendment']}}
                                                     </span>
                                                 </u></strong></strong></p>
                                 </td>

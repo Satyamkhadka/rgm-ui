@@ -18,9 +18,8 @@
           <span class="form-bar"></span>
         </div>
         <div>
-          <button class="btn btn-block btn-info ripple-effect" name="Submit" alt="sign in"
-            (click)="signIn(loginForm.value)">Sign
-            in</button>
+          <input type="submit" class="btn btn-block btn-info ripple-effect" name="Submit" alt="sign in"
+            (click)="signIn(loginForm.value)" value="Log In" disabled="{{disableButton}}">
         </div>
       </form>
     </div>

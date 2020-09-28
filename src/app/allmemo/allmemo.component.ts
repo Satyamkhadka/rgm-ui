@@ -1,3 +1,4 @@
+import { RwssStaffService } from './../rwss-staff/_service/rwss-staff.service';
 import { data } from './../../environments/data';
 import { PaymentService } from './../payment/_service/payment.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +8,6 @@ import swal from 'sweetalert2';
 import jwt_decode from 'jwt-decode';
 import { BatchService } from '../batch/_service/batch.service';
 import { SoService } from '../so/_service/so.service';
-import { StaffService } from '../staff/_service/staff.service';
 
 @Component({
   selector: 'app-allmemo',
@@ -33,7 +33,7 @@ export class AllmemoComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private paymentService: PaymentService,
-    private staffService: StaffService,
+    private rwssStaffService: RwssStaffService,
     private soService: SoService,
     private batchService: BatchService
 
@@ -53,6 +53,8 @@ export class AllmemoComponent implements OnInit {
       survey: ['', Validators.required],
       bankAccount: ['', Validators.required],
       staffs: ['', Validators.required],
+      firstAmendment: 0,
+      secondAmendment: 0,
 
     });
 
@@ -99,6 +101,8 @@ export class AllmemoComponent implements OnInit {
       survey: this.editMemo.survey,
       bankAccount: this.editMemo.bankAccount,
       staffs: this.editMemo.staffs,
+      firstAmendment: this.editMemo.firstAmendment,
+      secondAmendment: this.editMemo.secondAmendment,
 
     });
   }
@@ -108,6 +112,8 @@ export class AllmemoComponent implements OnInit {
     delete plusData['so'];
     delete plusData['date'];
 
+    console.log(formData);
+    // return
     if (this.memoForm.valid) {
 
       this.paymentService.updatePayment(plusData).subscribe(data => {
@@ -143,7 +149,7 @@ export class AllmemoComponent implements OnInit {
   }
   getAllStaffs() {
 
-    this.staffService.getAllStaff().subscribe(data => {
+    this.rwssStaffService.getAllStaff().subscribe(data => {
       if (data['success'] === true) {
         this.allStaffs = data['data'];
       }

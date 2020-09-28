@@ -147,6 +147,7 @@ export class SoComponent implements OnInit {
 
       if (data['success'] === true) {
         this.allSO = data['data'];
+        console.log(this.allSO)
       }
     });
   }
@@ -393,7 +394,7 @@ export class SoComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this.soService.removePersonUnderSoandStaff(staffAllocateId).subscribe(data => {
+        this.soService.removePersonUnderSoandStaff(staffAllocateId, this.selectedSo).subscribe(data => {
           if (data['success'] === true) {
             swal.fire('Deleted', data['message'], 'info');
             this.selectSo(this.selectedSo);

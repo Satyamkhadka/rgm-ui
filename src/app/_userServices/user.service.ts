@@ -7,18 +7,21 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
- 
+
   constructor(private httpClient: HttpClient) { }
 
-  getAllUsers(){
-    return this.httpClient.get(environment.url+'users');
+  getAllUsers() {
+    return this.httpClient.get(environment.url + 'users');
   }
 
 
-  createUser(data){
-    return this.httpClient.post(environment.url+'register',data);
+  createUser(data) {
+    return this.httpClient.post(environment.url + 'register', data);
   }
-  deleteUser(data){
-    return this.httpClient.post(environment.url+'delete/user',data);
+  editUser(data) {
+    return this.httpClient.post(environment.url + 'update', data);
+  }
+  deleteUser(data) {
+    return this.httpClient.post(environment.url + 'delete/user', data);
   }
 }

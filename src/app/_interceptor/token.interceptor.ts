@@ -39,7 +39,8 @@ export class MyInterceptor implements HttpInterceptor {
 
               this.myRoute.navigate(["login"]);
             } else if (event.body.err === 401) {
-              Swal.fire('Oops', 'Unauthorized!', 'info');
+              console.log(event)
+              Swal.fire('Oops', event.body.message + ' 1', 'info');
             }
           }
         },

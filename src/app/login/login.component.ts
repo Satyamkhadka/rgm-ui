@@ -15,6 +15,7 @@ import { AuthService } from '../_guards/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  disableButton = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,19 +33,24 @@ export class LoginComponent implements OnInit {
   }
 
   signIn(formData) {
+    this.disableButton = true;
+
     console.log(formData)
     const md5 = new Md5();
+    if (formData.userName === null || formData.password === null) { swal.fire('Oops', 'Illegal actions', 'error'); this.disableButton = false; return }
     formData.password = md5.appendStr(formData.password).end();
     this.loginService.getSignInCredentials(formData).subscribe((data) => {
       console.log(data);
       if (data['success'] === false) {
         this.loginForm.reset();
+        this.disableButton = false;
         swal.fire('Oops', 'Wrong Credentials', 'error');
       }
       else {
         const userData = this.getDecodedAccessToken(data['token']);
         this.auth.sendToken(data['token']);
-        if (userData === null) { swal.fire('Oops', 'Illegal actions', 'error') } else {
+        this.disableButton = false;
+        if (userData.userName === null || userData.password === null) { swal.fire('Oops', 'Illegal actions', 'error'); this.disableButton = false; } else {
           if (userData['role'] === 'superadmin') {
             this.router.navigate(['/menu']);
           } else if (userData['role'] === 'admin') {

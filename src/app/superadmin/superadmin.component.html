@@ -23,9 +23,17 @@
         <td>{{user.active}}</td>
         <td>
 
-          <span class="btn btn-danger rounded-circle rounded-circle-sm" (click)="deleteUser(user.userId,user.role)">
+          <span class="btn btn-primary rounded-circle rounded-circle-sm" (click)="setEdit(user)" data-toggle="modal"
+            data-target="#edituser" *ngIf="user.role!='superadmin'">
+            <i class="fa fa-pencil"> </i>
+          </span>
+          <span class="btn btn-danger rounded-circle rounded-circle-sm" (click)="deleteUser(user.userId,user.role)"
+            *ngIf="user.role!='superadmin'">
             <i class="fa fa-trash"> </i>
+          </span>
 
+          <span class="btn btn-success rounded-circle rounded-circle-sm" *ngIf="user.role=='superadmin'">
+            <i class="fa fa-glasses"> </i>
           </span>
 
         </td>
@@ -38,8 +46,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="create" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -66,10 +73,12 @@
 
               <div *ngIf="userForm.value.role=='user'">
                 <label for="inputState">Portfolio managers</label>
-                <select id="inputState" class="form-control" (change)="change($event.target.value)">
-                  <option value="">-select-</option>
-                  <option *ngFor="let item of allPm" [value]="item.personCode">
-                    {{ item['personCode']+' || '+item['firstName']+' '+item['middleName']+' '+item['lastName']}}
+                <select id="inputState" class="form-control" (change)="change($event.target.value)"
+                  formControlName="pmId">
+                  <option value="null">-select-</option>
+                  <option *ngFor="let item of allPm" [value]="item['rwssStaffId']">
+                    {{ item['staffCode']+' || '+item['fullname']}}
+
                   </option>
                 </select>
               </div>
@@ -108,6 +117,78 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal"
           (click)="createUser(userForm.value)">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="edituser" tabindex="-1" role="dialog" aria-labelledby="edt" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+
+
+        <form [formGroup]="editUserForm">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+
+              <div *ngIf="editUserForm.value.role=='user'">
+                <label for="uinputState">Assigned Portfolio manager</label>
+                <select id="uinputState" class="form-control" formControlName="pmId">
+                  <option value="null">-select-</option>
+                  <option *ngFor="let item of allPm" [value]="item['rwssStaffId']">
+                    {{ item['staffCode']+' || '+item['fullname']}}
+
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                <label for="uinputEmail4">User Name</label>
+                <input type="email" class="form-control" id="uinputEmail4" placeholder="User Name"
+                  formControlName="userName">
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Password</label>
+              <input type="password" class="form-control" id="inputPassword" placeholder="(new password)"
+                formControlName="password">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword2">Re-enter Password</label>
+              <input type="password" class="form-control" id="inputPassword2"
+                placeholder="(if empty pw wont be changed)" formControlName="password2">
+            </div>
+
+          </div>
+        </form>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          (click)="edit(editUserForm.value)">Update</button>
       </div>
     </div>
   </div>

@@ -3,7 +3,6 @@ import { AllmemoComponent } from './allmemo/allmemo.component';
 import { MemorandumComponent } from './memorandum/memorandum.component';
 import { MenuComponent } from './menu/menu.component';
 import { CostBreakdownComponent } from './cost-breakdown/cost-breakdown.component';
-import { PmComponent } from './pm/pm.component';
 import { SchemeComponent } from './scheme/scheme.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -45,7 +44,7 @@ const routes: Routes = [
   { path: 'payment/:phase', canActivate: [UserGuard], component: PaymentComponent },
 
   //admin
-  { path: 'pm', canActivate: [AdminGuard], component: PmComponent },
+  // { path: 'pm', canActivate: [AdminGuard], component: PmComponent },
   { path: 'batch', canActivate: [AdminGuard], component: BatchComponent },
   { path: 'misc', canActivate: [AdminGuard], component: MiscComponent },
   { path: 'rwss-staff', canActivate: [AdminGuard], component: RwssStaffComponent },

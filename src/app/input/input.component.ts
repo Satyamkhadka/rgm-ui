@@ -5,7 +5,7 @@ import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { LocalBodyService } from '../local-body/_service/local-body.service';
 import { SoService } from '../so/_service/so.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { SchemeService } from '../scheme/_service/scheme.service';
 import jwt_decode from 'jwt-decode';
 import { RwssStaffService } from '../rwss-staff/_service/rwss-staff.service';
@@ -27,6 +27,11 @@ export class InputComponent implements OnInit {
   staffs = [];
   persons = [];
   selectedSo;
+
+
+  loggedInUser = {};
+
+
   // soFilterArray = ['none', 'none']; // first is batch and second is PM (personId)
   loading = false;
   showNotification = false;
@@ -41,16 +46,17 @@ export class InputComponent implements OnInit {
     private schemeService: SchemeService,
     private miscService: MiscService
   ) {
-    this.getMiscCosts(); //getting working days of employee and misc costs
+    this.loggedInUser = this.getDecodedAccessToken(localStorage.getItem('LoggedInUser'));
+    console.log(this.loggedInUser)
     this.getBatches();
     this.getProjectManagers();
+    this.getMiscCosts(); //getting working days of employee and misc costs
     this.getDistricts();
     this.getSchemes();
-
     this.contractForm = this.formBuilder.group({
       batchId: 'none',
-      soId: 'none',
       rwssStaffId: 'none',
+      soId: 'none',
       // districtId: 'none',
       // localBodyId: 'none',
       schemeId: 'none',
@@ -63,6 +69,14 @@ export class InputComponent implements OnInit {
       endMonth: '',
       endDay: '',
     });
+
+    if (this.loggedInUser['pmId'] && this.loggedInUser['role'] == 'user') {
+      console.log(this.loggedInUser)
+      this.contractForm.value.rwssStaffId = this.loggedInUser['pmId'];
+      this.getSOUnderPM(this.loggedInUser['pmId']);
+      console.log(this.contractForm.value)
+    }
+
   }
 
   ngOnInit() {
@@ -85,6 +99,9 @@ export class InputComponent implements OnInit {
     }
   }
   getSOUnderPM(rwssStaffId) {
+    if (rwssStaffId == 'none') {
+      return;
+    }
     this.loading = true;
     this.rwssStaffService.getSOUnderPM(rwssStaffId).subscribe(data => {
       this.loading = false;
@@ -146,6 +163,7 @@ export class InputComponent implements OnInit {
     this.rwssStaffService.getProjectManagers().subscribe(data => {
       if (data['success'] === true) {
         this.allProjectManager = data['data'];
+        console.log(this.allProjectManager)
       }
     });
   }
